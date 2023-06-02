@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <main className='p-5'>
-      <section className="welcome flex flex-col justify-center items-center">
+      <section className="welcome flex flex-col justify-center items-center mt-16">
         <h1 className='text-5xl font-bold m-0 pb-8'>Welcome to RedCooler.io</h1>
         <p className='m-0 pb-8 text-2xl'>A place to write, share, and collab on raps.</p>
       </section>
