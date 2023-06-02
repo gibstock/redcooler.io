@@ -69,16 +69,34 @@ let api = {
     return messages;
   },
 
-  deleteMessage: async (id: string) => {
-    await api.provider().database.deleteDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, id);
+  listTopicsWithQuery: async (): Promise<{
+      subject: string, 
+      $id: string, 
+      starter: string, 
+      beat: string, 
+      createdBy: string, 
+      user_account_id: string,
+      isPrivate: boolean,
+      created: Date,
+    }[]> => {
+    const { documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID);
+    return topics;
   },
 
-  createTopic: async (subject: string, starter: string, user_account_id: string, beat?: string, isPrivate?: boolean) => {
+  deleteConversation: async (id: string) => {
+    await api.provider().database.deleteDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, id);
+  },
+  deleteTopic: async (id: string) => {
+    await api.provider().database.deleteDocument(Server.topicsDatabaseID, Server.topicsCollectionID, id);
+  },
+
+  createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, beat?: string, isPrivate?: boolean) => {
     await api.provider().database.createDocument(Server.topicsDatabaseID, Server.topicsCollectionID, 'unique()', {
       id: docUuid,
       subject,
       starter,
       beat,
+      createdBy,
       created: new Date(Date.now()),
       user_account_id,
       isPrivate,
