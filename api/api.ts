@@ -1,22 +1,25 @@
 import { Client, Databases, Account, Permission, Role, ID} from 'appwrite';
 import { Server } from '../utils/appwriteConfig';
+import { v4 as uuidv4 } from 'uuid';
 
-type SDK = {
-  database: Databases;
-  account: Account;
-}
+let docUuid = uuidv4();
+
+// type SDK = {
+//   database: Databases;
+//   account: Account;
+// }
 type User = {
   email: string;
   password: string;
   username?: string;
 }
 
-type CreateDocument = {
-  databaseId: string;
-  collectionId: string;
-  data: {message: string};
-  permissions?: string;
-}
+// type CreateDocument = {
+//   databaseId: string;
+//   collectionId: string;
+//   data: {message: string};
+//   permissions?: string;
+// }
 
 let api = {
   sdk: null as unknown,
@@ -68,6 +71,19 @@ let api = {
 
   deleteMessage: async (id: string) => {
     await api.provider().database.deleteDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, id);
+  },
+
+  createTopic: async (subject: string, starter: string, user_account_id: string, beat?: string, isPrivate?: boolean) => {
+    await api.provider().database.createDocument(Server.topicsDatabaseID, Server.topicsCollectionID, 'unique()', {
+      id: docUuid,
+      subject,
+      starter,
+      beat,
+      created: new Date(Date.now()),
+      user_account_id,
+      isPrivate,
+    },
+    [Permission.delete(Role.user(user_account_id))])
   }
 
 };
