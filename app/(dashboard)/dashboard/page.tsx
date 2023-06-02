@@ -41,11 +41,11 @@ const handleSignOut = async () => {
   router.push('/')
  }
 
- const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  console.log("Adding message to database", input)
-  addMessageMutation.mutate({message:input, userId: user?.$id!});
-}
+//  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+//   e.preventDefault();
+//   console.log("Adding message to database", input)
+//   addMessageMutation.mutate({message:input, userId: user?.$id!});
+// }
 
 const canDelete = (userID:string, array: string[]) => {
   return array.some((element) => element.includes('delete') && element.includes(userID))
@@ -71,7 +71,7 @@ console.log("whoami" ,user)
         <p>Loading...</p>
       ) : messages ? (
         <div>
-          <h1>Message Board</h1>
+          <h1 className="text-blue-400">Message Board</h1>
           <ul>
             {messages.map((message) => (
               <li key={message.$id}>
@@ -89,7 +89,7 @@ console.log("whoami" ,user)
       ) : null}
     </div>
       <div>
-        <form onSubmit={handleSubmit}>
+        {/* <form onSubmit={handleSubmit}>
           <input 
             type='text'
             value={input}
@@ -97,7 +97,7 @@ console.log("whoami" ,user)
             onChange={(e) => setInput(e.target.value)}
             className="w-full border border-gray-300 rounded-md p-2 mt-4" 
           ></input>
-        </form>
+        </form> */}
         <button onClick={handleNewTopicRoute}>
           New Post +
         </button>

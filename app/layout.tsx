@@ -1,5 +1,7 @@
 import Providers from "@/utils/provider";
 import React from 'react';
+import NavBar from "@/components/navBar";
+import './globals.css'
 
 
 
@@ -17,6 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
+          <NavBar />
           {children}
         </Providers>
       </body>
