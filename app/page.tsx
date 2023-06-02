@@ -1,5 +1,6 @@
 "use client";
 import { FormEvent, useState } from 'react';
+import Image from 'next/image';
 import { useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import { useUserStore } from '@/hooks/store';
 import { useRouter } from 'next/navigation';
@@ -16,25 +17,37 @@ export default function Home() {
   if(user) {
     router.push('/dashboard')
   }
-
-  const handleSignInRoute = () => {
-    console.log('signin')
-    router.push('/signin')
-  }
   const handleSignUpRoute = () => {
     router.push('/signup')
   }
 
   return (
-    <main>
-      <h1>Welcome to RedCooler.io</h1>
-      <p>A place to write, share, and collab on raps.</p>
-      <div className="buttons">
-        <p>Have an account?</p>
-        <button onClick={handleSignInRoute}>Sign In</button>
-        <p>Want to join the convo?</p>
-        <button onClick={handleSignUpRoute}>Sign Up</button>
+    <main className='p-5'>
+      <section className="welcome flex flex-col justify-center items-center">
+        <h1 className='text-5xl font-bold m-0 pb-8'>Welcome to RedCooler.io</h1>
+        <p className='m-0 pb-8 text-2xl'>A place to write, share, and collab on raps.</p>
+      </section>
+      <div className="hero-banner flex flex-row justify-center items-center">
+        <Image 
+          src='/banner-placeholder.jpg'
+          width={640}
+          height={427}
+          alt='A pad of paper with a pen in the middle'
+        />
       </div>
+      <section className="latest-threads flex flex-col justify-center items-center mt-12">
+        <h2 className='text-5xl font-bold m-0 pb-8'>Latest Posts</h2>
+        <p className='m-0 pb-8 text-2xl'>See what's happenin</p>
+      </section>
+      <section className="onboarding flex flex-col justify-center items-center mt-12">
+        <h2 className='text-5xl font-bold mb-7'>New to the Conversation?</h2>
+        <button 
+          className='bg-blue-600 hover:bg-blue-500 rounded-3xl min-w-[28px] text-white py-2 px-3 text-center outline-none border-none'
+          onClick={handleSignUpRoute}
+          >
+            Join Now
+          </button>
+      </section>
       {/* {user && (
         <div>
           <form onSubmit={handleSubmit}>
