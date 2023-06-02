@@ -14,8 +14,9 @@ const setUser = useUserStore(state => state.setUser);
 
 const router = useRouter();
 const queryClient = useQueryClient();
-const {data: messages, isLoading, isError, error } = useQuery(['conversations'], api.listDocumentsWithQuery);
+const {data: topics, isLoading, isError, error } = useQuery(['topics'], api.listTopicsWithQuery);
 
+console.log(topics)
 
 const addMessageMutation = useMutation({
   mutationFn: ({message, userId}: {message: string, userId: string}) => api.createDocument({message, userId}), 
@@ -28,10 +29,10 @@ const addMessageMutation = useMutation({
   }
 })
 
-const deleteMessageMutation = useMutation({
-  mutationFn: api.deleteMessage, 
+const deleteTopicMutation = useMutation({
+  mutationFn: api.deleteTopic, 
   onSuccess: () => {
-    queryClient.invalidateQueries(['conversations']);
+    queryClient.invalidateQueries(['topic']);
   }
 })
 
@@ -55,56 +56,53 @@ const handleNewTopicRoute = () => {
   router.push('/newtopic')
 }
 
-useEffect(() => {
-  console.log("USER CHECK: ", user)
-  if(!user) {
-    router.push('/signup')
-  }
-}, [])
+// useEffect(() => {
+//   console.log("USER CHECK: ", user)
+//   if(user === null) {
+//     router.push('/signup')
+//   }
+// }, [])
 console.log("whoami" ,user)
   return (
-    <>
-    <div className="message-board">
-      {isError ? (
-        <p>There was an error fetching the messages</p>
-      ) : isLoading ? (
-        <p>Loading...</p>
-      ) : messages ? (
-        <div>
-          <h1 className="text-blue-400">Message Board</h1>
-          <ul>
-            {messages.map((message) => (
-              <li key={message.$id}>
-                <p>
-                  {message?.message}
-                </p>
-                {/* @ts-ignore */}
-                {canDelete(user?.$id, message?.$permissions) && (
-                  <button onClick={() => deleteMessageMutation.mutate(message.$id)}>Delete</button>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-    </div>
-      <div>
-        {/* <form onSubmit={handleSubmit}>
-          <input 
-            type='text'
-            value={input}
-            placeholder='Add Message'
-            onChange={(e) => setInput(e.target.value)}
-            className="w-full border border-gray-300 rounded-md p-2 mt-4" 
-          ></input>
-        </form> */}
-        <button onClick={handleNewTopicRoute}>
+    <div className="mt-20 mx-4">
+      <div className="new-post-group flex flex-row w-full gap-x-3 items-center justify-around">
+        <button className="bg-blue-500 text-white rounded-full px-3 py-1" onClick={handleNewTopicRoute}>
           New Post +
         </button>
-          <button onClick={handleSignOut}>
+          {/* <button className="bg-red-500 text-white rounded-full px-3 py-1" onClick={handleSignOut}>
                 Sign Out
-          </button>
+          </button> */}
       </div>
-    </>
+      <div className="message-board">
+        {isError ? (
+          <p>There was an error fetching the messages</p>
+        ) : isLoading ? (
+          <p>Loading...</p>
+        ) : topics ? (
+          <div className='mt-8'>
+            <h1 className="text-5xl text-center pb-8">Conversations</h1>
+            <ul className="flex flex-col gap-y-4">
+              {topics.map((topic) => (
+                <li key={topic.$id} className="flex flex-col bg-slate-100 p-3 rounded-md">
+                  <div className="title-group flex flex-row">
+                    <h2 className="font-bold text-3xl">
+                      {topic?.subject}
+                    </h2>
+                  </div>
+                  <h3>{topic.createdBy} | {new Date(topic.created).toDateString()}</h3>
+                  <p>{topic.starter}</p>
+                  <div className="button-group flex flex-row justify-center items-center self-end">
+                  {/* @ts-ignore */}
+                    {canDelete(user?.$id, topic?.$permissions) && (
+                      <button className="bg-red-600 rounded-full text-white px-3 py-1 mt-3" onClick={() => deleteTopicMutation.mutate(topic.$id)}>Delete</button>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+      </div>
+  </div>
   )
 }

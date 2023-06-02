@@ -17,6 +17,7 @@ const initialData = {
   subject: '',
   starter: '',
   beat: '',
+  createdBy: '',
   user_account_id: '',
   isPrivate: false
 }
@@ -27,14 +28,14 @@ const NewTopic = () => {
   const user = useUserStore(state => state.user);
 
   if(topic.user_account_id !== user?.$id) {
-    setTopic({...topic, user_account_id: user?.$id!})
+    setTopic({...topic, createdBy: user?.name!, user_account_id: user?.$id!})
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try{
       e.preventDefault()
       console.log({topic})
-      await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.beat, topic.isPrivate)
+      await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, topic.beat, topic.isPrivate)
       setTopic(initialData);
 
     }catch (err) {
@@ -44,7 +45,7 @@ const NewTopic = () => {
 
 
   return (
-    <div>
+    <div className='mt-20'>
       <h1>New Topic</h1>
       <p>User: {user ? user.name : "No name"}</p>
       <div>
@@ -65,13 +66,12 @@ const NewTopic = () => {
             <label htmlFor="starter">
               Starter
             </label>
-            <input 
-              type="text" 
+            <textarea 
               id='starter'
               placeholder='Enter your Starter text'
               value={topic.starter}
               onChange={(e) => setTopic({...topic, starter: e.target.value})}
-            />
+            ></textarea>
           </div>
           <div>
             <label htmlFor="beat">
