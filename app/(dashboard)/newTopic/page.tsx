@@ -58,6 +58,7 @@ const NewTopic = () => {
               Subject
             </label>
             <input 
+              required={true}
               type="text" 
               id='subject'
               placeholder='Enter your Subject'
@@ -70,6 +71,7 @@ const NewTopic = () => {
               Starter
             </label>
             <textarea 
+              required={true}
               id='starter'
               placeholder='Enter your Starter text'
               value={topic.starter}
@@ -81,6 +83,7 @@ const NewTopic = () => {
               Beat Link
             </label>
             <input 
+              required={true}
               type="text" 
               id='beat'
               placeholder='http://www.example.com/'
@@ -92,7 +95,7 @@ const NewTopic = () => {
             <label htmlFor="isPrivate">
               Private
             </label>
-            <input type="radio" name="privacyGroup" id="isPrivate" onChange={() =>setTopic({...topic, isPrivate: true})}/>
+            <input required type="radio" name="privacyGroup" id="isPrivate" onChange={() =>setTopic({...topic, isPrivate: true})}/>
             <label htmlFor="isPublic">
               Public
             </label>

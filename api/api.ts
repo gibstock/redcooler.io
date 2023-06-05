@@ -1,4 +1,4 @@
-import { Client, Databases, Account, Permission, Role, ID} from 'appwrite';
+import { Client, Databases, Account, Permission, Role, Query, ID} from 'appwrite';
 import { Server } from '../utils/appwriteConfig';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -102,6 +102,24 @@ let api = {
       isPrivate,
     },
     [Permission.delete(Role.user(user_account_id))])
+  },
+  fetchLatestPosts: async(): Promise<{
+    subject: string, 
+    $id: string, 
+    starter: string, 
+    beat: string, 
+    createdBy: string, 
+    user_account_id: string,
+    isPrivate: boolean,
+    created: Date,
+  }[]> => {
+    const {documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
+      [
+        Query.equal("isPrivate", false),
+        Query.limit(5)
+      ]  
+    );
+    return topics;
   }
 
 };
