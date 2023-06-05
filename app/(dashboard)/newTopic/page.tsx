@@ -27,6 +27,8 @@ const NewTopic = () => {
   
   const user = useUserStore(state => state.user);
 
+  const router = useRouter();
+
   if(topic.user_account_id !== user?.$id) {
     setTopic({...topic, createdBy: user?.name!, user_account_id: user?.$id!})
   }
@@ -37,6 +39,7 @@ const NewTopic = () => {
       console.log({topic})
       await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, topic.beat, topic.isPrivate)
       setTopic(initialData);
+      router.push('/dashboard')
 
     }catch (err) {
       console.log("error starting the thread", err)
