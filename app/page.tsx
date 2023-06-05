@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import { useUserStore } from '@/hooks/store';
 import { useRouter } from 'next/navigation';
+import ConversationCard from '@/components/conversationCard';
 import api from '@/api/api';
 
 export default function Home() {
@@ -12,7 +13,9 @@ export default function Home() {
   const setUser = useUserStore(state => state.setUser);
 
   const queryClient = useQueryClient();
-  const {data: messages, isLoading, isError, error } = useQuery(['messages'], api.listDocumentsWithQuery);
+  const {data, isLoading, isError, error } = useQuery(['latest'], api.fetchLatestPosts);
+
+  console.log("latest data: ", data);
   const router = useRouter();
   if(user) {
     router.push('/dashboard')
@@ -37,7 +40,20 @@ export default function Home() {
       </div>
       <section className="latest-threads flex flex-col justify-center items-center mt-12">
         <h2 className='text-5xl font-bold m-0 pb-8'>Latest Posts</h2>
-        <p className='m-0 pb-8 text-2xl'>See what's happenin</p>
+        <p className='m-0 pb-8 text-2xl'>See what's happening</p>
+        <ul className='flex flex-col gap-3'>
+          {data?.map((convo) => (
+            <ConversationCard 
+              $id={convo.$id}
+              subject={convo.subject}
+              createdBy={convo.createdBy}
+              created={convo.created}
+              starter={convo.starter}
+              hasDeleteButton={false}
+              database='topics'
+            />
+          ))}
+        </ul>
       </section>
       <section className="onboarding flex flex-col justify-center items-center mt-12">
         <h2 className='text-5xl font-bold mb-7'>New to the Conversation?</h2>
