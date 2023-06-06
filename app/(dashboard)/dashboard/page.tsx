@@ -3,6 +3,7 @@ import { useEffect, FormEvent, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/hooks/store"
+import TopicCard from "@/components/TopicCard";
 import api from '@/api/api';
 
 
@@ -48,8 +49,11 @@ const handleSignOut = async () => {
 //   addMessageMutation.mutate({message:input, userId: user?.$id!});
 // }
 
-const canDelete = (userID:string, array: string[]) => {
-  return array.some((element) => element.includes('delete') && element.includes(userID))
+const canDelete = (userID:string | undefined, array: string[] | undefined) => {
+  console.log("to be tested",user, userID, array)
+  const result = array?.some((element) => element.includes('delete') && element.includes(userID!))
+  console.log("Candelete?", result)
+  return result
 };
 
 const handleNewTopicRoute = () => {
@@ -83,21 +87,35 @@ console.log("whoami" ,user)
             <h1 className="text-5xl text-center pb-8">Conversations</h1>
             <ul className="flex flex-col gap-y-4">
               {topics.map((topic) => (
-                <li key={topic.$id} className="flex flex-col bg-slate-100 p-3 rounded-md">
-                  <div className="title-group flex flex-row">
-                    <h2 className="font-bold text-3xl">
-                      {topic?.subject}
-                    </h2>
-                  </div>
-                  <h3>{topic.createdBy} | {new Date(topic.created).toDateString()}</h3>
-                  <p>{topic.starter}</p>
-                  <div className="button-group flex flex-row justify-center items-center self-end">
-                  {/* @ts-ignore */}
-                    {canDelete(user?.$id, topic?.$permissions) && (
+                <div key={topic.$id}>
+                  <TopicCard 
+                    $id={topic.$id}
+                    subject={topic.subject}
+                    createdBy={topic.createdBy}
+                    created={topic.created}
+                    starter={topic.starter}
+                    database='topics'
+                    hasDeleteButton={false}
+                  />
+                  {canDelete(user?.$id, topic?.$permissions) && (
                       <button className="bg-red-600 rounded-full text-white px-3 py-1 mt-3" onClick={() => deleteTopicMutation.mutate(topic.$id)}>Delete</button>
                     )}
-                  </div>
-                </li>
+                </div>
+                // <li key={topic.$id} className="flex flex-col bg-slate-100 p-3 rounded-md">
+                //   <div className="title-group flex flex-row">
+                //     <h2 className="font-bold text-3xl">
+                //       {topic?.subject}
+                //     </h2>
+                //   </div>
+                //   <h3>{topic.createdBy} | {new Date(topic.created).toDateString()}</h3>
+                //   <p>{topic.starter}</p>
+                //   <div className="button-group flex flex-row justify-center items-center self-end">
+                //   {/* @ts-ignore */}
+                //     {canDelete(user?.$id, topic?.$permissions) && (
+                //       <button className="bg-red-600 rounded-full text-white px-3 py-1 mt-3" onClick={() => deleteTopicMutation.mutate(topic.$id)}>Delete</button>
+                //     )}
+                //   </div>
+                // </li>
               ))}
             </ul>
           </div>

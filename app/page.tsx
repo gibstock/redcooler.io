@@ -1,10 +1,11 @@
 "use client";
 import { FormEvent, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import { useUserStore } from '@/hooks/store';
 import { useRouter } from 'next/navigation';
-import ConversationCard from '@/components/conversationCard';
+import TopicCard from '@/components/TopicCard';
 import api from '@/api/api';
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
 
   const queryClient = useQueryClient();
   const {data, isLoading, isError, error } = useQuery(['latest'], api.fetchLatestPosts);
+  
 
   console.log("latest data: ", data);
   const router = useRouter();
@@ -43,15 +45,17 @@ export default function Home() {
         <p className='m-0 pb-8 text-2xl'>See what's happening</p>
         <ul className='flex flex-col gap-3'>
           {data?.map((convo) => (
-            <ConversationCard 
-              $id={convo.$id}
-              subject={convo.subject}
-              createdBy={convo.createdBy}
-              created={convo.created}
-              starter={convo.starter}
-              hasDeleteButton={false}
-              database='topics'
-            />
+            <Link key={convo.$id} href={"/signin"}>
+              <TopicCard 
+                $id={convo.$id}
+                subject={convo.subject}
+                createdBy={convo.createdBy}
+                created={convo.created}
+                starter={convo.starter}
+                hasDeleteButton={false}
+                database='topics'
+              />
+            </Link>
           ))}
         </ul>
       </section>

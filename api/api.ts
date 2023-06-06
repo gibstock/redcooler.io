@@ -78,6 +78,7 @@ let api = {
       user_account_id: string,
       isPrivate: boolean,
       created: Date,
+      $permissions: string[]
     }[]> => {
     const { documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID);
     return topics;
@@ -120,7 +121,46 @@ let api = {
       ]  
     );
     return topics;
+  },
+
+  fetchPostByTopicId: async($id: string, user_account_id: string): Promise<{
+    subject: string, 
+    $id: string, 
+    starter: string, 
+    beat: string, 
+    createdBy: string, 
+    user_account_id: string,
+    isPrivate: boolean,
+    created: Date,
+  }[]> => {
+    const {documents: topic } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID, 
+      [
+        Query.equal("topicId", $id ),
+        Query.notEqual("isPrivate", true),
+        Query.equal("userAccountId", user_account_id)
+      ]
+    );
+    return topic
+  },
+  fetchPrivateTopics: async(user_account_id: string): Promise<{
+    subject: string, 
+    $id: string, 
+    starter: string, 
+    beat: string, 
+    createdBy: string, 
+    user_account_id: string,
+    isPrivate: boolean,
+    created: Date,
+  }[]> => {
+    const {documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
+      [
+        Query.equal("isPrivate", true),
+        Query.equal("userAccountId", user_account_id)
+      ]
+    );
+    return topics;
   }
+
 
 };
 
