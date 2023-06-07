@@ -78,9 +78,13 @@ let api = {
       user_account_id: string,
       isPrivate: boolean,
       created: Date,
-      $permissions: string[]
+      $permissions: string[],
+      members: string[]
     }[]> => {
-    const { documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID);
+    const { documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
+      [
+        Query.notEqual("isPrivate", true)
+      ]);
     return topics;
   },
 
@@ -91,7 +95,7 @@ let api = {
     await api.provider().database.deleteDocument(Server.topicsDatabaseID, Server.topicsCollectionID, id);
   },
 
-  createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, beat?: string, isPrivate?: boolean) => {
+  createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, beat?: string, isPrivate?: boolean, members?: string[]) => {
     await api.provider().database.createDocument(Server.topicsDatabaseID, Server.topicsCollectionID, 'unique()', {
       id: docUuid,
       subject,
@@ -101,6 +105,7 @@ let api = {
       created: new Date(Date.now()),
       user_account_id,
       isPrivate,
+      members,
     },
     [Permission.delete(Role.user(user_account_id))])
   },
@@ -142,7 +147,7 @@ let api = {
     );
     return topic
   },
-  fetchPrivateTopics: async(user_account_id: string): Promise<{
+  fetchPrivateTopics: async(memberEmail: string): Promise<{
     subject: string, 
     $id: string, 
     starter: string, 
@@ -151,14 +156,15 @@ let api = {
     user_account_id: string,
     isPrivate: boolean,
     created: Date,
+    $permissions: string[],
+    members: string,
   }[]> => {
-    const {documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
+    const {documents: privateTopics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
       [
         Query.equal("isPrivate", true),
-        Query.equal("userAccountId", user_account_id)
       ]
     );
-    return topics;
+    return privateTopics;
   }
 
 

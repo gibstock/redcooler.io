@@ -19,11 +19,13 @@ const initialData = {
   beat: '',
   createdBy: '',
   user_account_id: '',
-  isPrivate: false
+  isPrivate: false,
+  email: [''],
 }
 
 const NewTopic = () => {
   const [topic, setTopic] = useState(initialData)
+  const [emailInput, setEmailInput] = useState('');
   
   const user = useUserStore(state => state.user);
 
@@ -35,9 +37,10 @@ const NewTopic = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try{
+      const parsedEmailInput = emailInput.split(",")
+      parsedEmailInput.push(user?.email!)
       e.preventDefault()
-      console.log({topic})
-      await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, topic.beat, topic.isPrivate)
+      await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, topic.beat, topic.isPrivate, parsedEmailInput)
       setTopic(initialData);
       router.push('/dashboard')
 
@@ -100,6 +103,20 @@ const NewTopic = () => {
               Public
             </label>
             <input type="radio" name="privacyGroup" id="isPublic" onChange={() => setTopic({...topic, isPrivate: false})} />
+          </div>
+          <div>
+            <label htmlFor="email-list">
+              Add Members to a Private Topic
+            </label>
+            <input 
+              required={false}
+              type="email" 
+              id='email-list'
+              placeholder='me@example.com, him@email.com, her@email.com'
+              value={emailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
+              multiple={true}
+            />
           </div>
           {/* Submit button  */}
           <div>
