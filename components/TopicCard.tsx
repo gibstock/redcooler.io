@@ -28,7 +28,7 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
 //     }
 //   })
   return (
-    <li key={$id} className="flex flex-col bg-slate-100 p-3 rounded-md">
+    <li key={$id} className="flex flex-col bg-slate-100 py-4 px-4 rounded-md outline outline-1 outline-transparent hover:outline-slate-500">
       <div className="title-group flex flex-row">
         <h2 className="font-bold text-3xl">
           {subject}

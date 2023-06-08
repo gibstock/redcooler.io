@@ -83,7 +83,9 @@ let api = {
     }[]> => {
     const { documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
       [
-        Query.notEqual("isPrivate", true)
+        Query.notEqual("isPrivate", true),
+        Query.orderDesc("created")
+
       ]);
     return topics;
   },
@@ -122,6 +124,7 @@ let api = {
     const {documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
       [
         Query.equal("isPrivate", false),
+        Query.orderDesc("created"),
         Query.limit(5)
       ]  
     );
@@ -156,6 +159,7 @@ let api = {
     const {documents: privateTopics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
       [
         Query.equal("isPrivate", true),
+        Query.orderDesc("created")
       ]
     );
     return privateTopics;

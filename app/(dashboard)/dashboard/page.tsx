@@ -40,7 +40,7 @@ const handleNewTopicRoute = () => {
 }
 
   return (
-    <div className="mt-20 mx-4">
+    <div className="my-20 mx-4">
       <div className="new-post-group flex flex-row w-full gap-x-3 items-center justify-around">
         <button className="bg-blue-500 text-white rounded-full px-3 py-1" onClick={handleNewTopicRoute}>
           New Post +
@@ -53,11 +53,11 @@ const handleNewTopicRoute = () => {
         ) : isLoading ? (
           <p>Loading...</p>
         ) : privateTopics ? (
-          <div className='mt-8'>
-            <h1 className="text-5xl text-center pb-8">Private Posts</h1>
-            <ul className="flex flex-col gap-y-4">
+          <div className='grid grid-cols-12 gap-y-4 mt-8'>
+            <h1 className="text-5xl pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Private Posts</h1>
+            <ul className="w-full row-start-2 col-start-2 col-span-10 md:col-start-3 md:col-span-5 flex flex-col justify-center items-stretch gap-4">
               {privateTopics.filter((item => item.members.includes(user?.email!))).map((topic) => (
-                <div key={topic?.$id}>
+                <div key={topic?.$id} className="col-start-2 col-span-10 md:col-start-3 md:col-span-5 relative">
                   <Link href={`/${topic.$id}/conversation/`}>
                     <TopicCard 
                       $id={topic.$id}
@@ -70,7 +70,7 @@ const handleNewTopicRoute = () => {
                     />
                   </Link>
                   {canDelete(user?.$id, topic?.$permissions) && (
-                      <button className="bg-red-600 rounded-full text-white px-3 py-1 mt-3" onClick={() => deleteTopicMutation.mutate(topic.$id)}>Delete</button>
+                      <button className="text-red-500 absolute top-1 right-4 opacity-30 hover:opacity-100" onClick={() => deleteTopicMutation.mutate(topic.$id)}>Delete</button>
                     )}
                 </div>
               ))}
@@ -84,11 +84,11 @@ const handleNewTopicRoute = () => {
         ) : isLoading ? (
           <p>Loading...</p>
         ) : topics ? (
-          <div className='mt-8'>
-            <h1 className="text-5xl text-center pb-8">Public Posts</h1>
-            <ul className="flex flex-col gap-y-4">
+          <div className='grid grid-cols-12 gap-y-4 mt-8'>
+            <h1 className="text-5xl pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Public Posts</h1>
+            <ul className="w-full row-start-2 col-start-2 col-span-10 md:col-start-3 md:col-span-5 flex flex-col justify-center items-stretch gap-4">
               {topics.map((topic) => (
-                <div key={topic.$id}>
+                <div key={topic.$id} className="col-start-2 col-span-10 md:col-start-3 md:col-span-5 relative">
                   <Link href={`${topic.$id}/conversation/`}>
                     <TopicCard 
                       $id={topic.$id}
@@ -101,7 +101,7 @@ const handleNewTopicRoute = () => {
                     />
                   </Link>
                   {canDelete(user?.$id, topic?.$permissions) && (
-                      <button className="bg-red-600 rounded-full text-white px-3 py-1 mt-3" onClick={() => deleteTopicMutation.mutate(topic.$id)}>Delete</button>
+                      <button className="text-red-500 absolute top-1 right-4 opacity-30 hover:opacity-100" onClick={() => deleteTopicMutation.mutate(topic.$id)}>Delete</button>
                     )}
                 </div>
               ))}
@@ -109,7 +109,6 @@ const handleNewTopicRoute = () => {
           </div>
         ) : null}
         </div>
-        
       </div>
   </div>
   )
