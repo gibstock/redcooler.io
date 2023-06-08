@@ -16,7 +16,6 @@ export default function SignIn() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
-
     try {
       const userSignIn = await api.signIn({email, password});
       setUser(userSignIn)
@@ -33,7 +32,7 @@ export default function SignIn() {
   return (
     <div className='flex flex-row justify-center items-center w-screen h-screen'>
       <div className='w-1/2'>
-        <h1 className='text-3xl mb-8 text-center'>Welcome Back</h1>
+        <h1 className='text-3xl text-slate-200 mb-8 text-center'>Welcome Back</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
           <div className='input-group group/email flex flex-col relative'>
             <label htmlFor="email" hidden={true}>
@@ -44,9 +43,14 @@ export default function SignIn() {
               id='email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className='peer group-focus-within/email:outline-black outline outline-blue-300 px-4 py-2 rounded-sm'
+              className='peer group-focus-within/email:outline-black bg-slate-800 text-slate-300 outline outline-2 focus-within:outline-blue-300 px-4 py-2 rounded-sm'
             />
-            <div className='absolute left-4 top-2 bg-white text-slate-400 peer-focus-within:-top-4'>Email Address</div>
+            <div 
+              className='absolute left-4 top-2 bg-slate-800 text-slate-400 peer-focus-within:-top-4'
+              style={email.length > 0 ? {top: '-16px'} : {}}
+            >
+                Email Address
+            </div>
           </div>
           <div className='input-group group/password flex flex-col relative'>
             <label htmlFor="password" hidden={true}>
@@ -57,10 +61,16 @@ export default function SignIn() {
               id='password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className='peer group-focus-within/password:outline-black outline outline-blue-300 px-4 py-2 rounded-sm'
-            />
-            <div className='absolute left-4 top-2 bg-white text-slate-400 peer-focus-within:-top-4'>Password</div>
+              className='peer group-focus-within/password:outline-black bg-slate-800 text-slate-300 outline outline-2 focus-within:outline-blue-300 px-4 py-2 rounded-sm'
+              />
+            <div 
+              className='absolute left-4 top-2 bg-slate-800 text-slate-400 peer-focus-within:-top-4'
+              style={password.length > 0 ? {top: '-16px'} : {}}
+            >
+              Password
+            </div>
           </div>
+          
           {error && <div>{error}</div>}
           {/* Submit button  */}
           <div className='bg-blue-600 hover:bg-blue-500 cursor-pointer p-2 flex flex-col justify-center items-center rounded-sm'>
@@ -68,7 +78,7 @@ export default function SignIn() {
           </div>
         </form>
       <div className='flex flex-row justify-center items-center gap-4'>
-        <h2>Need an account?</h2>
+        <h2 className='text-slate-300'>Need an account?</h2>
         <button className='text-blue-600' onClick={handleSignUpRoute}>Sign Up</button>
       </div>
       </div>

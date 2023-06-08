@@ -44,8 +44,6 @@ const NewTopic = () => {
       } else {
         parsedEmailInput.push(user?.email!)
       }
-      
-      console.log("parsedemail", parsedEmailInput)
       e.preventDefault()
       await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, topic.beat, topic.isPrivate, parsedEmailInput)
       setTopic(initialData);
@@ -58,78 +56,90 @@ const NewTopic = () => {
 
 
   return (
-    <div className='mt-20'>
-      <h1>New Topic</h1>
-      <p>User: {user ? user.name : "No name"}</p>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="subject">
-              Subject
-            </label>
-            <input 
-              required={true}
-              type="text" 
-              id='subject'
-              placeholder='Enter your Subject'
-              value={topic.subject}
-              onChange={(e) => setTopic({...topic, subject: e.target.value})}
-            />
-          </div>
-          <div>
-            <label htmlFor="starter">
-              Starter
-            </label>
-            <textarea 
-              required={true}
-              id='starter'
-              placeholder='Enter your Starter text'
-              value={topic.starter}
-              onChange={(e) => setTopic({...topic, starter: e.target.value})}
-            ></textarea>
-          </div>
-          <div>
-            <label htmlFor="beat">
-              Beat Link
-            </label>
-            <input 
-              required={true}
-              type="text" 
-              id='beat'
-              placeholder='http://www.example.com/'
-              value={topic.beat}
-              onChange={(e) => setTopic({...topic, beat: e.target.value})}
-            />
-          </div>
-          <div>
-            <label htmlFor="isPrivate">
-              Private
-            </label>
-            <input required type="radio" name="privacyGroup" id="isPrivate" onChange={() =>setTopic({...topic, isPrivate: true})}/>
-            <label htmlFor="isPublic">
-              Public
-            </label>
-            <input type="radio" name="privacyGroup" id="isPublic" onChange={() => setTopic({...topic, isPrivate: false})} />
-          </div>
-          <div>
-            <label htmlFor="email-list">
-              Add Members to a Private Topic
-            </label>
-            <input 
-              required={false}
-              type="email" 
-              id='email-list'
-              placeholder='me@example.com, him@email.com, her@email.com'
-              value={emailInput}
-              onChange={(e) => setEmailInput(e.target.value)}
-              multiple={true}
-            />
-          </div>
-          {/* Submit button  */}
-          <div>
-            <button type='submit'>Submit</button>
-          </div>
-        </form>
+    <div className='mt-20 text-slate-200'>
+      <header className='p-2'>
+        <h1 className='text-2xl'>Create a Topic</h1>
+      </header>
+      <div className='new-topic-group p-2'>
+        <div className="form-wrapper p-4 outline outline-1 outline-slate-400 rounded-sm">
+          <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+            <div className='flex flex-col'>
+              <label htmlFor="subject" hidden>
+                Subject
+              </label>
+              <input 
+                className='rounded-sm p-2'
+                required={true}
+                type="text" 
+                id='subject'
+                placeholder='Title'
+                value={topic.subject}
+                onChange={(e) => setTopic({...topic, subject: e.target.value})}
+              />
+            </div>
+            <div className='flex flex-col'>
+              <label htmlFor="starter" hidden>
+                Starter
+              </label>
+              <textarea 
+                className='rounded-sm p-2 h-[30vh]'
+                required={true}
+                id='starter'
+                placeholder='Text'
+                value={topic.starter}
+                onChange={(e) => setTopic({...topic, starter: e.target.value})}
+              ></textarea>
+            </div>
+            <div className='flex flex-col'>
+              <label htmlFor="beat" hidden>
+                Beat Link
+              </label>
+              <input 
+                className='rounded-sm p-2'
+                required={true}
+                type="text" 
+                id='beat'
+                placeholder='Link to YouTube or Soundcloud beat'
+                value={topic.beat}
+                onChange={(e) => setTopic({...topic, beat: e.target.value})}
+              />
+            </div>
+            <div className='flex flex-row items-center justify-start gap-4'>
+              <div className="radio-group flex flex-row gap-1">
+                <label htmlFor="isPrivate">
+                  Private
+                </label>
+                <input required type="radio" name="privacyGroup" id="isPrivate" onChange={() =>setTopic({...topic, isPrivate: true})}/>
+              </div>
+              <div className="radio-group flex flex-row gap-1">
+                <label htmlFor="isPublic">
+                  Public
+                </label>
+                <input type="radio" name="privacyGroup" id="isPublic" onChange={() => setTopic({...topic, isPrivate: false})} />
+              </div>
+              <span>Choose who can see your post</span>
+            </div>
+            <div className='flex flex-col'>
+              <label htmlFor="email-list">
+                Add Members to a Private Topic <span className='text-slate-400'>(Optional. Only added members can see private posts)</span>
+              </label>
+              <input 
+                className='rounded-sm p-2'
+                required={false}
+                type="email" 
+                id='email-list'
+                placeholder='him@email.com, her@email.com'
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                multiple={true}
+              />
+            </div>
+            {/* Submit button  */}
+            <div className=''>
+              <button type='submit' className='outline outline-1 outline-red-500 px-2 py-1 rounded-md hover:bg-red-500'>Submit</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   )

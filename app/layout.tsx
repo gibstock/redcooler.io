@@ -1,6 +1,7 @@
 import Providers from "@/utils/provider";
 import React from 'react';
 import NavBar from "@/components/navBar";
+import Footer from "@/components/footer";
 import './globals.css'
 
 
@@ -21,6 +22,7 @@ export default function RootLayout({
         <Providers>
           <NavBar />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>
