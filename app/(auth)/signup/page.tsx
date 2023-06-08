@@ -7,19 +7,29 @@ import api from '@/api/api';
 export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rePassword, setRePassword] = useState('');
   const [username, setUsername] = useState('');
 
   const router = useRouter();
 
+  type Err = {
+
+  }
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
-
-    try {
-      await api.signUp({email, password, username});
-
-      router.push('/dashboard');
-    }catch(err) {
-      console.log('Error signing up ', err);
+    console.log(password, rePassword)
+    if(password !== rePassword) {
+      alert("Passwords must match")
+    } else if(password.length < 8) {
+      alert("Passwords must be at least 8 characters")
+    } else {
+      try {
+        await api.signUp({email, password, username});
+        router.push('/dashboard');
+      }catch(err) {
+        console.log('Error signing up ', {err});
+      }
     }
   };
 
@@ -29,53 +39,90 @@ export default function SignUp() {
 
   return (
     <div className='h-screen w-screen flex flex-col justify-center items-center'>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="username">
+      <div className='w-1/2'>
+        <h1 className='text-3xl text-slate-200 mb-8 text-center'>Welcome!</h1>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
+          <div className='input-group group/username flex flex-col relative'>
+            <label htmlFor="username" hidden>
               Username
             </label>
             <input 
               type="text" 
               id='username'
-              placeholder='Enter your username'
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              className='peer group-focus-within/username:outline-black bg-slate-800 text-slate-300 outline outline-2 focus-within:outline-blue-300 px-4 py-2 rounded-sm'
             />
+            <div 
+              className='absolute right-4 top-2 bg-slate-800 text-slate-400 peer-focus-within:-top-4'
+              style={username.length > 0 ? {top: '-16px'} : {}}
+            >
+                Username
+            </div>
           </div>
-          <div>
-            <label htmlFor="email">
+          <div className='input-group group/email flex flex-col relative'>
+            <label htmlFor="email" hidden>
               Email
             </label>
             <input 
               type="email" 
               id='email'
-              placeholder='Enter your email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className='peer group-focus-within/email:outline-black bg-slate-800 text-slate-300 outline outline-2 focus-within:outline-blue-300 px-4 py-2 rounded-sm'
             />
+            <div 
+              className='absolute right-4 top-2 bg-slate-800 text-slate-400 peer-focus-within:-top-4'
+              style={email.length > 0 ? {top: '-16px'} : {}}
+            >
+                Email Address
+            </div>
           </div>
-          <div>
-            <label htmlFor="password">
+          <div className='input-group group/password flex flex-col relative'>
+            <label htmlFor="password" hidden>
               Password
             </label>
             <input 
               type="password" 
               id='password'
-              placeholder='Enter your password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className='peer group-focus-within/password:outline-black bg-slate-800 text-slate-300 outline outline-2 focus-within:outline-blue-300 px-4 py-2 rounded-sm'
             />
+            <div 
+              className='absolute right-4 top-2 bg-slate-800 text-slate-400 peer-focus-within:-top-4'
+              style={password.length > 0 ? {top: '-16px'} : {}}
+            >
+              Password
+            </div>
+          </div>
+          <div className='input-group group/repassword flex flex-col relative'>
+            <label htmlFor="password" hidden={true}>
+              RePassword
+            </label>
+            <input 
+              type="password" 
+              id='repassword'
+              value={rePassword}
+              onChange={(e) => setRePassword(e.target.value)}
+              className='peer group-focus-within/repassword:outline-black bg-slate-800 text-slate-300 outline outline-2 focus-within:outline-blue-300 px-4 py-2 rounded-sm'
+              />
+            <div 
+              className='absolute right-4 top-2 bg-slate-800 text-slate-400 peer-focus-within:-top-4'
+              style={rePassword.length > 0 ? {top: '-16px'} : {}}
+            >
+              Re-Type Password
+            </div>
           </div>
           {/* Submit button  */}
-          <div>
-            <button type='submit'>Sign Up</button>
+          <div className='bg-blue-600 hover:bg-blue-500 cursor-pointer p-2 flex flex-col justify-center items-center rounded-sm'>
+            <button type='submit' className='text-white'>Sign Up</button>
           </div>
         </form>
       </div>
-      <div>
-        <h2>Already have an account?</h2>
-        <button onClick={handleSignInRoute}>Sign In</button>
+      <div className='flex flex-row justify-center items-center gap-4'>
+        <h2 className='text-slate-300'>Already have an account?</h2>
+        <button className='text-blue-600' onClick={handleSignInRoute}>Sign In</button>
       </div>
     </div>
   )

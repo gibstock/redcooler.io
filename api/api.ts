@@ -163,6 +163,24 @@ let api = {
       ]
     );
     return privateTopics;
+  },
+
+  fetchConversationByTopicId: async(topicId: string): Promise<{
+    id: string,
+    content: string,
+    created: Date,
+    createdBy: string,
+    topicId: string,
+    userAccountId: string,
+    parentConversationId?: string,
+    commentType: string,
+  }[]> => {
+    const {documents: conversations} = await api.provider().database.listDocuments(Server.conversationsDatabaseID, Server.conversationsCollectionID,
+      [
+        Query.equal("topicId", topicId)
+      ]  
+    );
+    return conversations;
   }
 
 
