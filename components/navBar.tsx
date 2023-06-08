@@ -23,7 +23,7 @@ const NavBar = () => {
   }
 
   return (
-    <nav className='relative'>
+    <nav className='relative z-50'>
       <div className="sticky-wrapper flex flex-row min-h-[8vh] w-full justify-between items-center px-4 shadow shadow-slate-300 mb-4 fixed top-0 left-0 right-0 bg-white">
         <div className="logo rounded-full">
           <Image 
