@@ -128,7 +128,7 @@ let api = {
     return topics;
   },
 
-  fetchPostByTopicId: async($id: string, user_account_id: string): Promise<{
+  fetchPostByTopicId: async($id: string): Promise<{
     subject: string, 
     $id: string, 
     starter: string, 
@@ -137,15 +137,9 @@ let api = {
     user_account_id: string,
     isPrivate: boolean,
     created: Date,
-  }[]> => {
-    const {documents: topic } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID, 
-      [
-        Query.equal("topicId", $id ),
-        Query.notEqual("isPrivate", true),
-        Query.equal("userAccountId", user_account_id)
-      ]
-    );
-    return topic
+  }> => {
+    const result = await api.provider().database.getDocument(Server.topicsDatabaseID, Server.topicsCollectionID, $id);
+    return result
   },
   fetchPrivateTopics: async(memberEmail: string): Promise<{
     subject: string, 

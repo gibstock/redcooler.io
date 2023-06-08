@@ -3,12 +3,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/hooks/store"
 import TopicCard from "@/components/TopicCard";
+import Link from "next/link";
 import api from '@/api/api';
 
 
 
 export default function Dashboard() {
 const user = useUserStore(state => state.user);
+
+console.log("User from dashboard", user)
 
 const router = useRouter();
 const queryClient = useQueryClient();
@@ -17,6 +20,8 @@ const { data: privateTopics, isLoading: privateIsLoading, isError: privateIsErro
 
 
 const {data: topics, isLoading, isError, error } = useQuery(['topics'], api.listTopicsWithQuery);
+
+console.log("topics", privateTopics);
 
 const deleteTopicMutation = useMutation({
   mutationFn: api.deleteTopic, 
@@ -53,15 +58,17 @@ const handleNewTopicRoute = () => {
             <ul className="flex flex-col gap-y-4">
               {privateTopics.filter((item => item.members.includes(user?.email!))).map((topic) => (
                 <div key={topic?.$id}>
-                  <TopicCard 
-                    $id={topic.$id}
-                    subject={topic.subject}
-                    createdBy={topic.createdBy}
-                    created={topic.created}
-                    starter={topic.starter}
-                    database='topics'
-                    hasDeleteButton={false}
-                  />
+                  <Link href={`/${topic.$id}/conversation/`}>
+                    <TopicCard 
+                      $id={topic.$id}
+                      subject={topic.subject}
+                      createdBy={topic.createdBy}
+                      created={topic.created}
+                      starter={topic.starter}
+                      database='topics'
+                      hasDeleteButton={false}
+                    />
+                  </Link>
                   {canDelete(user?.$id, topic?.$permissions) && (
                       <button className="bg-red-600 rounded-full text-white px-3 py-1 mt-3" onClick={() => deleteTopicMutation.mutate(topic.$id)}>Delete</button>
                     )}
@@ -82,15 +89,17 @@ const handleNewTopicRoute = () => {
             <ul className="flex flex-col gap-y-4">
               {topics.map((topic) => (
                 <div key={topic.$id}>
-                  <TopicCard 
-                    $id={topic.$id}
-                    subject={topic.subject}
-                    createdBy={topic.createdBy}
-                    created={topic.created}
-                    starter={topic.starter}
-                    database='topics'
-                    hasDeleteButton={false}
-                  />
+                  <Link href={`${topic.$id}/conversation/`}>
+                    <TopicCard 
+                      $id={topic.$id}
+                      subject={topic.subject}
+                      createdBy={topic.createdBy}
+                      created={topic.created}
+                      starter={topic.starter}
+                      database='topics'
+                      hasDeleteButton={false}
+                    />
+                  </Link>
                   {canDelete(user?.$id, topic?.$permissions) && (
                       <button className="bg-red-600 rounded-full text-white px-3 py-1 mt-3" onClick={() => deleteTopicMutation.mutate(topic.$id)}>Delete</button>
                     )}

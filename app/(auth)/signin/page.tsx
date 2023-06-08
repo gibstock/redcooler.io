@@ -1,12 +1,16 @@
 'use client'
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
+import { useUserStore } from '@/hooks/store';
 
 import api from '@/api/api';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const setUser = useUserStore(state => state.setUser)
 
   const router = useRouter();
 
@@ -14,11 +18,11 @@ export default function SignIn() {
     e.preventDefault();
 
     try {
-      await api.signIn({email, password});
-
+      const userSignIn = await api.signIn({email, password});
+      setUser(userSignIn)
       router.push('/dashboard');
-    }catch {
-      console.log('Error signing in');
+    }catch (err) {
+      setError("Inavlid Credentials. Please check email and password");
     }
   };
 
@@ -57,6 +61,7 @@ export default function SignIn() {
             />
             <div className='absolute left-4 top-2 bg-white text-slate-400 peer-focus-within:-top-4'>Password</div>
           </div>
+          {error && <div>{error}</div>}
           {/* Submit button  */}
           <div className='bg-blue-600 hover:bg-blue-500 cursor-pointer p-2 flex flex-col justify-center items-center rounded-sm'>
             <button type='submit' className='text-white'>Sign In</button>

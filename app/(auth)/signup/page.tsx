@@ -28,7 +28,7 @@ export default function SignUp() {
   }
 
   return (
-    <div>
+    <div className='h-screen w-screen flex flex-col justify-center items-center'>
       <div>
         <form onSubmit={handleSubmit}>
           <div>

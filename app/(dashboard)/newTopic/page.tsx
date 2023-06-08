@@ -37,8 +37,15 @@ const NewTopic = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try{
-      const parsedEmailInput = emailInput.split(",")
-      parsedEmailInput.push(user?.email!)
+      let parsedEmailInput: string[] = [];
+      if(emailInput.length > 0) {
+        parsedEmailInput = emailInput.split(",")
+        parsedEmailInput.push(user?.email!)
+      } else {
+        parsedEmailInput.push(user?.email!)
+      }
+      
+      console.log("parsedemail", parsedEmailInput)
       e.preventDefault()
       await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, topic.beat, topic.isPrivate, parsedEmailInput)
       setTopic(initialData);
