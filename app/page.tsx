@@ -42,7 +42,7 @@ export default function Home() {
       </div>
       <section className="latest-threads flex flex-col justify-center items-center mt-12">
         <h2 className='text-5xl text-slate-200 font-bold m-0 pb-8'>Latest Posts</h2>
-        <p className='m-0 pb-8 text-2xl text-slate-300'>See what's going down</p>
+        <p className='m-0 pb-8 text-2xl text-slate-300'>See what&apos;s going down</p>
         <ul className='flex flex-col gap-3'>
           {data?.map((convo) => (
             <Link key={convo.$id} href={"/signin"}>
