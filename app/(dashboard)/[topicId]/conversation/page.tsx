@@ -147,7 +147,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
         </div>
         <div className="conversation row-start-3 col-start-2 col-span-10 md:col-start-3 md:col-span-5 mb-4">
           {conversations?.map((convo) => (
-            <div className='comment-wrapper bg-slate-800 text-white mt-4 relative'>
+            <div key={convo.id} className='comment-wrapper bg-slate-800 text-white mt-4 relative'>
               <div className="info-row flex flex-row justify-start items-center gap-2 bg-slate-500 p-4">
                 <div className="avatar">
                   <RxPerson size={22} />
