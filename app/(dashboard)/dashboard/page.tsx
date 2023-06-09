@@ -33,7 +33,7 @@ export default function Dashboard() {
   };
 
   const handleNewTopicRoute = () => {
-    router.push('/newTopic')
+    router.push("/newTopic")
   }
 
   return (
