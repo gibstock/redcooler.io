@@ -68,7 +68,7 @@ export default function NewTopic(){
                 Subject
               </label>
               <input 
-                className='rounded-sm p-2 text-slate-800'
+                className='rounded-sm p-2 bg-slate-700 text-slate-200 sm:text-slate-700  sm:bg-slate-200'
                 required={true}
                 type="text" 
                 id='subject'
@@ -82,7 +82,7 @@ export default function NewTopic(){
                 Starter
               </label>
               <textarea 
-                className='rounded-sm p-2 h-[30vh] text-slate-800'
+                className='rounded-sm p-2 h-[30vh] bg-slate-700 text-slate-200 sm:text-slate-700  sm:bg-slate-200'
                 required={true}
                 id='starter'
                 placeholder='Text'
@@ -95,7 +95,7 @@ export default function NewTopic(){
                 Beat Link
               </label>
               <input 
-                className='rounded-sm p-2 text-slate-800'
+                className='rounded-sm p-2 bg-slate-700 text-slate-200 sm:text-slate-700  sm:bg-slate-200'
                 required={false}
                 type="text" 
                 id='beat'
@@ -124,7 +124,7 @@ export default function NewTopic(){
                 Add Members to a Private Topic <span className='text-slate-400'>(Optional. Only added members can see private posts)</span>
               </label>
               <input 
-                className='rounded-sm p-2 text-slate-800'
+                className='rounded-sm p-2 bg-slate-700 text-slate-200 sm:text-slate-700  sm:bg-slate-200'
                 required={false}
                 type="email" 
                 id='email-list'
