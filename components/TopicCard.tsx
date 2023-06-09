@@ -1,4 +1,5 @@
 import React from 'react'
+import { truncate } from '@/utils/helpers';
 // import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from '@/api/api';
 
@@ -14,9 +15,10 @@ type AppProps = {
   hasDeleteButton: boolean,
   canDelete?: boolean,
   database: string
+  isPreview?: boolean
 }
 
-const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, userId, canDelete, database, hasDeleteButton}: AppProps) => {
+const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, userId, canDelete, database, hasDeleteButton, isPreview}: AppProps) => {
 
 // const queryClient = useQueryClient();
 
@@ -35,7 +37,7 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
         </h2>
       </div>
       <h3>{createdBy} | {new Date(created).toDateString()}</h3>
-      <p>{starter}</p>
+      <div className='whitespace-pre-wrap'>{isPreview? (truncate(starter, 50)) : (starter)}</div>
       <div className="button-group flex flex-row justify-center items-center self-end">
         {/* {hasDeleteButton && (
           canDelete && (

@@ -2,18 +2,18 @@
 import { FormEvent, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import { useQuery} from '@tanstack/react-query';
 import { useUserStore } from '@/hooks/store';
 import { useRouter } from 'next/navigation';
 import TopicCard from '@/components/TopicCard';
 import api from '@/api/api';
 
 export default function Home() {
-  const [input, setInput] = useState('');
+  // const [input, setInput] = useState('');
   const user = useUserStore(state => state.user);
-  const setUser = useUserStore(state => state.setUser);
+  // const setUser = useUserStore(state => state.setUser);
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const {data, isLoading, isError, error } = useQuery(['latest'], api.fetchLatestPosts);
   
 
@@ -53,6 +53,7 @@ export default function Home() {
                 starter={convo.starter}
                 hasDeleteButton={false}
                 database='topics'
+                isPreview={true}
               />
             </Link>
           ))}

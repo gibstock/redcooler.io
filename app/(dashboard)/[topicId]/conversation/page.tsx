@@ -61,7 +61,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
           <div className="topic-card">
             <div className="posted-by">Posted by <span className='text-red-400'>{topic?.createdBy}</span> | {new Date(topic?.created!).toDateString()}</div>
             <h1 className='font-bold text-3xl'>{topic?.subject}</h1>
-            <div className="topic-body mt-4">
+            <div className="topic-body mt-4 whitespace-pre-wrap">
               {topic?.starter}
             </div>
             <div className="stats-bar text-slate-300 flex flex-row gap-3 mt-4">
@@ -161,7 +161,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
                 <div className="top-bar mb-2">
                   {convo.commentType}
                 </div>
-                <div className="content">
+                <div className="content whitespace-pre-wrap">
                   {convo.content}
                 </div>
               </div>
