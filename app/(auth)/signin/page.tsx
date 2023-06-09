@@ -43,11 +43,11 @@ export default function SignIn() {
               id='email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className='peer group-focus-within/email:outline-black bg-slate-800 text-slate-300 outline outline-2 focus-within:outline-blue-300 px-4 py-2 rounded-sm'
+              className='peer group-focus-within/email:outline-black bg-slate-800 text-slate-300 outline outline-2 border-2 focus-within:border-yellow-300 outline-blue-500 px-4 py-2 rounded-sm'
             />
             <div 
-              className='absolute left-4 top-2 bg-slate-800 text-slate-400 peer-focus-within:-top-4'
-              style={email.length > 0 ? {top: '-16px'} : {}}
+              className='absolute left-4 -top-6  text-slate-400 peer-focus-within:text-slate-200'
+              style={email.length > 0 ? {color: 'green'} : {}}
             >
                 Email Address
             </div>
@@ -61,11 +61,11 @@ export default function SignIn() {
               id='password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className='peer group-focus-within/password:outline-black bg-slate-800 text-slate-300 outline outline-2 focus-within:outline-blue-300 px-4 py-2 rounded-sm'
+              className='peer group-focus-within/password:outline-black bg-slate-800 text-slate-300 outline outline-2 outline-blue-500 border-2 focus-within:border-yellow-300 px-4 py-2 rounded-sm'
               />
             <div 
-              className='absolute left-4 top-2 bg-slate-800 text-slate-400 peer-focus-within:-top-4'
-              style={password.length > 0 ? {top: '-16px'} : {}}
+              className='absolute left-4 -top-6 bg-slate-800 text-slate-400 peer-focus-within:text-slate-200'
+              style={password.length > 0 ? {color: 'green'} : {}}
             >
               Password
             </div>
