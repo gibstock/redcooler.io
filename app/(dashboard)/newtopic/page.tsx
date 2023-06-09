@@ -56,9 +56,9 @@ export default function NewTopic(){
 
 
   return (
-    <div className='mt-20 text-slate-200'>
+    <div className='mt-20'>
       <header className='p-2'>
-        <h1 className='text-2xl'>Create a Topic</h1>
+        <h1 className='text-2xl text-slate-200'>Create a Topic</h1>
       </header>
       <div className='new-topic-group p-2'>
         <div className="form-wrapper p-4 outline outline-1 outline-slate-400 rounded-sm">
@@ -96,7 +96,7 @@ export default function NewTopic(){
               </label>
               <input 
                 className='rounded-sm p-2'
-                required={true}
+                required={false}
                 type="text" 
                 id='beat'
                 placeholder='Link to YouTube or Soundcloud beat'
@@ -105,22 +105,22 @@ export default function NewTopic(){
               />
             </div>
             <div className='flex flex-row items-center justify-start gap-4'>
-              <div className="radio-group flex flex-row gap-1">
+              <div className="radio-group flex flex-row gap-1 text-slate-200">
                 <label htmlFor="isPrivate">
                   Private
                 </label>
                 <input required type="radio" name="privacyGroup" id="isPrivate" onChange={() =>setTopic({...topic, isPrivate: true})}/>
               </div>
-              <div className="radio-group flex flex-row gap-1">
+              <div className="radio-group flex flex-row gap-1 text-slate-200">
                 <label htmlFor="isPublic">
                   Public
                 </label>
                 <input type="radio" name="privacyGroup" id="isPublic" onChange={() => setTopic({...topic, isPrivate: false})} />
               </div>
-              <span>Choose who can see your post</span>
+              <span className='text-slate-200'>Choose who can see your post</span>
             </div>
             <div className='flex flex-col'>
-              <label htmlFor="email-list">
+              <label htmlFor="email-list" className='text-slate-200'>
                 Add Members to a Private Topic <span className='text-slate-400'>(Optional. Only added members can see private posts)</span>
               </label>
               <input 
@@ -135,7 +135,7 @@ export default function NewTopic(){
               />
             </div>
             {/* Submit button  */}
-            <div className=''>
+            <div className='text-slate-200'>
               <button type='submit' className='outline outline-1 outline-red-500 px-2 py-1 rounded-md hover:bg-red-500'>Submit</button>
             </div>
           </form>
