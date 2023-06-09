@@ -1,6 +1,6 @@
 'use client'
-import React from 'react'
-import { useQuery, useQueryClient} from '@tanstack/react-query';
+import React, {FormEvent, useState, useRef} from 'react'
+import { useQuery, useQueryClient, useMutation} from '@tanstack/react-query';
 import Link from 'next/link';
 import { MdDashboard } from 'react-icons/md'
 import { RxChatBubble, RxPerson } from 'react-icons/rx'
@@ -10,16 +10,45 @@ import ReactPlayer, {ReactPlayerProps} from 'react-player/lazy';
 import api from '@/api/api';
 
 const Conversation = ({ params }: {params: {topicId: string}}) => {
+  const [comment, setComment] = useState('');
+  const [mark, setMark] = useState('');
   const queryClient = useQueryClient();
 
   const docId = decodeURIComponent(params.topicId);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   console.log("docId", docId)
 
   const {data: topic, isLoading, isError, error } = useQuery(['convoWithId'], () => api.fetchPostByTopicId(docId));
   const {data: conversations, isLoading: convoIsLoading, isError: convoIsError } = useQuery(['conversations'], () => api.fetchConversationByTopicId(docId))
-  console.log("conversation", conversations)
+  console.log("conversation", conversations?.length)
   const user = useUserStore(state => state.user);
+
+  const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
+    // e.preventDefault()
+    if(textareaRef.current?.value?.length === undefined) {
+      alert('Please enter content to submit')
+    }
+    try {
+      await api.submitCommentToTopicChain(textareaRef?.current?.value!, user?.name!, docId, user?.$id!, mark)
+      setMark('')
+    }catch(err) {
+      console.log(err)
+    }
+  }
+
+  const deleteCommentMutation = useMutation({
+    mutationFn: api.deleteConversation, 
+    onSuccess: () => {
+      queryClient.invalidateQueries(['conversations']);
+    }
+  })
+
+  const canDelete = (userID:string | undefined, array: string[] | undefined) => {
+    const result = array?.some((element) => element.includes('delete') && element.includes(userID!))
+    return result
+  };
+
 
 
   return (
@@ -40,7 +69,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
             <div className="stats-bar text-slate-300 flex flex-row gap-3 mt-4">
               <div className="contributions-group flex flex-row justify-start items-center gap-2">
                 <RxChatBubble size={22} />
-                <span>10 contributions</span>
+                <span>{conversations?.length} contributions</span>
               </div>
               <div className="share-group flex flex-row justify-start items-center gap-2">
                 <RiShareForwardLine size={22} />
@@ -81,28 +110,36 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
             Comment as <span className='font-bold'>{user?.name}</span>
           </div>
           <div className="comment-field w-full p-3  outline outline-1 outline-slate-400 rounded-sm">
-            <form className=''>
-              <textarea name="topic-reply" id="topic-reply" className='w-full p-2 text-slate-900 h-[30vh] focus-within:outline-none'></textarea>
+            <form onSubmit={handleSubmitComment}>
+              <textarea 
+                name="topic-reply" 
+                id="topic-reply" 
+                className='w-full p-2 text-slate-900 h-[30vh] focus-within:outline-none'
+                ref={textareaRef}
+                // value={comment}  
+                // onChange={(e) => setComment(e.target.value)}
+              >
+              </textarea>
               {/* <div className="comment-type-options flex flex-row items-end gap-4 border-solid border-t-2 border-slate-300"> */}
               <div className="comment-type-options grid grid-cols-6 gap-1 justify-items-center content-center pt-2 border-solid border-t-2 border-slate-300">
                 <div className="radio-option-group flex flex-row justify-start items-center gap-2">
                   <label htmlFor="comment">Comment</label>
-                  <input type="radio" name="option-group" id="comment" defaultChecked/>
+                  <input type="radio" name="option-group" id="comment" defaultChecked={true} onChange={() => setMark('comment')}/>
                 </div>
                 <div className="radio-option-group flex flex-row justify-start items-center gap-2">
                   <label htmlFor="verse">Verse</label>
-                  <input type="radio" name="option-group" id="verse" />
+                  <input type="radio" name="option-group" id="verse" onChange={() => setMark('verse')} />
                 </div>
                 <div className="radio-option-group flex flex-row justify-start items-center gap-2">
                   <label htmlFor="hook">Hook</label>
-                  <input type="radio" name="option-group" id="hook" />
+                  <input type="radio" name="option-group" id="hook" onChange={() => setMark('hook')} />
                 </div>
                 <div className="radio-option-group flex flex-row justify-start items-center gap-2">
                   <label htmlFor="other">Other</label>
-                  <input type="radio" name="option-group" id="other" />
+                  <input type="radio" name="option-group" id="other" onChange={() => setMark('other')} />
                 </div>
                 <div className="button-group col-start-6 justify-self-end outline outline-1 outline-slate-400 rounded-full px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white">
-                  <button>Submit</button>
+                  <button onSubmit={() => handleSubmitComment}>Submit</button>
                 </div>
               </div>
             </form>
@@ -110,7 +147,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
         </div>
         <div className="conversation row-start-3 col-start-2 col-span-10 md:col-start-3 md:col-span-5 mb-4">
           {conversations?.map((convo) => (
-            <div className='comment-wrapper bg-slate-800 text-white mt-4'>
+            <div className='comment-wrapper bg-slate-800 text-white mt-4 relative'>
               <div className="info-row flex flex-row justify-start items-center gap-2 bg-slate-500 p-4">
                 <div className="avatar">
                   <RxPerson size={22} />
@@ -130,7 +167,14 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
                   {convo.content}
                 </div>
               </div>
-              <div className="options"></div>
+              {/* to do */}
+              {/* fix delete function */}
+              {/* {canDelete(user?.$id, convo?.$permissions) && (
+                <button className="text-red-500 absolute bottom-1 right-4 opacity-30 hover:opacity-100" onClick={() => deleteCommentMutation.mutate(convo?.id)}>Delete</button>
+              )} */}
+              <div className="options">
+              </div>
+              
             </div>
           ))}
         </div>
