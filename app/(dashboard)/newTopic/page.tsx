@@ -23,7 +23,7 @@ const initialData = {
   email: [''],
 }
 
-const NewTopic = () => {
+export default function NewTopic(){
   const [topic, setTopic] = useState(initialData)
   const [emailInput, setEmailInput] = useState('');
   
@@ -144,5 +144,3 @@ const NewTopic = () => {
     </div>
   )
 }
-
-export default NewTopic
