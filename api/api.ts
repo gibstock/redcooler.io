@@ -174,6 +174,7 @@ let api = {
     userAccountId: string,
     parentConversationId?: string,
     commentType: string,
+    $permissions: string[]
   }[]> => {
     const {documents: conversations} = await api.provider().database.listDocuments(Server.conversationsDatabaseID, Server.conversationsCollectionID,
       [
@@ -181,6 +182,20 @@ let api = {
       ]  
     );
     return conversations;
+  },
+
+  submitCommentToTopicChain: async(content: string, createdBy: string,topicId: string, userAccountId: string, commentType: string, parentConversationId?: string ) => {
+    await api.provider().database.createDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, 'unique()', {
+      id: docUuid,
+      content,
+      created: new Date(Date.now()),
+      createdBy,
+      topicId,
+      userAccountId,
+      parentConversationId,
+      commentType
+    },
+    [Permission.delete(Role.user(userAccountId))]) 
   }
 
 
