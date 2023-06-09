@@ -64,6 +64,7 @@ export default function Dashboard() {
                       starter={topic.starter}
                       database='topics'
                       hasDeleteButton={false}
+                      isPreview={true}
                     />
                   </Link>
                   {canDelete(user?.$id, topic?.$permissions) && (
@@ -95,6 +96,7 @@ export default function Dashboard() {
                       starter={topic.starter}
                       database='topics'
                       hasDeleteButton={false}
+                      isPreview={true}
                     />
                   </Link>
                   {canDelete(user?.$id, topic?.$permissions) && (

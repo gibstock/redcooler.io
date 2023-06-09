@@ -4,7 +4,7 @@ A place for beatmakers and writers to collab.
 
 ## Todo
 
---Functionality
+-- Functionality
 
 - Amend members to private topics
 - Add avatar for profile
@@ -24,7 +24,8 @@ A place for beatmakers and writers to collab.
 - Not all comment categories working
 - Sometimes the user isn't populated until refresh
 - Comments should refetch after a new one is entered
-- Newlines not rendering
+- ~~Newlines not rendering~~
+- ~~Truncate preview posts~~
 
 -- Styling
 
