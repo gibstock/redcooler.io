@@ -17,11 +17,9 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   const docId = decodeURIComponent(params.topicId);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
-  console.log("docId", docId)
 
   const {data: topic, isLoading, isError, error } = useQuery(['convoWithId'], () => api.fetchPostByTopicId(docId));
   const {data: conversations, isLoading: convoIsLoading, isError: convoIsError } = useQuery(['conversations'], () => api.fetchConversationByTopicId(docId))
-  console.log("conversation", conversations?.length)
   const user = useUserStore(state => state.user);
 
   const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
@@ -120,8 +118,8 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
                 // onChange={(e) => setComment(e.target.value)}
               >
               </textarea>
-              {/* <div className="comment-type-options flex flex-row items-end gap-4 border-solid border-t-2 border-slate-300"> */}
-              <div className="comment-type-options grid grid-cols-6 gap-1 justify-items-center content-center pt-2 border-solid border-t-2 border-slate-300">
+              <div className="comment-type-options mt-2 pt-2 flex flex-row flex-wrap justify-between items-end gap-4 border-solid border-t-2 border-slate-300">
+              {/* <div className="comment-type-options grid grid-cols-6 gap-1 justify-items-center content-center pt-2 border-solid border-t-2 border-slate-300"> */}
                 <div className="radio-option-group flex flex-row justify-start items-center gap-2">
                   <label htmlFor="comment">Comment</label>
                   <input type="radio" name="option-group" id="comment" defaultChecked={true} onChange={() => setMark('comment')}/>

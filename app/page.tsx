@@ -17,7 +17,6 @@ export default function Home() {
   const {data, isLoading, isError, error } = useQuery(['latest'], api.fetchLatestPosts);
   
 
-  console.log("latest data: ", data);
   const router = useRouter();
   if(user) {
     router.push('/dashboard')

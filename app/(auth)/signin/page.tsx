@@ -19,7 +19,7 @@ export default function SignIn() {
     try {
       const userSignIn = await api.signIn({email, password});
       setUser(userSignIn)
-      router.push('/dashboard');
+      window.location.replace('/dashboard')
     }catch (err) {
       setError("Inavlid Credentials. Please check email and password");
     }

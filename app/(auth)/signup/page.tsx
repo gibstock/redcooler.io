@@ -18,7 +18,6 @@ export default function SignUp() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
-    console.log(password, rePassword)
     if(password !== rePassword) {
       alert("Passwords must match")
     } else if(password.length < 8) {
@@ -26,7 +25,7 @@ export default function SignUp() {
     } else {
       try {
         await api.signUp({email, password, username});
-        router.push('/dashboard');
+        window.location.replace('/dashboard')
       }catch(err) {
         console.log('Error signing up ', {err});
       }

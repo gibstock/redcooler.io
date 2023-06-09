@@ -9,35 +9,32 @@ import api from '@/api/api';
 
 
 export default function Dashboard() {
-const user = useUserStore(state => state.user);
+  const user = useUserStore(state => state.user);
 
-console.log("User from dashboard", user)
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
-const router = useRouter();
-const queryClient = useQueryClient();
-
-const { data: privateTopics, isLoading: privateIsLoading, isError: privateIsError} = useQuery(['private-topics'], () => api.fetchPrivateTopics(user?.email!))
+  const { data: privateTopics, isLoading: privateIsLoading, isError: privateIsError} = useQuery(['private-topics'], () => api.fetchPrivateTopics(user?.email!))
 
 
-const {data: topics, isLoading, isError, error } = useQuery(['topics'], api.listTopicsWithQuery);
+  const {data: topics, isLoading, isError, error } = useQuery(['topics'], api.listTopicsWithQuery);
 
-console.log("topics", privateTopics);
 
-const deleteTopicMutation = useMutation({
-  mutationFn: api.deleteTopic, 
-  onSuccess: () => {
-    queryClient.invalidateQueries(['topic']);
+  const deleteTopicMutation = useMutation({
+    mutationFn: api.deleteTopic, 
+    onSuccess: () => {
+      queryClient.invalidateQueries(['topic']);
+    }
+  })
+
+  const canDelete = (userID:string | undefined, array: string[] | undefined) => {
+    const result = array?.some((element) => element.includes('delete') && element.includes(userID!))
+    return result
+  };
+
+  const handleNewTopicRoute = () => {
+    router.push('/newtopic')
   }
-})
-
-const canDelete = (userID:string | undefined, array: string[] | undefined) => {
-  const result = array?.some((element) => element.includes('delete') && element.includes(userID!))
-  return result
-};
-
-const handleNewTopicRoute = () => {
-  router.push('/newtopic')
-}
 
   return (
     <div className="my-20 mx-4">

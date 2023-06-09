@@ -16,7 +16,6 @@ function Providers({children}: React.PropsWithChildren) {
   useEffect(() => {
     const user = async () => {
       const user = await api.getUser();
-      console.log("USER FROM TOP: ", user)
       if(!user) return
 
       setUser(user);
