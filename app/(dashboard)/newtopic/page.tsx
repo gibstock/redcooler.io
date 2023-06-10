@@ -91,7 +91,7 @@ export default function NewTopic(){
               </label>
               <textarea 
                 className='rounded-sm p-2 h-[30vh] bg-slate-700 text-slate-200 md:text-slate-700  md:bg-slate-200'
-                required={true}
+                required={false}
                 id='starter'
                 placeholder='Text (Optional)'
                 value={topic.starter}
