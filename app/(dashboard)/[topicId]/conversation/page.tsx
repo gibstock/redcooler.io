@@ -6,7 +6,7 @@ import { MdDashboard } from 'react-icons/md'
 import { RxChatBubble, RxPerson } from 'react-icons/rx'
 import { RiShareForwardLine, RiPencilFill } from 'react-icons/ri'
 import { useUserStore } from '@/hooks/store';
-import ReactPlayer, {ReactPlayerProps} from 'react-player/lazy';
+import ReactPlayer, {ReactPlayerProps} from 'react-player';
 import api from '@/api/api';
 
 const Conversation = ({ params }: {params: {topicId: string}}) => {
