@@ -29,7 +29,7 @@ export default function Home() {
     <main className='p-5 md:w-[60%] md:mx-auto'>
       <section className="welcome flex flex-col justify-center items-center mt-16">
         <h1 className='text-5xl text-slate-200 font-bold m-0 pb-8'>Welcome to <span className='text-red-500'>RedCooler.io</span></h1>
-        <p className='m-0 pb-8 text-2xl text-slate-300'>A place to write, share, and collab on raps.</p>
+        <p className='m-0 pb-8 text-2xl text-slate-300'>A place to write, share, and collab</p>
       </section>
       <div className="hero-banner flex flex-row justify-center items-center">
         <Image 
