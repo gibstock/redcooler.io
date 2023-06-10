@@ -25,7 +25,9 @@ interface UserStore {
   user: User | null,
   setUser: (user: User | null) => void,
   currentDoc: string | null,
-  setCurrentDoc: (docId: string) => void
+  setCurrentDoc: (docId: string) => void,
+  contentToEdit: string | null,
+  setContentToEdit: (content: string) => void
 }
 
 export const useUserStore = create<UserStore>()(
@@ -34,8 +36,9 @@ export const useUserStore = create<UserStore>()(
       user: null,
       setUser: (user) => set(() => ({ user: user})),
       currentDoc: null,
-      setCurrentDoc: (docId) => set(() => ({currentDoc: docId}))
-
+      setCurrentDoc: (docId) => set(() => ({currentDoc: docId})),
+      contentToEdit: null,
+      setContentToEdit: (content) => set(() =>({contentToEdit: content})) 
     })
   )
 )

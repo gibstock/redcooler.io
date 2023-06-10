@@ -4,7 +4,7 @@ import { useQuery, useQueryClient, useMutation} from '@tanstack/react-query';
 import Link from 'next/link';
 import { MdDashboard } from 'react-icons/md'
 import { RxChatBubble, RxPerson } from 'react-icons/rx'
-import { RiShareForwardLine } from 'react-icons/ri'
+import { RiShareForwardLine, RiPencilFill } from 'react-icons/ri'
 import { useUserStore } from '@/hooks/store';
 import ReactPlayer, {ReactPlayerProps} from 'react-player/lazy';
 import api from '@/api/api';
@@ -21,6 +21,11 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   const {data: topic, isLoading, isError, error } = useQuery(['convoWithId'], () => api.fetchPostByTopicId(docId));
   const {data: conversations, isLoading: convoIsLoading, isError: convoIsError } = useQuery(['conversations'], () => api.fetchConversationByTopicId(docId))
   const user = useUserStore(state => state.user);
+  const setContentToEdit = useUserStore(state => state.setContentToEdit);
+  const setDocId = useUserStore(state => state.setCurrentDoc)
+
+  topic?.starter && setContentToEdit(topic.starter);
+  docId && setDocId(docId);
 
   const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
     // e.preventDefault()
@@ -29,7 +34,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
     }
     try {
       await api.submitCommentToTopicChain(textareaRef?.current?.value!, user?.name!, docId, user?.$id!, mark)
-      setMark('')
+      // setMark('')
     }catch(err) {
       console.log(err)
     }
@@ -42,8 +47,8 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
     }
   })
 
-  const canDelete = (userID:string | undefined, array: string[] | undefined) => {
-    const result = array?.some((element) => element.includes('delete') && element.includes(userID!))
+  const canEdit = (userID:string | undefined, array: string[] | undefined) => {
+    const result = array?.some((element) => element.includes('update') && element.includes(userID!))
     return result
   };
 
@@ -52,12 +57,22 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   return (
       <div className='mt-[8vh] grid grid-cols-12 text-slate-200'>
         <div className="parent-topic bg-slate-700 row-start-1 col-start-2 md:col-start-3 col-span-10 md:col-span-5 p-4">
-          <Link href={'/dashboard'}>
-            <div className="dashboard-icon flex flex-row items-center justify-start gap-2">
-              <MdDashboard size={22} className=' text-red-500' />
-              <div>Dashboard</div>
-            </div>
-          </Link>
+          <div className="dash-edit-wrapper flex flex-row justify-between items-center">
+            <Link href={'/dashboard'}>
+              <div className="dashboard-icon flex flex-row items-center justify-start gap-2">
+                <MdDashboard size={22} className=' text-red-500' />
+                <div>Dashboard</div>
+              </div>
+            </Link>
+            {canEdit(user?.$id, topic?.$permissions) && (
+              <div className="edit-button flex flex-row text-red-500">
+                <RiPencilFill />
+                <Link href={'/editpost'}>
+                  <span>edit</span>
+                </Link>
+              </div>
+            )}
+          </div>
           <div className="topic-card">
             <div className="posted-by">Posted by <span className='text-red-400'>{topic?.createdBy}</span> | {new Date(topic?.created!).toDateString()}</div>
             <h1 className='font-bold text-3xl'>{topic?.subject}</h1>
