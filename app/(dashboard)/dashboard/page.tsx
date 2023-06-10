@@ -1,9 +1,11 @@
 'use client'
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from 'react';
+import { useMutation, useQuery, useQueryClient, useQueries, UseQueryOptions } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/hooks/store"
 import TopicCard from "@/components/TopicCard";
 import Link from "next/link";
+import { MdDashboard } from 'react-icons/md';
 import api from '@/api/api';
 
 
@@ -15,10 +17,7 @@ export default function Dashboard() {
   const queryClient = useQueryClient();
 
   const { data: privateTopics, isLoading: privateIsLoading, isError: privateIsError} = useQuery(['private-topics'], () => api.fetchPrivateTopics(user?.email!))
-
-
   const {data: topics, isLoading, isError, error } = useQuery(['topics'], api.listTopicsWithQuery);
-
 
   const deleteTopicMutation = useMutation({
     mutationFn: api.deleteTopic, 
@@ -36,10 +35,15 @@ export default function Dashboard() {
     router.push("/newtopic")
   }
 
+  
   return (
     <div className="my-20 mx-4">
-      <div className="new-post-group flex flex-row w-full gap-x-3 items-center justify-around">
-        <button className="bg-blue-500 text-white rounded-full px-3 py-1" onClick={handleNewTopicRoute}>
+      <div className="new-post-group flex flex-row w-full gap-x-8 items-center justify-between md:grid md:grid-cols-12">
+        <div className="dashboard-icon flex flex-row items-center justify-start gap-2 md:col-start-3 md:col-span-2">
+          <MdDashboard size={22} className=' text-red-500' />
+          <div className='text-slate-200'>Your Dashboard</div>
+        </div>
+        <button className="bg-blue-500 text-white rounded-full px-3 py-1 md:col-start-5 md:col-span-3" onClick={handleNewTopicRoute}>
           New Post +
         </button>
       </div>

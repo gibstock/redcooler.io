@@ -6,14 +6,6 @@ import { Server } from '@/utils/appwriteConfig';
 import { TbAsteriskSimple } from 'react-icons/tb'
 import { useRouter } from 'next/navigation';
 
-// NEED
-/*
-* Topics database
-* User from zustand
-* API
-* Server
-* useRouter
-*/
 const initialData = {
   subject: '',
   starter: '',
@@ -46,8 +38,10 @@ export default function NewTopic(){
         parsedEmailInput.push(user?.email!)
       }
       e.preventDefault()
-      await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, topic.beat, topic.isPrivate, parsedEmailInput)
+      const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, topic.beat, topic.isPrivate, parsedEmailInput)
       setTopic(initialData);
+      const createdCountDoc = await api.createCommentCount(createdTopic.$id, 0);
+      await api.addCountDocIdToNewTopic(createdTopic.$id, createdCountDoc.$id)
       router.push('/dashboard')
 
     }catch (err) {

@@ -27,7 +27,9 @@ interface UserStore {
   currentDoc: string | null,
   setCurrentDoc: (docId: string) => void,
   contentToEdit: string | null,
-  setContentToEdit: (content: string) => void
+  setContentToEdit: (content: string) => void,
+  convoCount: number,
+  setConvoCount: (old: number) => void
 }
 
 export const useUserStore = create<UserStore>()(
@@ -38,7 +40,9 @@ export const useUserStore = create<UserStore>()(
       currentDoc: null,
       setCurrentDoc: (docId) => set(() => ({currentDoc: docId})),
       contentToEdit: null,
-      setContentToEdit: (content) => set(() =>({contentToEdit: content})) 
+      setContentToEdit: (content) => set(() =>({contentToEdit: content})),
+      convoCount: 0,
+      setConvoCount: (old) => set(() => ({convoCount: old + 1})) 
     })
   )
 )
