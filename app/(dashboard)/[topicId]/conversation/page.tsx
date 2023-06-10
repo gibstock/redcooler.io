@@ -20,13 +20,20 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
 
   const {data: topic, isLoading, isError, error } = useQuery(['convoWithId'], () => api.fetchPostByTopicId(docId));
   const {data: conversations, isLoading: convoIsLoading, isError: convoIsError } = useQuery(['conversations'], () => api.fetchConversationByTopicId(docId))
+  // const {data: count, isError: countIsError } = useQuery(['count'], () => api.fetchConversationCount(docId))
+    const {data: countDocId} = useQuery(['countDocId'], () => api.fetchCommentCountByTopicId(docId))
   const user = useUserStore(state => state.user);
   const setContentToEdit = useUserStore(state => state.setContentToEdit);
   const setDocId = useUserStore(state => state.setCurrentDoc)
 
+  console.log("countid",countDocId)
+  // if(topic?.countDocId !== undefined) {
+  // }
+
+  console.log("countDocId", topic?.countDocId)
   topic?.starter && setContentToEdit(topic.starter);
   docId && setDocId(docId);
-
+  
   const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
     // e.preventDefault()
     if(textareaRef.current?.value?.length === undefined) {
@@ -34,18 +41,13 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
     }
     try {
       await api.submitCommentToTopicChain(textareaRef?.current?.value!, user?.name!, docId, user?.$id!, mark)
-      // setMark('')
+      await api.updateCommentCount(topic?.countDocId!, countDocId![0].count + 1 )
+      setMark('')
     }catch(err) {
       console.log(err)
     }
   }
 
-  const deleteCommentMutation = useMutation({
-    mutationFn: api.deleteConversation, 
-    onSuccess: () => {
-      queryClient.invalidateQueries(['conversations']);
-    }
-  })
 
   const canEdit = (userID:string | undefined, array: string[] | undefined) => {
     const result = array?.some((element) => element.includes('update') && element.includes(userID!))
@@ -137,7 +139,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
               {/* <div className="comment-type-options grid grid-cols-6 gap-1 justify-items-center content-center pt-2 border-solid border-t-2 border-slate-300"> */}
                 <div className="radio-option-group flex flex-row justify-start items-center gap-2">
                   <label htmlFor="comment">Comment</label>
-                  <input type="radio" name="option-group" id="comment" defaultChecked={true} onChange={() => setMark('comment')}/>
+                  <input type="radio" name="option-group" id="comment" onChange={() => setMark('comment')} required={true}/>
                 </div>
                 <div className="radio-option-group flex flex-row justify-start items-center gap-2">
                   <label htmlFor="verse">Verse</label>
@@ -152,7 +154,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
                   <input type="radio" name="option-group" id="other" onChange={() => setMark('other')} />
                 </div>
                 <div className="button-group col-start-6 justify-self-end outline outline-1 outline-slate-400 rounded-full px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white">
-                  <button onSubmit={() => handleSubmitComment}>Submit</button>
+                  <button type='submit' onSubmit={() =>handleSubmitComment}>Submit</button>
                 </div>
               </div>
             </form>
