@@ -9,7 +9,7 @@ A place for beatmakers and writers to collab.
 - Amend members to private topics
 - Add avatar for profile
 - Upload sound files
-- Edit comment
+- ~~Edit comment~~
 - Switch topic from private to public and vice versa
 
 -- Logic
