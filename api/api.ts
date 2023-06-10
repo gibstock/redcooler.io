@@ -109,7 +109,7 @@ let api = {
       isPrivate,
       members,
     },
-    [Permission.delete(Role.user(user_account_id))])
+    [Permission.delete(Role.user(user_account_id)), Permission.update(Role.user(user_account_id))])
   },
   fetchLatestPosts: async(): Promise<{
     subject: string, 
@@ -140,6 +140,7 @@ let api = {
     user_account_id: string,
     isPrivate: boolean,
     created: Date,
+    $permissions: string[]
   }> => {
     const result = await api.provider().database.getDocument(Server.topicsDatabaseID, Server.topicsCollectionID, $id);
     return result
@@ -196,6 +197,14 @@ let api = {
       commentType
     },
     [Permission.delete(Role.user(userAccountId))]) 
+  },
+
+  editTopic: async (docId: string, starter: string) => {
+    await api.provider().database.updateDocument(Server.topicsDatabaseID, Server.topicsCollectionID, docId,  
+      {
+        starter,
+      }
+    )
   }
 
 
