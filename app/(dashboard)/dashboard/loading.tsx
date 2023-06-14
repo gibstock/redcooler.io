@@ -1,6 +1,6 @@
 const Loading = () => {
   return (
-    <div>loading page</div>
+    <div className="text-white">loading page...</div>
   )
 }
 

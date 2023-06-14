@@ -1,19 +1,17 @@
 'use client'
 import React, {FormEvent, useState, useRef, useEffect} from 'react'
-import { useQuery, useQueryClient, useMutation} from '@tanstack/react-query';
+import { useQuery} from '@tanstack/react-query';
 import Link from 'next/link';
 import { MdDashboard } from 'react-icons/md'
 import { RxChatBubble, RxPerson } from 'react-icons/rx'
 import { RiShareForwardLine, RiPencilFill } from 'react-icons/ri'
 import { useUserStore } from '@/hooks/store';
-import ReactPlayer, {ReactPlayerProps} from 'react-player';
+import ReactPlayer from 'react-player';
 import api from '@/api/api';
 
 const Conversation = ({ params }: {params: {topicId: string}}) => {
-  // const [comment, setComment] = useState('');
   const [mark, setMark] = useState('');
-  const queryClient = useQueryClient();
-
+  const [buttonValue, setButtonValue] = useState("Post")
   const docId = decodeURIComponent(params.topicId);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
@@ -41,6 +39,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   },[docId])
   
   const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
+    setButtonValue("Posting...")
     e.preventDefault()
     if(textareaRef.current?.value?.length === undefined) {
       alert('Please enter content to submit')
@@ -68,9 +67,9 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
         <div className="parent-topic bg-slate-700 row-start-1 col-start-2 md:col-start-3 col-span-10 md:col-span-5 p-4">
           <div className="dash-edit-wrapper flex flex-row justify-between items-center">
             <Link href={'/dashboard'}>
-              <div className="dashboard-icon flex flex-row items-center justify-start gap-2">
+              <div className="dashboard-icon flex flex-row items-center justify-start gap-2 hover:text-red-500">
                 <MdDashboard size={22} className=' text-red-500' />
-                <div>Dashboard</div>
+                <div>Back to Dashboard</div>
               </div>
             </Link>
             {canEdit(user?.$id, topic?.$permissions) && (
@@ -160,9 +159,16 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
                   <label htmlFor="other">Other</label>
                   <input type="radio" name="option-group" id="other" onChange={() => setMark('other')} />
                 </div>
-                <div className="button-group col-start-6 justify-self-end outline outline-1 outline-slate-400 rounded-full px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white">
-                  <button type='submit' onSubmit={() =>handleSubmitComment}>Submit</button>
-                </div>
+                {/* <div className="button-group col-start-6 justify-self-end outline outline-1 outline-slate-400 rounded-full px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white"> */}
+                  <button 
+                    type='submit' 
+                    className='col-start-6 justify-self-end outline outline-1 outline-slate-400 rounded-full px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white disabled:bg-blue-200 disabled:cursor-not-allowed' 
+                    disabled={buttonValue === "Posting..." ? true : false} 
+                    onSubmit={() =>handleSubmitComment}
+                  >
+                    {buttonValue}
+                  </button>
+                {/* </div> */}
               </div>
             </form>
           </div>
