@@ -1,25 +1,11 @@
 import { Client, Databases, Account, Permission, Role, Query, ID} from 'appwrite';
 import { Server } from '../utils/appwriteConfig';
-import { v4 as uuidv4 } from 'uuid';
 
-let docUuid = uuidv4();
-
-// type SDK = {
-//   database: Databases;
-//   account: Account;
-// }
 type User = {
   email: string;
   password: string;
   username?: string;
 }
-
-// type CreateDocument = {
-//   databaseId: string;
-//   collectionId: string;
-//   data: {message: string};
-//   permissions?: string;
-// }
 
 let api = {
   sdk: null as unknown,
@@ -115,7 +101,6 @@ let api = {
 
   createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, beat?: string, isPrivate?: boolean, members?: string[], countDocId?: string) => {
     const result = await api.provider().database.createDocument(Server.topicsDatabaseID, Server.topicsCollectionID, 'unique()', {
-      id: docUuid,
       subject,
       starter,
       beat,
@@ -191,7 +176,6 @@ let api = {
   },
 
   fetchConversationByTopicId: async(topicId: string): Promise<{
-    id: string,
     $id: string,
     content: string,
     created: Date,
@@ -223,7 +207,6 @@ let api = {
 
   submitCommentToTopicChain: async(content: string, createdBy: string,topicId: string, userAccountId: string, commentType: string, parentConversationId?: string ) => {
     await api.provider().database.createDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, 'unique()', {
-      id: docUuid,
       content,
       created: new Date(Date.now()),
       createdBy,
