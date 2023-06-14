@@ -1,5 +1,5 @@
 'use client'
-import React, {FormEvent, useState, useRef} from 'react'
+import React, {FormEvent, useState, useRef, useEffect} from 'react'
 import { useQuery, useQueryClient, useMutation} from '@tanstack/react-query';
 import Link from 'next/link';
 import { MdDashboard } from 'react-icons/md'
@@ -10,13 +10,12 @@ import ReactPlayer, {ReactPlayerProps} from 'react-player';
 import api from '@/api/api';
 
 const Conversation = ({ params }: {params: {topicId: string}}) => {
-  const [comment, setComment] = useState('');
+  // const [comment, setComment] = useState('');
   const [mark, setMark] = useState('');
   const queryClient = useQueryClient();
 
   const docId = decodeURIComponent(params.topicId);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
-
 
   const {data: topic, isLoading, isError, error } = useQuery(['convoWithId'], () => api.fetchPostByTopicId(docId));
   const {data: conversations, isLoading: convoIsLoading, isError: convoIsError } = useQuery(['conversations'], () => api.fetchConversationByTopicId(docId))
@@ -26,16 +25,14 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   const setContentToEdit = useUserStore(state => state.setContentToEdit);
   const setDocId = useUserStore(state => state.setCurrentDoc)
 
-  console.log("countid",countDocId)
-  // if(topic?.countDocId !== undefined) {
-  // }
-
-  console.log("countDocId", topic?.countDocId)
   topic?.starter && setContentToEdit(topic.starter);
-  docId && setDocId(docId);
+  useEffect(() => {
+    docId && setDocId(docId);
+
+  },[docId])
   
   const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
-    // e.preventDefault()
+    e.preventDefault()
     if(textareaRef.current?.value?.length === undefined) {
       alert('Please enter content to submit')
     }
@@ -43,6 +40,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
       await api.submitCommentToTopicChain(textareaRef?.current?.value!, user?.name!, docId, user?.$id!, mark)
       await api.updateCommentCount(topic?.countDocId!, countDocId![0].count + 1 )
       setMark('')
+      window.location.reload()
     }catch(err) {
       console.log(err)
     }
@@ -84,7 +82,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
             <div className="stats-bar text-slate-300 flex flex-row gap-3 mt-4">
               <div className="contributions-group flex flex-row justify-start items-center gap-2">
                 <RxChatBubble size={22} />
-                <span>{conversations?.length} contributions</span>
+                <span>{countDocId? countDocId[0].count : 0} contributions</span>
               </div>
               <div className="share-group flex flex-row justify-start items-center gap-2">
                 <RiShareForwardLine size={22} />
@@ -162,7 +160,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
         </div>
         <div className="conversation row-start-3 col-start-2 col-span-10 md:col-start-3 md:col-span-5 mb-4">
           {conversations?.map((convo) => (
-            <div key={convo.id} className='comment-wrapper bg-slate-800 text-white mt-4 relative'>
+            <div key={convo.$id} className='comment-wrapper bg-slate-800 text-white mt-4 relative'>
               <div className="info-row flex flex-row justify-start items-center gap-2 bg-slate-500 p-4">
                 <div className="avatar">
                   <RxPerson size={22} />

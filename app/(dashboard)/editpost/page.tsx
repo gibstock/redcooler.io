@@ -10,8 +10,6 @@ const EditPost = () => {
   const contentToEdit = useUserStore(state => state.contentToEdit)
   const setContentToEdit = useUserStore(state => state.setContentToEdit)
 
-  console.log(docId)
-  console.log(contentToEdit)
   const router = useRouter();
 
   const handleSubmitEdit = async(e: FormEvent<HTMLFormElement>) => {
