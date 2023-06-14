@@ -23,9 +23,18 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
     const {data: countDocId} = useQuery(['countDocId'], () => api.fetchCommentCountByTopicId(docId))
   const user = useUserStore(state => state.user);
   const setContentToEdit = useUserStore(state => state.setContentToEdit);
+  const setTitleToEdit = useUserStore(state => state.setTitleToEdit);
+  const setEmailsToEdit = useUserStore(state => state.setEmailsForEdit);
+  const setBeatToEdit = useUserStore(state => state.setBeatToEdit);
+  const setIsPrivateForEdit = useUserStore(state => state.setIsPrivateToEdit);
   const setDocId = useUserStore(state => state.setCurrentDoc)
 
-  topic?.starter && setContentToEdit(topic.starter);
+  topic?.starter && setContentToEdit(topic.starter)
+  topic?.subject && setTitleToEdit(topic.subject);
+  topic?.members && setEmailsToEdit(topic.members);
+  topic?.isPrivate && setIsPrivateForEdit(topic.isPrivate);
+  topic?.beat && setBeatToEdit(topic.beat);
+  
   useEffect(() => {
     docId && setDocId(docId);
 
@@ -67,7 +76,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
             {canEdit(user?.$id, topic?.$permissions) && (
               <div className="edit-button flex flex-row text-red-500">
                 <RiPencilFill />
-                <Link href={'/editpost'}>
+                <Link href={'/editpost2'}>
                   <span>edit</span>
                 </Link>
               </div>

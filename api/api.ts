@@ -147,7 +147,8 @@ let api = {
     created: Date,
     $permissions: string[],
     convocount: number,
-    countDocId: string
+    countDocId: string,
+    members?: string[]
   }> => {
     const result = await api.provider().database.getDocument(Server.topicsDatabaseID, Server.topicsCollectionID, $id);
     return result
@@ -262,10 +263,13 @@ let api = {
     )
   },
 
-  editTopic: async (docId: string, starter: string) => {
+  editTopic: async (docId: string, starter: string, isPrivate?: boolean, beat?: string, members?: string[] ) => {
     await api.provider().database.updateDocument(Server.topicsDatabaseID, Server.topicsCollectionID, docId,  
       {
         starter,
+        isPrivate,
+        beat,
+        members,
       }
     )
   },

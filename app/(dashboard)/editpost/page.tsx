@@ -26,6 +26,7 @@ const EditPost = () => {
     router.back()
 
   }
+  console.log("ContentToEdit",contentToEdit)
 
   return (
     <div className='w-full h-screen flex justify-center items-center p-4'>

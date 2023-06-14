@@ -28,8 +28,16 @@ interface UserStore {
   setCurrentDoc: (docId: string) => void,
   contentToEdit: string | null,
   setContentToEdit: (content: string) => void,
+  titleToEdit: string | null,
+  setTitleToEdit: (title: string) => void,
+  emailsForEdit: string[],
+  setEmailsForEdit: (emails: string[]) => void,
   convoCount: number,
-  setConvoCount: (old: number) => void
+  setConvoCount: (old: number) => void,
+  beatToEdit: string | null,
+  setBeatToEdit: (beat: string) => void,
+  isPrivateToEdit: boolean | null,
+  setIsPrivateToEdit: (isPrivate: boolean) => void
 }
 
 export const useUserStore = create<UserStore>()(
@@ -41,8 +49,16 @@ export const useUserStore = create<UserStore>()(
       setCurrentDoc: (docId) => set(() => ({currentDoc: docId})),
       contentToEdit: null,
       setContentToEdit: (content) => set(() =>({contentToEdit: content})),
+      titleToEdit: null,
+      setTitleToEdit: (title) => set(() => ({titleToEdit: title})),
+      emailsForEdit: [],
+      setEmailsForEdit: (emails) => set(() => ({emailsForEdit: emails})),
       convoCount: 0,
-      setConvoCount: (old) => set(() => ({convoCount: old + 1})) 
+      setConvoCount: (old) => set(() => ({convoCount: old + 1})),
+      beatToEdit: null,
+      setBeatToEdit: (beat) => set(() => ({beatToEdit: beat})),
+      isPrivateToEdit: null,
+      setIsPrivateToEdit: (isPrivate) => set(() => ({isPrivateToEdit: isPrivate}))
     })
   )
 )
