@@ -4,6 +4,7 @@ import { useUserStore } from '@/hooks/store';
 import api from '@/api/api';
 import { Server } from '@/utils/appwriteConfig';
 import { TbAsteriskSimple } from 'react-icons/tb'
+import { RxCross1 } from 'react-icons/rx'
 import { useRouter } from 'next/navigation';
 
 const initialData = {
@@ -19,6 +20,7 @@ const initialData = {
 export default function NewTopic(){
   const [topic, setTopic] = useState(initialData)
   const [emailInput, setEmailInput] = useState('');
+  const [buttonValue, setButtonValue] = useState('Post')
   
   const user = useUserStore(state => state.user);
 
@@ -29,6 +31,7 @@ export default function NewTopic(){
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    setButtonValue("Posting")
     try{
       let parsedEmailInput: string[] = [];
       if(emailInput.length > 0) {
@@ -38,6 +41,7 @@ export default function NewTopic(){
         parsedEmailInput.push(user?.email!)
       }
       e.preventDefault()
+      e.currentTarget.disab
       // Create a new topic in the topic database, topic will not contain
       // an entry for coundDocId yet
       const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, topic.beat, topic.isPrivate, parsedEmailInput)
@@ -60,10 +64,14 @@ export default function NewTopic(){
     }
   }
 
+  const handleCancel = () => {
+    router.back()
+  }
+
 
   return (
-    <div className='mt-20'>
-      <header className='pt-2'>
+    <div className='mt-20 lg:flex lg:flex-col items-center'>
+      <header className='pt-2 lg:max-w-2xl lg:w-full lg:flex flex-col items-center'>
         <h1 className='text-2xl text-slate-200 text-center mb-3'>Create a Topic</h1>
         <div className="required-info flex flex-row justify-center items-center gap-3 text-[10px]">
           <div className='text-xs'>
@@ -72,10 +80,15 @@ export default function NewTopic(){
           <div className=' text-slate-400'>
             Indicates required field
           </div>
-
+        </div>
+        <div 
+          className="cancel lg:self-start text-slate-400 hover:text-slate-300 cursor-pointer"
+          onClick={handleCancel}
+        >
+          <RxCross1 size={22} />
         </div>
       </header>
-      <div className='new-topic-group p-2'>
+      <div className='new-topic-group p-2 lg:w-full lg:max-w-2xl'>
         <div className="form-wrapper p-4 outline outline-1 outline-slate-400 rounded-sm">
           <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
             <div className='flex flex-col relative'>
@@ -159,7 +172,11 @@ export default function NewTopic(){
             </div>
             {/* Submit button  */}
             <div className='text-slate-200'>
-              <button type='submit' className='outline outline-1 outline-red-500 px-2 py-1 rounded-md hover:bg-red-500'>Submit</button>
+              <button 
+                type='submit' 
+                className='outline outline-1 outline-red-500 px-2 py-1 rounded-md hover:bg-red-500 disabled:cursor-not-allowed disabled:bg-red-200 disabled:outline-none' 
+                disabled={buttonValue === 'Posting' ? true : false}
+              >{buttonValue}</button>
             </div>
           </form>
         </div>

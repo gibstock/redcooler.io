@@ -11,6 +11,7 @@ import api from '@/api/api';
 
 
 export default function Dashboard() {
+  const [buttonValue, setButtonValue] = useState('New Post +')
   const user = useUserStore(state => state.user);
 
   const router = useRouter();
@@ -44,6 +45,7 @@ export default function Dashboard() {
   };
 
   const handleNewTopicRoute = () => {
+    setButtonValue("One moment please")
     router.push("/newtopic")
   }
 
@@ -69,8 +71,12 @@ export default function Dashboard() {
           <MdDashboard size={22} className=' text-red-500' />
           <div className='text-slate-200'>Your Dashboard</div>
         </div>
-        <button className="bg-blue-500 text-white rounded-full px-3 py-1 md:col-start-5 md:col-span-3" onClick={handleNewTopicRoute}>
-          New Post +
+        <button 
+          className="bg-blue-500 text-white rounded-full px-3 py-1 md:col-start-5 md:col-span-3 disabled:bg-blue-200 disabled:cursor-not-allowed" 
+          onClick={handleNewTopicRoute}
+          disabled={buttonValue === "One moment please" ? true : false}
+        >
+          {buttonValue}
         </button>
       </div>
       <div className="message-board">
@@ -78,7 +84,7 @@ export default function Dashboard() {
         {isError ? (
           <p>There was an error fetching the messages</p>
         ) : isLoading ? (
-          <p>Loading...</p>
+          <p className='text-slate-200'>Loading private posts...</p>
         ) : privateTopics ? (
           <div className='grid grid-cols-12 gap-y-4 mt-8'>
             <h1 className="text-5xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Private Posts</h1>
@@ -110,7 +116,7 @@ export default function Dashboard() {
         {isError ? (
           <p>There was an error fetching the messages</p>
         ) : isLoading ? (
-          <p>Loading...</p>
+          <p className='text-slate-400'>Loading public posts...</p>
         ) : topics ? (
           <div className='grid grid-cols-12 gap-y-4 mt-8'>
             <h1 className="text-5xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Public Posts</h1>
