@@ -52,7 +52,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
     return result
   };
 
-
+  console.log(countDocId)
 
   return (
       <div className='mt-[8vh] grid grid-cols-12 text-slate-200'>

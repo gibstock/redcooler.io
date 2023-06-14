@@ -50,8 +50,12 @@ export default function Dashboard() {
   const handleDeleteMutations = (topicId: string, countDocId: string) => {
     try {
       deleteConversationMutation.mutate(topicId)
+      console.log("Stage one success")
       deleteTopicMutation.mutate(topicId)
+      console.log("Stage two success")
       deleteConvoCountMutation.mutate(countDocId);
+      console.log("Stage three success")
+      router.refresh()
     } catch(err) {
       console.error(err)
     }
