@@ -38,9 +38,16 @@ export default function NewTopic(){
         parsedEmailInput.push(user?.email!)
       }
       e.preventDefault()
+      // Create a new topic in the topic database, topic will not contain
+      // an entry for coundDocId yet
       const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, topic.beat, topic.isPrivate, parsedEmailInput)
+      // reset initial data values
       setTopic(initialData);
+      // create a new entry in the convoCount database using the $id from the newly created topic
+      // as a foreing key
       const createdCountDoc = await api.createCommentCount(createdTopic.$id, 0);
+      // Now that the convoCount entry has been created, add that doc id entry back into
+      // the newly created topic in order to reference the convoCount db entry
       await api.addCountDocIdToNewTopic(createdTopic.$id, createdCountDoc.$id)
       router.push('/dashboard')
 

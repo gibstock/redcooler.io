@@ -92,11 +92,25 @@ let api = {
     return topics;
   },
 
-  deleteConversation: async (id: string) => {
-    await api.provider().database.deleteDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, id);
+  deleteConversation: async (topicId: string): Promise<{
+    $id: string,
+  }[]> => {
+    const {documents: conversations} = await api.provider().database.listDocuments(Server.conversationsDatabaseID, Server.conversationsCollectionID,
+      [
+        Query.equal("topicId", topicId)
+      ]  
+    )
+    console.log("conversations returned from delete",conversations)
+    conversations.map( async (convo: any) => {
+      await api.provider().database.deleteDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, convo.$id);
+    })
+    return conversations;
   },
   deleteTopic: async (id: string) => {
     await api.provider().database.deleteDocument(Server.topicsDatabaseID, Server.topicsCollectionID, id);
+  },
+  deleteConvoCount: async (convoDocId: string) => {
+    await api.provider().database.deleteDocument(Server.convoCountDatabaseID, Server.convoCountCollectionID, convoDocId);
   },
 
   createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, beat?: string, isPrivate?: boolean, members?: string[], countDocId?: string) => {
@@ -178,6 +192,7 @@ let api = {
 
   fetchConversationByTopicId: async(topicId: string): Promise<{
     id: string,
+    $id: string,
     content: string,
     created: Date,
     createdBy: string,
@@ -272,7 +287,7 @@ let api = {
     )
   },
   addCountDocIdToNewTopic: async (docId: string, countDocId: string) => {
-    await api.provider().database.updateDocument(Server.convoCountDatabaseID, Server.convoCountCollectionID, docId,
+    await api.provider().database.updateDocument(Server.topicsDatabaseID, Server.topicsCollectionID, docId,
       {
         countDocId,
       }  

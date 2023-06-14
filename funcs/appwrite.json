@@ -1,0 +1,21 @@
+{
+    "projectId": "64738c38ad066b28fff4",
+    "projectName": "",
+    "functions": [
+        {
+            "$id": "6489100cf26a9e55f019",
+            "name": "My-new-function",
+            "runtime": "node-16.0",
+            "path": "functions/My-new-function",
+            "entrypoint": "src/index.js",
+            "ignore": [
+                "node_modules",
+                ".npm"
+            ],
+            "execute": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15
+        }
+    ]
+}

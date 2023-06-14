@@ -21,6 +21,7 @@ export default function SignIn() {
       setUser(userSignIn)
       window.location.replace('/dashboard')
     }catch (err) {
+      console.error(err)
       setError("Inavlid Credentials. Please check email and password");
     }
   };

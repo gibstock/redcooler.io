@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient, useQueries, UseQueryOptions } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/hooks/store"
@@ -25,6 +25,18 @@ export default function Dashboard() {
       queryClient.invalidateQueries(['topic']);
     }
   })
+  const deleteConversationMutation = useMutation({
+    mutationFn: api.deleteConversation,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['topic']);
+    }
+  })
+  const deleteConvoCountMutation = useMutation({
+    mutationFn: api.deleteConvoCount,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['topic'])
+    }
+  })
 
   const canDelete = (userID:string | undefined, array: string[] | undefined) => {
     const result = array?.some((element) => element.includes('delete') && element.includes(userID!))
@@ -33,6 +45,16 @@ export default function Dashboard() {
 
   const handleNewTopicRoute = () => {
     router.push("/newtopic")
+  }
+
+  const handleDeleteMutations = (topicId: string, countDocId: string) => {
+    try {
+      deleteConversationMutation.mutate(topicId)
+      deleteTopicMutation.mutate(topicId)
+      deleteConvoCountMutation.mutate(countDocId);
+    } catch(err) {
+      console.error(err)
+    }
   }
 
   
@@ -72,7 +94,7 @@ export default function Dashboard() {
                     />
                   </Link>
                   {canDelete(user?.$id, topic?.$permissions) && (
-                      <button className="text-red-500 absolute top-1 right-4 opacity-30 hover:opacity-100" onClick={() => deleteTopicMutation.mutate(topic.$id)}>Delete</button>
+                      <button className="text-red-500 absolute top-1 right-4 opacity-30 hover:opacity-100" onClick={() => handleDeleteMutations(topic.$id, topic.countDocId)}>Delete</button>
                     )}
                 </div>
               ))}
