@@ -108,6 +108,8 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
                     url={topic.beat}
                     width='100%'
                     height='100%'
+                    loop={true}
+                    controls={true}
                   />
                 </div>
               </>
@@ -120,6 +122,8 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
                     url={topic.beat}
                     width='100%'
                     height='100%'
+                    loop={true}
+                    controls={true}
                   />
                 </div>
               </>
