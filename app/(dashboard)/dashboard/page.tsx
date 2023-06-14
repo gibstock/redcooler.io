@@ -87,7 +87,7 @@ export default function Dashboard() {
           <p className='text-slate-200'>Loading private posts...</p>
         ) : privateTopics ? (
           <div className='grid grid-cols-12 gap-y-4 mt-8'>
-            <h1 className="text-5xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Private Posts</h1>
+            <h1 className="text-2xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Private Posts</h1>
             <ul className="w-full row-start-2 col-start-2 col-span-10 md:col-start-3 md:col-span-5 flex flex-col justify-center items-stretch gap-4">
               {privateTopics.filter((item => item.members.includes(user?.email!))).map((topic) => (
                 <div key={topic?.$id} className="col-start-2 col-span-10 md:col-start-3 md:col-span-5 relative">
@@ -101,6 +101,7 @@ export default function Dashboard() {
                       database='topics'
                       hasDeleteButton={false}
                       isPreview={true}
+                      beat={topic.beat}
                     />
                   </Link>
                   {canDelete(user?.$id, topic?.$permissions) && (
@@ -119,7 +120,7 @@ export default function Dashboard() {
           <p className='text-slate-400'>Loading public posts...</p>
         ) : topics ? (
           <div className='grid grid-cols-12 gap-y-4 mt-8'>
-            <h1 className="text-5xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Public Posts</h1>
+            <h1 className="text-2xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Public Posts</h1>
             <ul className="w-full row-start-2 col-start-2 col-span-10 md:col-start-3 md:col-span-5 flex flex-col justify-center items-stretch gap-4">
               {topics.map((topic) => (
                 <div key={topic.$id} className="col-start-2 col-span-10 md:col-start-3 md:col-span-5 relative">
@@ -133,6 +134,7 @@ export default function Dashboard() {
                       database='topics'
                       hasDeleteButton={false}
                       isPreview={true}
+                      beat={topic.beat}
                     />
                   </Link>
                   {canDelete(user?.$id, topic?.$permissions) && (
