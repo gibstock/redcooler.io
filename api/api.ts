@@ -25,6 +25,15 @@ let api = {
   signUp: async ({email, password, username}:User) => {
     return await api.provider().account.create("unique()", email, password, username);
   },
+  createSession: async({email, password}: User) => {
+    return await api.provider().account.createSession(email, password);
+  },
+  emailVerification: async(fallback: string) => {
+    return api.provider().account.createVerification(fallback)
+  },
+  completeEmailVerification: async ({userId, secret}:{userId: string, secret: string}) => {
+    await api.provider().account.updateVerification(userId, secret)
+  },
 
   signIn: async ({email, password}: User) => {
     return await api.provider().account.createEmailSession(email, password);
