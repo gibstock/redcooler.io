@@ -24,7 +24,6 @@ export default function Dashboard() {
 
   const { data: privateTopics, isLoading: privateIsLoading, isError: privateIsError} = useQuery(['private-topics'], () => api.fetchPrivateTopics(user?.email!))
   const {data: topics, isLoading, isError, error } = useQuery(['topics'], api.listTopicsWithQuery);
-  console.log("SP", userId, secret)
   const deleteTopicMutation = useMutation({
     mutationFn: api.deleteTopic, 
     onSuccess: () => {
@@ -57,11 +56,8 @@ export default function Dashboard() {
   const handleDeleteMutations = (topicId: string, countDocId: string) => {
     try {
       deleteConversationMutation.mutate(topicId)
-      console.log("Stage one success")
       deleteTopicMutation.mutate(topicId)
-      console.log("Stage two success")
       deleteConvoCountMutation.mutate(countDocId);
-      console.log("Stage three success")
       router.refresh()
     } catch(err) {
       console.error(err)

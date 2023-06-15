@@ -37,7 +37,15 @@ interface UserStore {
   beatToEdit: string | null,
   setBeatToEdit: (beat: string) => void,
   isPrivateToEdit: boolean | null,
-  setIsPrivateToEdit: (isPrivate: boolean) => void
+  setIsPrivateToEdit: (isPrivate: boolean) => void,
+  commentToEdit: string | null,
+  setCommentToEdit: (content: string) => void,
+  mark: string | null,
+  setMark: (type: string) => void,
+  topicId: string | null,
+  setTopicId: (topicId: string) => void,
+  commentId: string | null,
+  setCommentId: (commentId: string) => void,
 }
 
 export const useUserStore = create<UserStore>()(
@@ -58,7 +66,15 @@ export const useUserStore = create<UserStore>()(
       beatToEdit: null,
       setBeatToEdit: (beat) => set(() => ({beatToEdit: beat})),
       isPrivateToEdit: null,
-      setIsPrivateToEdit: (isPrivate) => set(() => ({isPrivateToEdit: isPrivate}))
+      setIsPrivateToEdit: (isPrivate) => set(() => ({isPrivateToEdit: isPrivate})),
+      commentToEdit: null,
+      setCommentToEdit: (content) => set(() => ({commentToEdit: content})),
+      mark: null,
+      setMark: (type) => set(() => ({ mark: type})),
+      topicId: null,
+      setTopicId: (topicId) => set(() => ({ topicId: topicId})),
+      commentId: null,
+      setCommentId: (commentId) => set(() => ({ commentId: commentId}))
     })
   )
 )

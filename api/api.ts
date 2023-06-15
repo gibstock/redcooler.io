@@ -225,7 +225,7 @@ let api = {
       parentConversationId,
       commentType,
     },
-    [Permission.delete(Role.user(userAccountId))]) 
+    [Permission.delete(Role.user(userAccountId)), Permission.update(Role.user(userAccountId))]) 
   },
   createCommentCount: async(topicId: string, convoCount: number) => {
     const result = await api.provider().database.createDocument(Server.convoCountDatabaseID, Server.convoCountCollectionID, 'unique()', {
@@ -280,6 +280,14 @@ let api = {
         beat,
         members,
       }
+    )
+  },
+  editComment: async (docId: string, commentToEdit: string, commentType: string) => {
+    await api.provider().database.updateDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, docId,
+      {
+        content: commentToEdit,
+        commentType,
+      }  
     )
   },
   addCountDocIdToNewTopic: async (docId: string, countDocId: string) => {

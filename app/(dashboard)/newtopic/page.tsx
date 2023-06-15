@@ -2,7 +2,6 @@
 import React, {FormEvent, useState} from 'react';
 import { useUserStore } from '@/hooks/store';
 import api from '@/api/api';
-import { Server } from '@/utils/appwriteConfig';
 import { TbAsteriskSimple } from 'react-icons/tb'
 import { RxCross1 } from 'react-icons/rx'
 import { useRouter } from 'next/navigation';

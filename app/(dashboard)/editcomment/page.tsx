@@ -4,20 +4,24 @@ import { useUserStore } from '@/hooks/store'
 import { useRouter } from 'next/navigation'
 import api from '@/api/api'
 
-const EditPost = () => {
+const EditComment = () => {
   const [modal, setModal] = useState(false);
-  const docId = useUserStore(state => state.currentDoc)
-  const contentToEdit = useUserStore(state => state.contentToEdit)
-  const setContentToEdit = useUserStore(state => state.setContentToEdit)
+  const commentToEdit = useUserStore(state => state.commentToEdit)
+  const setCommentToEdit = useUserStore(state => state.setCommentToEdit)
+  const mark = useUserStore(state => state.mark)
+  const topicId = useUserStore(state => state.topicId)
+  const commentId = useUserStore(state => state.commentId)
+
+
 
   const router = useRouter();
 
   const handleSubmitEdit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-        await api.editTopic(docId!, contentToEdit!)
+        await api.editComment(commentId!, commentToEdit!, mark!)
         console.log("success")
-        router.push(`/${docId}/conversation/`)
+        router.push(`/${topicId}/conversation/`)
     }catch (err) {
       console.log("error", err)
     }
@@ -26,7 +30,6 @@ const EditPost = () => {
     router.back()
 
   }
-  console.log("ContentToEdit",contentToEdit)
 
   return (
     <div className='w-full h-screen flex justify-center items-center p-4'>
@@ -46,9 +49,9 @@ const EditPost = () => {
             <textarea 
               name="topic-reply" 
               id="topic-reply" 
-              value={contentToEdit!}
+              value={commentToEdit!}
               className='w-full px-2 py-3 text-slate-900 h-[80vh] focus-within:outline-none'
-              onChange={(e) => setContentToEdit(e.target.value)}
+              onChange={(e) => setCommentToEdit(e.target.value)}
             >
             </textarea>
           </div>
@@ -75,4 +78,4 @@ const EditPost = () => {
   )
 }
 
-export default EditPost
+export default EditComment
