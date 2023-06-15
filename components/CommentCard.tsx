@@ -72,9 +72,9 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
                 <div className="date-posted text-slate-300 ml-auto">
                   {new Date(created).toLocaleTimeString()}
                 </div>
-                <button className="comment-menu" onClick={() => setCommentMenuOpen(!commentMenuOpen)}>
+                {/* <button className="comment-menu" onClick={() => setCommentMenuOpen(!commentMenuOpen)}>
                   <RxDotsVertical />
-                </button>
+                </button> */}
               </div>
               <div className="content-group p-4">
                 <div className="top-bar mb-2">

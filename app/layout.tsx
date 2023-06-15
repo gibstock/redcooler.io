@@ -2,6 +2,7 @@ import Providers from "@/utils/provider";
 import React from 'react';
 import NavBar from "@/components/navBar";
 import Footer from "@/components/footer";
+import {Montserrat} from 'next/font/google'
 import './globals.css'
 
 
@@ -11,6 +12,8 @@ export const metadata = {
   description: 'Community Writing',
 }
 
+const montserrat = Montserrat({ subsets: ['latin']})
+
 export default function RootLayout({
   children,
 }: {
@@ -18,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className={montserrat.className}>
         <Providers>
           <NavBar />
           {children}
