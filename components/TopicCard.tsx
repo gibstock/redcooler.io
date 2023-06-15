@@ -30,7 +30,7 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
       }
     }
     youtbeImageExtraction()
-  }, [])
+  }, [beat])
 
   
   

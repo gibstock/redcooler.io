@@ -35,7 +35,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   useEffect(() => {
     docId && setDocId(docId);
 
-  },[docId])
+  },[docId, setDocId])
   
   const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
     setButtonValue("Posting...")

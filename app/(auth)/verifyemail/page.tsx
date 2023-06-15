@@ -22,7 +22,7 @@ const VerifyEmail = () => {
     }
 
     completeEmailVerification();
-  }, [])
+  }, [router, searchParams])
 
   return (
     <div className='h-screen w-full flex flex-row justify-center items-center text-slate-200'>
