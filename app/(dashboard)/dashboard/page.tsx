@@ -69,7 +69,7 @@ export default function Dashboard() {
 
   
   return (
-    <div className="my-20 mx-4">
+    <div className="my-20 md:mx-4">
       <div className="new-post-group flex flex-row w-full gap-x-8 items-center justify-between md:grid md:grid-cols-12">
         <div className="dashboard-icon flex flex-row items-center justify-start gap-2 md:col-start-3 md:col-span-2">
           <MdDashboard size={22} className=' text-red-500' />
@@ -89,9 +89,9 @@ export default function Dashboard() {
           <p>There was an error fetching the messages</p>
         ) : isLoading ? (
           <p className='text-slate-200'>Loading private posts...</p>
-        ) : privateTopics ? (
+        ) : privateTopics && privateTopics.filter((item => item.members.includes(user?.email!))).length > 0 ? (
           <div className='grid grid-cols-12 gap-y-4 mt-8'>
-            <h1 className="text-2xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Private Posts</h1>
+            <h1 className="text-xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Private Posts</h1>
             <ul className="w-full row-start-2 col-start-2 col-span-10 md:col-start-3 md:col-span-5 flex flex-col justify-center items-stretch gap-4">
               {privateTopics.filter((item => item.members.includes(user?.email!))).map((topic) => (
                 <div key={topic?.$id} className="col-start-2 col-span-10 md:col-start-3 md:col-span-5 relative">
@@ -115,7 +115,12 @@ export default function Dashboard() {
               ))}
             </ul>
           </div>
-        ) : null}
+        ) : (
+          <div className='px-4'>
+            <h1 className="text-xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">No Private Posts Yet</h1>
+            <p className='text-slate-200'>Start your private collection and they&apos;ll appear here.</p>
+          </div>
+          )}
         </div>
         <div className="public-board">
         {isError ? (
@@ -124,8 +129,8 @@ export default function Dashboard() {
           <p className='text-slate-400'>Loading public posts...</p>
         ) : topics ? (
           <div className='grid grid-cols-12 gap-y-4 mt-8'>
-            <h1 className="text-2xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Public Posts</h1>
-            <ul className="w-full row-start-2 col-start-2 col-span-10 md:col-start-3 md:col-span-5 flex flex-col justify-center items-stretch gap-4">
+            <h1 className="text-xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Public Posts</h1>
+            <ul className="w-full row-start-2 col-start-1 col-span-12 md:col-start-3 md:col-span-5 flex flex-col justify-center items-stretch gap-4">
               {topics.map((topic) => (
                 <div key={topic.$id} className="col-start-2 col-span-10 md:col-start-3 md:col-span-5 relative">
                   <Link href={`${topic.$id}/conversation/`}>

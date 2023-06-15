@@ -13,6 +13,7 @@ A place for beatmakers and writers to collab.
 - [x] Switch topic from private to public and vice versa
 - [] Add posting guidelines
 - [] Add categories/communities?
+- [] Enable reply editing
 
 -- Logic
 

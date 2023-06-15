@@ -36,16 +36,16 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
   
 
   return (
-    <li key={$id} className="flex flex-col bg-slate-100 py-1 px-4 rounded-sm outline outline-3 outline-transparent hover:outline-red-500">
+    <li key={$id} className="flex flex-col bg-[hsl(200_55%_18%)] py-1 px-4 rounded-sm outline outline-3 outline-transparent hover:outline-red-500 shadow-[inset_0_2px_4px_hsl(200_55%_40%)]">
       <div className="byline flex flex-row items-center justify-start gap-4 text-xs text-slate-400">
         <h3>Posted by {createdBy} | {new Date(created).toDateString()}</h3>
       </div>
       <div className="title-group flex flex-row my-2">
-        <h2 className="font-semibold text-lg">
+        <h2 className="font-semibold text-lg text-slate-200">
           {subject}
         </h2>
       </div>
-      <div className="thumbs flex flex-row justify-center items-center">
+      <div className="thumbs flex flex-row justify-center items-center shadow-sm shadow-[hsl(200_55%_40%)]">
         {beat && <Image 
           src={`http://img.youtube.com/vi/${youTubeImg}/0.jpg`}
           width={480}
@@ -54,7 +54,7 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
         />}
         
       </div>
-      <div className='whitespace-pre-wrap'>{isPreview? (truncate(starter, 50)) : (starter)}</div>
+      <div className='whitespace-pre-wrap text-slate-200'>{isPreview? (truncate(starter, 50)) : (starter)}</div>
       <div className="button-group flex flex-row justify-start items-center my-2">
         <div className="contributions-group flex flex-row justify-start items-center gap-2 text-slate-500">
           <RxChatBubble size={22} />
