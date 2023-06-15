@@ -12,6 +12,7 @@ import api from '@/api/api';
 
 export default function Dashboard() {
   const [buttonValue, setButtonValue] = useState('New Post +')
+  const [activeTab, setActiveTab] = useState("Public")
   const user = useUserStore(state => state.user);
 
   const router = useRouter();
@@ -70,7 +71,7 @@ export default function Dashboard() {
   
   return (
     <div className="my-20 md:mx-4">
-      <div className="new-post-group flex flex-row w-full gap-x-8 items-center justify-between md:grid md:grid-cols-12">
+      <div className="new-post-group flex flex-row w-full pb-4 gap-x-8 items-center justify-between md:grid md:grid-cols-12">
         <div className="dashboard-icon flex flex-row items-center justify-start gap-2 md:col-start-3 md:col-span-2">
           <MdDashboard size={22} className=' text-red-500' />
           <div className='text-slate-200'>Your Dashboard</div>
@@ -83,13 +84,31 @@ export default function Dashboard() {
           {buttonValue}
         </button>
       </div>
+      <div className="tab-group-wrapper">
+        <div className="tab-group flex flex-row border-b-2 border-slate-300">
+          <button 
+            className='disabled:text-slate-300 text-slate-500 border-t-2 border-r-2 disabled:border-slate-300 border-slate-500 disabled:border-r-slate-300 border-r-slate-300 rounded-tr-lg px-2'
+            onClick={() => setActiveTab('Public')}
+            disabled={activeTab === 'Public' ? true : false}
+          >
+            Public
+          </button>
+          <button 
+            className='disabled:text-slate-300 text-slate-500  border-t-2 border-r-2 disabled:border-slate-300 border-slate-500 disabled:border-r-slate-300 border-r-slate-500 rounded-tr-lg px-2'
+            onClick={() => setActiveTab("Private")}
+            disabled={activeTab === "Private" ? true : false}
+          >
+            Private
+          </button>
+        </div>
+      </div>
       <div className="message-board">
         <div className="private-board">
         {isError ? (
           <p>There was an error fetching the messages</p>
         ) : isLoading ? (
           <p className='text-slate-200'>Loading private posts...</p>
-        ) : privateTopics && privateTopics.filter((item => item.members.includes(user?.email!))).length > 0 ? (
+        ) : privateTopics && activeTab === 'Private' && privateTopics.filter((item => item.members.includes(user?.email!))).length > 0 ? (
           <div className='grid grid-cols-12 gap-y-4 mt-8'>
             <h1 className="text-xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Private Posts</h1>
             <ul className="w-full row-start-2 col-start-2 col-span-10 md:col-start-3 md:col-span-5 flex flex-col justify-center items-stretch gap-4">
@@ -115,21 +134,16 @@ export default function Dashboard() {
               ))}
             </ul>
           </div>
-        ) : (
-          <div className='px-4'>
-            <h1 className="text-xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">No Private Posts Yet</h1>
-            <p className='text-slate-200'>Start your private collection and they&apos;ll appear here.</p>
-          </div>
-          )}
+        ) : null}
         </div>
         <div className="public-board">
         {isError ? (
           <p>There was an error fetching the messages</p>
         ) : isLoading ? (
           <p className='text-slate-400'>Loading public posts...</p>
-        ) : topics ? (
-          <div className='grid grid-cols-12 gap-y-4 mt-8'>
-            <h1 className="text-xl text-slate-200 pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Public Posts</h1>
+        ) : topics && activeTab === 'Public' ? (
+          <div className='grid grid-cols-12 gap-y-4 mt-1 md:mt-8'>
+            {/* <h1 className="text-xl text-slate-200 pb-2 md:pb-8 col-start-2 col-span-5 md:col-start-3 row-start-1">Public Posts</h1> */}
             <ul className="w-full row-start-2 col-start-1 col-span-12 md:col-start-3 md:col-span-5 flex flex-col justify-center items-stretch gap-4">
               {topics.map((topic) => (
                 <div key={topic.$id} className="col-start-2 col-span-10 md:col-start-3 md:col-span-5 relative">
