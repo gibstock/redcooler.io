@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient, useQueries, UseQueryOptions } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useUserStore } from "@/hooks/store"
 import TopicCard from "@/components/TopicCard";
 import Link from "next/link";
@@ -15,11 +15,15 @@ export default function Dashboard() {
   const user = useUserStore(state => state.user);
 
   const router = useRouter();
+  const searchParams = useSearchParams();
   const queryClient = useQueryClient();
+
+  const userId = searchParams.get('userId');
+  const secret = searchParams.get('secret')
 
   const { data: privateTopics, isLoading: privateIsLoading, isError: privateIsError} = useQuery(['private-topics'], () => api.fetchPrivateTopics(user?.email!))
   const {data: topics, isLoading, isError, error } = useQuery(['topics'], api.listTopicsWithQuery);
-
+  console.log("SP", userId, secret)
   const deleteTopicMutation = useMutation({
     mutationFn: api.deleteTopic, 
     onSuccess: () => {

@@ -2,8 +2,6 @@ import React, {use, useEffect, useState} from 'react'
 import { truncate } from '@/utils/helpers';
 import { RxChatBubble } from 'react-icons/rx';
 import Image from 'next/image';
-// import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-// import api from '@/api/api';
 
 
 type AppProps = {

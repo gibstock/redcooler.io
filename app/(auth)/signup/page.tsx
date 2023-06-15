@@ -9,6 +9,7 @@ export default function SignUp() {
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
   const [username, setUsername] = useState('');
+  const [buttonValue, setButtonValue] = useState('Sign Up')
 
   const router = useRouter();
 
@@ -24,8 +25,12 @@ export default function SignUp() {
       alert("Passwords must be at least 8 characters")
     } else {
       try {
+        setButtonValue("Signing up...")
         await api.signUp({email, password, username});
-        window.location.replace('/dashboard')
+        await api.signIn({email, password})
+        await api.emailVerification("http://localhost:3000/verifyemail");
+        console.log("Verification email sent")
+        router.push('/awaitverify')
       }catch(err) {
         console.log('Error signing up ', {err});
       }
@@ -114,9 +119,13 @@ export default function SignUp() {
             </div>
           </div>
           {/* Submit button  */}
-          <div className='bg-blue-600 hover:bg-blue-500 cursor-pointer p-2 flex flex-col justify-center items-center rounded-sm'>
-            <button type='submit' className='text-white'>Sign Up</button>
-          </div>
+          <button 
+            type='submit' 
+            className='text-white bg-blue-600 disabled:bg-blue-200 hover:bg-blue-500 cursor-pointer disabled:cursor-not-allowed p-2 flex flex-col justify-center items-center rounded-sm'
+            disabled={buttonValue === "Signing up..." ? true : false}
+          >
+            {buttonValue}
+          </button>
         </form>
       </div>
       <div className='flex flex-row justify-center items-center gap-4'>

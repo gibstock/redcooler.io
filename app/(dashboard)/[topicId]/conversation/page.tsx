@@ -17,8 +17,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
 
   const {data: topic, isLoading, isError, error } = useQuery(['convoWithId'], () => api.fetchPostByTopicId(docId));
   const {data: conversations, isLoading: convoIsLoading, isError: convoIsError } = useQuery(['conversations'], () => api.fetchConversationByTopicId(docId))
-  // const {data: count, isError: countIsError } = useQuery(['count'], () => api.fetchConversationCount(docId))
-    const {data: countDocId} = useQuery(['countDocId'], () => api.fetchCommentCountByTopicId(docId))
+  const {data: countDocId} = useQuery(['countDocId'], () => api.fetchCommentCountByTopicId(docId))
   const user = useUserStore(state => state.user);
   const setContentToEdit = useUserStore(state => state.setContentToEdit);
   const setTitleToEdit = useUserStore(state => state.setTitleToEdit);
@@ -141,12 +140,9 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
                 id="topic-reply" 
                 className='w-full p-2 text-slate-900 h-[30vh] focus-within:outline-none'
                 ref={textareaRef}
-                // value={comment}  
-                // onChange={(e) => setComment(e.target.value)}
               >
               </textarea>
               <div className="comment-type-options mt-2 pt-2 flex flex-row flex-wrap justify-between items-end gap-4 border-solid border-t-2 border-slate-300">
-              {/* <div className="comment-type-options grid grid-cols-6 gap-1 justify-items-center content-center pt-2 border-solid border-t-2 border-slate-300"> */}
                 <div className="radio-option-group flex flex-row justify-start items-center gap-2">
                   <label htmlFor="comment">Comment</label>
                   <input type="radio" name="option-group" id="comment" onChange={() => setMark('comment')} required={true}/>
@@ -163,7 +159,6 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
                   <label htmlFor="other">Other</label>
                   <input type="radio" name="option-group" id="other" onChange={() => setMark('other')} />
                 </div>
-                {/* <div className="button-group col-start-6 justify-self-end outline outline-1 outline-slate-400 rounded-full px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white"> */}
                   <button 
                     type='submit' 
                     className='col-start-6 justify-self-end outline outline-1 outline-slate-400 rounded-full px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white disabled:bg-blue-200 disabled:cursor-not-allowed' 
@@ -172,7 +167,6 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
                   >
                     {buttonValue}
                   </button>
-                {/* </div> */}
               </div>
             </form>
           </div>
@@ -199,14 +193,8 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
                   {convo.content}
                 </div>
               </div>
-              {/* to do */}
-              {/* fix delete function */}
-              {/* {canDelete(user?.$id, convo?.$permissions) && (
-                <button className="text-red-500 absolute bottom-1 right-4 opacity-30 hover:opacity-100" onClick={() => deleteCommentMutation.mutate(convo?.id)}>Delete</button>
-              )} */}
               <div className="options">
               </div>
-              
             </div>
           ))}
         </div>

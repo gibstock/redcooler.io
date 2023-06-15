@@ -9,11 +9,9 @@ import TopicCard from '@/components/TopicCard';
 import api from '@/api/api';
 
 export default function Home() {
-  // const [input, setInput] = useState('');
+  const [buttonValue, setButtonValue] = useState("Join Now")
   const user = useUserStore(state => state.user);
-  // const setUser = useUserStore(state => state.setUser);
 
-  // const queryClient = useQueryClient();
   const {data, isLoading, isError, error } = useQuery(['latest'], api.fetchLatestPosts);
   
 
@@ -22,6 +20,7 @@ export default function Home() {
     router.push('/dashboard')
   }
   const handleSignUpRoute = () => {
+    setButtonValue("...")
     router.push('/signup')
   }
 
@@ -62,51 +61,13 @@ export default function Home() {
       <section className="onboarding flex flex-col justify-center items-center mt-12">
         <h2 className='text-5xl text-slate-200 font-bold mb-7'>New to the Conversation?</h2>
         <button 
-          className='bg-blue-600 hover:bg-blue-500 rounded-3xl min-w-[28px] text-white py-2 px-3 text-center outline-none border-none'
+          className='bg-blue-600 disabled:bg-blue-200 disabled:cursor-not-allowed hover:bg-blue-500 rounded-3xl min-w-[28px] text-white py-2 px-3 text-center outline-none border-none'
           onClick={handleSignUpRoute}
+          disabled={buttonValue === "..." ? true : false}
           >
-            Join Now
+            {buttonValue}
           </button>
       </section>
-      {/* {user && (
-        <div>
-          <form onSubmit={handleSubmit}>
-            <input 
-              type='text'
-              value={input}
-              placeholder='Add Message'
-              onChange={(e) => setInput(e.target.value)}
-              className="w-full border border-gray-300 rounded-md p-2 mt-4" 
-            ></input>
-          </form>
-            <button onClick={handleSignOut}>
-                  Sign Out
-            </button>
-        </div>
-      )}
-      <div>
-          {isError ? (
-            <p>There was an error fetching the messages</p>
-          ) : isLoading ? (
-            <p>Loading...</p>
-          ): messages ? (
-            <div>
-              <h1>Message Board</h1>
-              <ul>
-                {messages.map((message) => (
-                  <li key={message.$id}>
-                    <p>
-                      {message?.message}
-                    </p>
-                    {canDelete(user?.$id, message?.$permissions) && (
-                      <button onClick={() => deleteMessageMutation.mutate(message.$id)}>Delete</button>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-      </div> */}
     </main>
   )
 }
