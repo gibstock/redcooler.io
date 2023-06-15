@@ -28,7 +28,7 @@ export default function SignUp() {
         setButtonValue("Signing up...")
         await api.signUp({email, password, username});
         await api.signIn({email, password})
-        await api.emailVerification("http://localhost:3000/verifyemail");
+        await api.emailVerification("https://redcooler.io/verifyemail");
         console.log("Verification email sent")
         router.push('/awaitverify')
       }catch(err) {
