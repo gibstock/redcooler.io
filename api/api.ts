@@ -110,7 +110,7 @@ let api = {
     await api.provider().database.deleteDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, convoId);
   },
 
-  createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, beat?: string, isPrivate?: boolean, members?: string[], countDocId?: string) => {
+  createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, community: string, beat?: string, isPrivate?: boolean, members?: string[], countDocId?: string) => {
     const result = await api.provider().database.createDocument(Server.topicsDatabaseID, Server.topicsCollectionID, 'unique()', {
       subject,
       starter,
@@ -120,7 +120,8 @@ let api = {
       user_account_id,
       isPrivate,
       members,
-      countDocId
+      countDocId,
+      community: "NA"
     },
     [
       Permission.delete(Role.user(user_account_id)), Permission.update(Role.user(user_account_id))
