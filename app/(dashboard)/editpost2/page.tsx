@@ -136,9 +136,9 @@ const EditPost2 = () => {
               />
             </div>
             {/* Submit button  */}
-            <div className='text-slate-200'>
+            {/* <div className='text-slate-200'>
               <button type='submit' className='outline outline-1 outline-red-500 px-2 py-1 rounded-md hover:bg-red-500'>Submit</button>
-            </div>
+            </div> */}
           </form>
           {modal && (
           <div className='modal-wrapper absolute top-0 left-0 w-full h-full'>

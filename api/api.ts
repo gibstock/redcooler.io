@@ -282,6 +282,7 @@ let api = {
         isPrivate,
         beat,
         members,
+        community: "NA"
       }
     )
   },
