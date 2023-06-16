@@ -8,6 +8,7 @@ import api from '@/api/api'
 const EditPost2 = () => {
   const [modal, setModal] = useState(false);
   const docId = useUserStore(state => state.currentDoc)
+  const topicId = useUserStore(state => state.topicId);
   const contentToEdit = useUserStore(state => state.contentToEdit)
   const setContentToEdit = useUserStore(state => state.setContentToEdit)
   const titleToEdit = useUserStore(state => state.titleToEdit);
@@ -23,9 +24,9 @@ const EditPost2 = () => {
   const handleSubmitEdit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-        await api.editTopic(docId!, contentToEdit!, isPrivateForEdit!, beatToEdit!, emailsToEdit)
+        await api.editTopic(topicId!, contentToEdit!, isPrivateForEdit!, beatToEdit!, emailsToEdit)
         console.log("success")
-        router.push(`/${docId}/conversation/`)
+        router.push(`/${topicId}/conversation/`)
     }catch (err) {
       console.log("error", err)
     }
