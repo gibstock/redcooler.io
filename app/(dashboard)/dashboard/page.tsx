@@ -2,10 +2,12 @@
 import { useState } from 'react';
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/hooks/store"
-import PublicBoard from '@/components/PublicBoard';
-import PrivateBoard from '@/components/PrivateBoard';
+import { useQuery } from "@tanstack/react-query";
 import Tabs from '@/components/Tabs';
 import { MdDashboard } from 'react-icons/md';
+import api from '@/api/api';
+import Board from '@/components/Board';
+
 
 
 
@@ -15,6 +17,10 @@ export default function Dashboard() {
   const user = useUserStore(state => state.user);
 
   const router = useRouter();
+
+  const { data: privateTopics, isLoading: privateIsLoading, isError: privateIsError} = useQuery(['private-topics'], () => api.fetchPrivateTopics(user?.email!))
+  const {data: publicTopics, isLoading: publicIsLoading, isError: publicIsError } = useQuery(['public-topics'], api.listTopicsWithQuery);
+
 
   const handleNewTopicRoute = () => {
     setButtonValue("One moment please")
@@ -39,31 +45,24 @@ export default function Dashboard() {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
-      {/* <div className="tab-group-wrapper">
-        <div className="tab-group flex flex-row border-b-2 border-slate-300">
-          <button 
-            className='disabled:text-slate-300 text-slate-500 border-t-2 border-r-2 disabled:border-slate-300 border-slate-500 disabled:border-r-slate-300 border-r-slate-300 rounded-tr-lg px-2'
-            onClick={() => setActiveTab('Public')}
-            disabled={activeTab === 'Public' ? true : false}
-          >
-            Public
-          </button>
-          <button 
-            className='disabled:text-slate-300 text-slate-500  border-t-2 border-r-2 disabled:border-slate-300 border-slate-500 disabled:border-r-slate-300 border-r-slate-500 rounded-tr-lg px-2'
-            onClick={() => setActiveTab("Private")}
-            disabled={activeTab === "Private" ? true : false}
-          >
-            Private
-          </button>
-        </div>
-      </div> */}
       <div className="message-board">
-        <PrivateBoard 
-          activeTab={activeTab}
-        />
-        <PublicBoard 
-          activeTab={activeTab}
-        />
+        {privateTopics && user && activeTab === 'Private' && privateTopics?.filter((item => item.members.includes(user?.email))).length > 0 ? (
+          <Board 
+            activeTab={activeTab}
+            boardType='private'
+            topics={privateTopics}
+            isLoading={privateIsLoading}
+            isError={privateIsError}
+          />
+        ): publicTopics && (
+          <Board 
+            activeTab={activeTab}
+            boardType='public'
+            topics={publicTopics}
+            isLoading={publicIsLoading}
+            isError={publicIsError}
+          />
+        )}
       </div>
   </div>
   )

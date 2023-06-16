@@ -175,7 +175,7 @@ let api = {
     isPrivate: boolean,
     created: Date,
     $permissions: string[],
-    members: string,
+    members: string[],
     convocount: number,
     countDocId: string
   }[]> => {
