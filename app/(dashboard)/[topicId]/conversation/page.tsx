@@ -62,6 +62,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
               created={convo.created}
               commentType={convo.commentType}
               content={convo.content}
+              topicId={topicId}
               key={convo.$id}
             />
           ))}
