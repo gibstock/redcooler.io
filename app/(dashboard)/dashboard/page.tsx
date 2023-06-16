@@ -16,11 +16,11 @@ export default function Dashboard() {
   const user = useUserStore(state => state.user);
 
   const router = useRouter();
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   const queryClient = useQueryClient();
 
-  const userId = searchParams.get('userId');
-  const secret = searchParams.get('secret')
+  // const userId = searchParams.get('userId');
+  // const secret = searchParams.get('secret')
 
   const { data: privateTopics, isLoading: privateIsLoading, isError: privateIsError} = useQuery(['private-topics'], () => api.fetchPrivateTopics(user?.email!))
   const {data: topics, isLoading, isError, error } = useQuery(['topics'], api.listTopicsWithQuery);

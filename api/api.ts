@@ -95,7 +95,6 @@ let api = {
         Query.equal("topicId", topicId)
       ]  
     )
-    console.log("conversations returned from delete",conversations)
     conversations.map( async (convo: any) => {
       await api.provider().database.deleteDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, convo.$id);
     })
@@ -106,6 +105,9 @@ let api = {
   },
   deleteConvoCount: async (convoDocId: string) => {
     await api.provider().database.deleteDocument(Server.convoCountDatabaseID, Server.convoCountCollectionID, convoDocId);
+  },
+  deleteConverstaionWithId: async (convoId: string) => {
+    await api.provider().database.deleteDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, convoId);
   },
 
   createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, beat?: string, isPrivate?: boolean, members?: string[], countDocId?: string) => {
