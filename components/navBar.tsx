@@ -95,9 +95,11 @@ const NavBar = () => {
             <div className="avatar">
               <RxPerson size={22} />
             </div>
-            <div className="profile-dropdown" onClick={handleProfileMenuClick}>
-              <RxChevronDown size={22} />
-            </div>
+            {user && (
+              <div className="profile-dropdown" onClick={handleProfileMenuClick}>
+                <RxChevronDown size={22} />
+              </div>
+            )}
           </div>
         </div>
       </div>
