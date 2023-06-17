@@ -19,6 +19,7 @@ type User = {
   $id: string,
   name: string,
   email: string,
+  registration: string,
 }
 
 interface UserStore {
