@@ -16,6 +16,8 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("Public")
   const user = useUserStore(state => state.user);
 
+  console.log("active tab from page", activeTab)
+
   const router = useRouter();
 
   const { data: privateTopics, isLoading: privateIsLoading, isError: privateIsError} = useQuery(['private-topics'], () => api.fetchPrivateTopics(user?.email!))
