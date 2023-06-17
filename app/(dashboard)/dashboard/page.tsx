@@ -16,8 +16,6 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("Public")
   const user = useUserStore(state => state.user);
 
-  console.log("active tab from page", activeTab)
-
   const router = useRouter();
 
   const { data: privateTopics, isLoading: privateIsLoading, isError: privateIsError} = useQuery(['private-topics'], () => api.fetchPrivateTopics(user?.email!))
@@ -36,7 +34,7 @@ export default function Dashboard() {
           <div className='text-slate-200'>Your Dashboard</div>
         </div>
         <button 
-          className="bg-blue-500 text-white rounded-full px-3 py-1 md:col-start-5 md:col-span-3 disabled:bg-blue-200 disabled:cursor-not-allowed" 
+          className="bg-blue-500 text-white rounded-full px-3 py-1 md:col-start-5 md:col-span-3 disabled:bg-blue-200 disabled:cursor-wait" 
           onClick={handleNewTopicRoute}
           disabled={buttonValue === "One moment please" ? true : false}
         >

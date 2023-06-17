@@ -8,7 +8,6 @@ type AppProps = {
 
 const Tabs = ({activeTab, setActiveTab}: AppProps) => {
 
-  console.log("active tab from tabs", activeTab)
   return (
     <div className="tab-group-wrapper">
       <div className="tab-group flex flex-row border-b-2 border-slate-300">

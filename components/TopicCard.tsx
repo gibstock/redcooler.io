@@ -1,6 +1,7 @@
-import React, {use, useEffect, useState} from 'react'
+import React, { useEffect, useState} from 'react'
 import { truncate } from '@/utils/helpers';
 import { RxChatBubble } from 'react-icons/rx';
+import { categories } from '@/constants/categories';
 import Image from 'next/image';
 
 
@@ -10,16 +11,17 @@ type AppProps = {
   createdBy: string,
   created: Date,
   starter: string,
+  category: string,
   $permissions?: string[],
   userId?: string,
   hasDeleteButton: boolean,
   canDelete?: boolean,
   database: string
   isPreview?: boolean,
-  beat?: string
+  beat?: string,
 }
 
-const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, userId, canDelete, database, hasDeleteButton, isPreview, beat}: AppProps) => {
+const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, userId, canDelete, database, hasDeleteButton, isPreview, beat, category}: AppProps) => {
   const [youTubeImg, setYouTubeImg] = useState('')
 
   useEffect(() => {
@@ -32,12 +34,10 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
     youtbeImageExtraction()
   }, [beat])
 
-  
-  
-
   return (
     <li key={$id} className="flex flex-col bg-[hsl(200_55%_18%)] py-1 px-4 rounded-sm outline outline-3 outline-transparent hover:outline-red-500 shadow-[inset_0_2px_4px_hsl(200_55%_40%)]">
       <div className="byline flex flex-row items-center justify-start gap-4 text-xs text-slate-400">
+        <span className='text-slate-200'>{categories[category as keyof typeof categories]}</span>
         <h3>Posted by {createdBy} | {new Date(created).toDateString()}</h3>
       </div>
       <div className="title-group flex flex-row my-2">
