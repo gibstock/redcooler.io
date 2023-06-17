@@ -14,7 +14,7 @@ const NavBar = () => {
   const user = useUserStore(state => state.user);
   const setUser = useUserStore(state => state.setUser);
 
-  console.log(user)
+  console.log("menupos", menuPos)
 
   const handleLogin = () => {
     router.push('/signin')
@@ -40,7 +40,7 @@ const NavBar = () => {
       <div className="sticky-wrapper flex flex-row min-h-[8vh] w-full justify-between items-center px-4 shadow shadow-slate-300 mb-4 fixed top-0 left-0 right-0 bg-white">
         {user && (
           <>
-            <div className={`profile-menu flex flex-col justify-evenly items-center absolute transition-all duration-500 top-0 -right-${menuPos} w-[40vw] h-[100vh] bg-[hsl(0_0%_10%)] z-50`} style={ menuPos === '[40vw]' ? {right: '-40vw'} : {right: '-16px'}}>
+            <div className={`profile-menu flex flex-col justify-evenly items-center absolute transition-all duration-500 top-0 -right-${menuPos} md:w-[40vw] w-[60vw] h-[100vh] bg-[hsl(0_0%_10%)] z-50`} style={ menuPos === '[40vw]' ? {right: '-60vw'} : {right: '0'}}>
               <div className="close-menu-icon absolute text-slate-300 hover:text-slate-200 top-4 right-4 pr-[2vw] cursor-pointer" onClick={handleOverlayClick}>
                 <RxCross1  size={'5vw'} />
               </div>
