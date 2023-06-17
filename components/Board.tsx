@@ -16,6 +16,7 @@ type AppProps = {
     starter: string;
     beat: string;
     createdBy: string;
+    community: string;
     user_account_id: string;
     isPrivate: boolean;
     created: Date;
@@ -92,6 +93,7 @@ const Board = ({activeTab, boardType,topics, isLoading, isError}: AppProps) => {
                       hasDeleteButton={false}
                       isPreview={true}
                       beat={topic.beat}
+                      category={topic.community}
                     />
                   </Link>
                   {canDelete(user?.$id, topic?.$permissions) && (
@@ -113,6 +115,7 @@ const Board = ({activeTab, boardType,topics, isLoading, isError}: AppProps) => {
                       hasDeleteButton={false}
                       isPreview={true}
                       beat={topic.beat}
+                      category={topic.community}
                     />
                   </Link>
                   {canDelete(user?.$id, topic?.$permissions) && (

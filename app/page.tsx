@@ -53,6 +53,7 @@ export default function Home() {
                 hasDeleteButton={false}
                 database='topics'
                 isPreview={true}
+                category={convo.community}
               />
             </Link>
           ))}

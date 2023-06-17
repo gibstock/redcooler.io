@@ -20,6 +20,7 @@ type User = {
   name: string,
   email: string,
   registration: string,
+  $permissions: string[]
 }
 
 interface UserStore {

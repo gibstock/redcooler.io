@@ -14,8 +14,6 @@ const NavBar = () => {
   const user = useUserStore(state => state.user);
   const setUser = useUserStore(state => state.setUser);
 
-  console.log("menupos", menuPos)
-
   const handleLogin = () => {
     router.push('/signin')
   }

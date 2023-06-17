@@ -20,6 +20,7 @@ export default function NewTopic(){
   const [topic, setTopic] = useState(initialData)
   const [emailInput, setEmailInput] = useState('');
   const [buttonValue, setButtonValue] = useState('Post')
+  const [category, setCategory] = useState('')
   
   const user = useUserStore(state => state.user);
 
@@ -43,7 +44,7 @@ export default function NewTopic(){
       e.currentTarget.disab
       // Create a new topic in the topic database, topic will not contain
       // an entry for coundDocId yet
-      const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, topic.beat, topic.isPrivate, parsedEmailInput)
+      const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, category, topic.beat, topic.isPrivate, parsedEmailInput)
       // reset initial data values
       setTopic(initialData);
       // create a new entry in the convoCount database using the $id from the newly created topic
@@ -66,7 +67,7 @@ export default function NewTopic(){
 
   return (
     <div className='mt-20 lg:flex lg:flex-col items-center'>
-      <header className='pt-2 lg:max-w-2xl lg:w-full lg:flex flex-col items-center'>
+      <header className='pt-2 px-2 lg:max-w-2xl lg:w-full lg:flex flex-col items-center'>
         <h1 className='text-2xl text-slate-200 text-center mb-3'>Create a Topic</h1>
         <div className="required-info flex flex-row justify-center items-center gap-3 text-[10px]">
           <div className='text-xs'>
@@ -85,6 +86,35 @@ export default function NewTopic(){
       </header>
       <div className='new-topic-group p-2 lg:w-full lg:max-w-2xl'>
         <div className="form-wrapper p-4 outline outline-1 outline-slate-400 rounded-sm">
+          <div className="community-select py-4">
+            <header className='flex flex-row justify-normal items-center'>
+            <TbAsteriskSimple 
+                size={10} 
+                className='text-red-500 -left-0 top-0'
+              />
+              <h1 className='text-slate-300'>Add a Category</h1>
+            </header>
+            <select value={category} onChange={(e) => setCategory(e.target.value)} name="categories" id="category-select" className='bg-slate-700 text-slate-300 py-2 px-3 rounded-sm'>
+              <option value="">--Categories</option>
+              <option value="music-collab">Music Collab</option>
+              <option value="short-stories">Short Stories</option>
+              <option value="long-stories">Long Stories</option>
+              <option value="journal">Journal</option>
+              <option value="showcase">Showcase</option>
+              <option value="music-share">Music Share</option>
+              <option value="feedback">Feedback</option>
+              <option value="looking-for-writers">Looking For Writers</option>
+              <option value="looking-for-beats">Looking For Beats</option>
+              <option value="creative-writing">Creative Writing</option>
+              <option value="incubator">Incubator</option>
+              <option value="suggestion-box">Suggestion Box</option>
+              <option value="help">Help</option>
+              <option value="music-discussion">Music Discussion</option>
+              <option value="random">Random</option>
+              <option value="personal">Personal</option>
+              <option hidden value="testing">Testing</option>
+            </select>
+          </div>
           <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
             <div className='flex flex-col relative'>
               <label htmlFor="subject" hidden>
@@ -133,7 +163,13 @@ export default function NewTopic(){
               <small className='text-center text-slate-500'>Currently supports YouTube and SoundCloud</small>
             </div>
             <div className='flex flex-col items-center justify-start gap-4 border-y border-y-slate-500 py-4'>
-              <span className='text-slate-200'>Choose who can see your post</span>
+              <header className='flex flex-row justify-center items-center gap-3'>
+                <TbAsteriskSimple 
+                  size={10} 
+                  className='text-red-500 -left-0 top-0'
+                />
+                <span className='text-slate-200'>Choose who can see your post</span>
+              </header>
               <div className="flex flex-row justify-evenly items-center w-full">
                 <div className="radio-group flex flex-row gap-1 text-slate-200">
                   <label htmlFor="isPrivate">
