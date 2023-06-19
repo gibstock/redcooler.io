@@ -59,7 +59,7 @@ const NavBar = () => {
                   {userProfile && userProfile[0].flair.length > 0 ? userProfile[0].flair : "noob"}
                   <FaQuoteRight />
                 </div>
-                <div className="avatar border border-slate-200 rounded-full w-[20vw] h-[20vw] relative cursor-pointer hover:opacity-80 active:opacity-50" onClick={handleProfileClick}>
+                <div className="avatar rounded-full relative cursor-pointer hover:opacity-80 active:opacity-50" onClick={handleProfileClick}>
                   {userAvatar?.length === undefined ? 
                     (
                       userInitials &&

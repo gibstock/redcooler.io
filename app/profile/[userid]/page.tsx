@@ -28,7 +28,6 @@ const ProfilePage = () => {
   }
 
   useEffect(() => {
-    console.log("userprofile from profile",userProfile)
     userProfile && userProfile[0].name.length > 0 && setName(userProfile[0].name)
     userProfile && userProfile[0].name.length > 0 && setFlair(userProfile[0].flair)
   }, [userProfile])
@@ -59,7 +58,6 @@ const ProfilePage = () => {
       console.log("profile updated successfully")
       await api.updateName(name);
       console.log("account name updated")
-      console.log("result",res.$id)
       setModal(false)
       router.refresh()
     }catch(err) {
@@ -68,8 +66,8 @@ const ProfilePage = () => {
   }
   return (
     <div className='h-screen w-full flex justify-center items-center text-white'>
-      <div className="card-wrapper relative w-3/4">
-        <div className="profile-card p-8">
+      <div className="card-wrapper relative w-full md:w-3/4">
+        <div className="profile-card p-4 md:p-8">
           <div className="top w-full flex flex-col justify-center items-center gap-3 shadow shadow-slate-300 rounded-md p-4">
             <div className="icons w-full flex flex-row justify-between items-center">
               <div className="close-icon cursor-pointer hover:opacity-70" onClick={() => router.push('/dashboard')}>
@@ -159,8 +157,8 @@ const ProfilePage = () => {
                 onChange={handlefileChange}
               />
             </div>
-              <div className="username flex flex-row justify-between items-center w-3/4">
-                <label htmlFor="name">Username</label>
+              <div className="username flex flex-col md:flex-row justify-between items-center w-3/4">
+                <label htmlFor="name" className='self-start'>Username</label>
                 <input 
                   name='name'
                   type="text" 
@@ -171,8 +169,8 @@ const ProfilePage = () => {
                 />
 
               </div>
-              <div className="flair flex flex-row justify-between items-center w-3/4">
-              <label htmlFor="flair">Flair</label>
+              <div className="flair flex flex-col md:flex-row justify-between items-center w-3/4">
+              <label htmlFor="flair" className='self-start'>Flair</label>
                 <input 
                   name='flair'
                   type="text" 
@@ -186,23 +184,6 @@ const ProfilePage = () => {
           </div>
         </div>}
       </div>
-      {/* {userAvatar && <Image 
-        src={userAvatar}
-        alt='user avatar'
-        width={200}
-        height={200}
-      />}
-      
-      <button onClick={handleUploadClick} className='bg-red-300'>
-        {file? `${file.name}` : 'Click to select photo'}
-      </button>
-      <input 
-        type="file" 
-        ref={inputRef}
-        className='hidden'
-        onChange={handlefileChange}
-      />
-      <button onClick={handleSubmitPhoto} >Submit</button> */}
     </div>
   )
 }
