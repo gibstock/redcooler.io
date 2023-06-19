@@ -23,9 +23,29 @@ type User = {
   $permissions: string[]
 }
 
+type UserProfile = {
+  $id: string;
+  userId: string;
+  name: string;
+  email: string;
+  avatarId: string;
+  role: string;
+  flair: string;
+}[]
+
+type UserInitials = {
+  href: string
+}
+
 interface UserStore {
   user: User | null,
   setUser: (user: User | null) => void,
+  userProfile: UserProfile | null ,
+  setUserProfile: (userProfile: UserProfile | null) => void,
+  userAvatar: string | null,
+  setUserAvatar: (userAvatar: string | null) => void,
+  userInitials: UserInitials | null,
+  setUserInitials: (userInitials: UserInitials | null) => void,
   currentDoc: string | null,
   setCurrentDoc: (docId: string) => void,
   contentToEdit: string | null,
@@ -48,6 +68,7 @@ interface UserStore {
   setTopicId: (topicId: string) => void,
   commentId: string | null,
   setCommentId: (commentId: string) => void,
+
 }
 
 export const useUserStore = create<UserStore>()(
@@ -55,6 +76,12 @@ export const useUserStore = create<UserStore>()(
     (set) => ({
       user: null,
       setUser: (user) => set(() => ({ user: user})),
+      userProfile: null,
+      setUserProfile: (userProfile) => set(() => ({userProfile: userProfile})),
+      userAvatar: null,
+      setUserAvatar: (userAvatar) => set(() => ({ userAvatar: userAvatar})),
+      userInitials: null,
+      setUserInitials: (userInitials) => set(() => ({ userInitials: userInitials})),
       currentDoc: null,
       setCurrentDoc: (docId) => set(() => ({currentDoc: docId})),
       contentToEdit: null,
