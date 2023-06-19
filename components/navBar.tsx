@@ -128,7 +128,17 @@ const NavBar = () => {
           <div className="profile-group flex flex-row justify-center items-center gap-x-1 px-1 hover:outline hover:outline-1 hover:outline-slate-300 cursor-pointer rounded-[4px] relative">
             <div>{user?.name}</div>
             <div className="avatar">
-              <RxPerson size={22} />
+              {userAvatar ? (
+                <Image 
+                  src={userAvatar}
+                  alt='user avatar'
+                  width={50}
+                  height={50}
+                  className='rounded-full'
+                />
+              ) : (
+                <RxPerson size={22} />
+              )}
             </div>
             {user && (
               <div className="profile-dropdown" onClick={handleProfileMenuClick}>
