@@ -32,7 +32,7 @@ const ProfilePage = () => {
     userProfile && userProfile[0].name.length > 0 && setFlair(userProfile[0].flair)
   }, [userProfile])
   
-
+  console.log("empty file", file)
 
   const handlefileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if(!e.target.files) {
@@ -42,6 +42,7 @@ const ProfilePage = () => {
   }
 
   const handleSubmitDetails = async() => {
+    // check if the user is adding an avatar
     // if exists delete old photo
     // upload new photo
     // get new avatarId
@@ -49,12 +50,16 @@ const ProfilePage = () => {
     // update account name
     try{
       if(!userProfile) throw Error;
-      if(userProfile[0].avatarId.length > 0) {
-        await api.deleteProfilePhoto(userProfile[0].avatarId)
+      if(file !== undefined) {
+        if(userProfile[0].avatarId.length > 0) {
+          await api.deleteProfilePhoto(userProfile[0].avatarId)
+        }
+        const res = await api.uploadPhoto(file!);
+        console.log("photo uploaded successfully")
+        await api.updateProfile(userProfile[0].$id, name, flair, res.$id);
+        
       }
-      const res = await api.uploadPhoto(file!);
-      console.log("photo uploaded successfully")
-      await api.updateProfile(userProfile[0].$id, name, flair, res.$id);
+      await api.updateProfile(userProfile[0].$id, name, flair);
       console.log("profile updated successfully")
       await api.updateName(name);
       console.log("account name updated")
