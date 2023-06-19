@@ -32,8 +32,6 @@ const ProfilePage = () => {
     userProfile && userProfile[0].name.length > 0 && setFlair(userProfile[0].flair)
   }, [userProfile])
   
-  console.log("empty file", file)
-
   const handlefileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if(!e.target.files) {
       return;
@@ -64,7 +62,7 @@ const ProfilePage = () => {
       await api.updateName(name);
       console.log("account name updated")
       setModal(false)
-      router.refresh()
+      window.location.reload()
     }catch(err) {
       console.error(err)
     }
