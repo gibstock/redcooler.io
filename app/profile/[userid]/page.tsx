@@ -14,6 +14,7 @@ const ProfilePage = () => {
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const flairInputRef = useRef<HTMLInputElement | null>(null);
   const [file, setFile] = useState<File>();
+  const [imgPreview, setImgPreview] = useState<string | null>(null)
   const userAvatar = useUserStore(state => state.userAvatar);
   const userProfile = useUserStore(state => state.userProfile)
   const userInitials = useUserStore(state => state.userInitials)
@@ -36,6 +37,7 @@ const ProfilePage = () => {
     if(!e.target.files) {
       return;
     }
+    setImgPreview(URL.createObjectURL(e.target.files[0]));
     setFile(e.target.files[0]);
   }
 
@@ -126,29 +128,41 @@ const ProfilePage = () => {
               </div>
             </div>
             <div className="avatar flex flex-col justify-center items-center">
-              {userAvatar === null ? (
-                userInitials &&
-                  <Image 
-                    src={userInitials.href}
-                    alt='user initials'
-                    width={200}
-                    height={200}
-                    className='rounded-full cursor-pointer'
-                    onClick={handleUploadClick}
+              { imgPreview !== null ? (
+                <Image 
+                src={imgPreview}
+                alt='user avatar'
+                width={200}
+                height={200}
+                className='rounded-full cursor-pointer'
+                onClick={handleUploadClick}
 
-                  />
-                ) : (
-                userAvatar && 
-                  <Image 
-                    src={userAvatar}
-                    alt='user avatar'
-                    width={200}
-                    height={200}
-                    className='rounded-full cursor-pointer'
-                    onClick={handleUploadClick}
-
-                  />
-                )
+              />
+              ) :
+                userAvatar === null ? (
+                  userInitials &&
+                    <Image 
+                      src={userInitials.href}
+                      alt='user initials'
+                      width={200}
+                      height={200}
+                      className='rounded-full cursor-pointer'
+                      onClick={handleUploadClick}
+  
+                    />
+                  ) : (
+                  userAvatar && 
+                    <Image 
+                      src={userAvatar}
+                      alt='user avatar'
+                      width={200}
+                      height={200}
+                      className='rounded-full cursor-pointer'
+                      onClick={handleUploadClick}
+  
+                    />
+                  )
+              
               }
               <button onClick={handleUploadClick}>
               {file? `${file.name}` : 'Click to select photo \n(must be less than 10mb)'}
