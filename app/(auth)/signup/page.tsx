@@ -13,10 +13,6 @@ export default function SignUp() {
 
   const router = useRouter();
 
-  type Err = {
-
-  }
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
     if(password !== rePassword) {
@@ -26,8 +22,12 @@ export default function SignUp() {
     } else {
       try {
         setButtonValue("Signing up...")
-        await api.signUp({email, password, username});
+        const res = await api.signUp({email, password, username});
+        console.log("sign up success")
         await api.signIn({email, password})
+        console.log("sign in success")
+        await api.createUserProfile(username,email,"redcooler noob",'user', res.$id,"")
+        console.log("Profile creation success")
         await api.emailVerification("https://redcooler.io/verifyemail");
         console.log("Verification email sent")
         router.push('/awaitverify')

@@ -1,7 +1,9 @@
 'use client'
 import React, { useState} from 'react'
 import Image from 'next/image'
-import {RxPerson, RxChevronDown, RxCross1} from 'react-icons/rx'  
+import Link from 'next/link'
+import {RxPerson, RxChevronDown, RxCross1} from 'react-icons/rx' 
+import {FaQuoteLeft, FaQuoteRight} from 'react-icons/fa' 
 import Button from './button'
 import { useRouter } from 'next/navigation'
 import { useUserStore } from '@/hooks/store'
@@ -12,6 +14,9 @@ const NavBar = () => {
   const [overlayZ, setOverlayZ] = useState('-z-40')
   const router = useRouter();
   const user = useUserStore(state => state.user);
+  const userProfile = useUserStore(state => state.userProfile)
+  const userAvatar = useUserStore(state => state.userAvatar);
+  const userInitials = useUserStore(state => state.userInitials)
   const setUser = useUserStore(state => state.setUser);
 
   const handleLogin = () => {
@@ -33,6 +38,12 @@ const NavBar = () => {
     setOverlayZ('-z-40')
   }
 
+  const handleProfileClick = () => {
+    setMenuPos('[40vw]')
+    setOverlayZ('-z-40')
+    router.push(`/profile/${user?.$id}`)
+  }
+
   return (
     <nav className='relative z-50'>
       <div className="sticky-wrapper flex flex-row min-h-[8vh] w-full justify-between items-center px-4 shadow shadow-slate-300 mb-4 fixed top-0 left-0 right-0 bg-white">
@@ -43,16 +54,37 @@ const NavBar = () => {
                 <RxCross1  size={'5vw'} />
               </div>
               <div className="user flex flex-col justify-center items-center gap-4 text-slate-200">
-                <div className="avatar border border-slate-200 rounded-full w-[20vw] h-[20vw] relative">
-                  <Image 
-                    src='/avatar-placeholder.jpg'
-                    alt='wolverine toy'
-                    className='rounded-full'
-                    fill
-                  />
+                <div className="flair flex flex-row justify-center items-center gap-2">
+                  <FaQuoteLeft />
+                  {userProfile && userProfile[0].flair.length > 0 ? userProfile[0].flair : "noob"}
+                  <FaQuoteRight />
+                </div>
+                <div className="avatar rounded-full relative cursor-pointer hover:opacity-80 active:opacity-50" onClick={handleProfileClick}>
+                  {userAvatar?.length === undefined ? 
+                    (
+                      userInitials &&
+                      <Image 
+                        src={userInitials.href}
+                        alt='user initials'
+                        width={200}
+                        height={200}
+                        className='rounded-full'
+                      />
+                    ) : 
+                    (
+                      userAvatar && 
+                      <Image 
+                        src={userAvatar}
+                        alt='user avatar'
+                        width={200}
+                        height={200}
+                        className='rounded-full'
+                      />
+                    )
+                  }
                 </div>
                 <div className="username">
-                  {user?.name}
+                  {user.name}
                 </div>
                 <div className="joined-on text-slate-400 text-xs">
                   Joined {new Date(user?.registration!).toDateString()}

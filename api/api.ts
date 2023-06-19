@@ -1,4 +1,4 @@
-import { Client, Databases, Account, Permission, Role, Query, ID} from 'appwrite';
+import { Client, Avatars, Databases, Account, Permission, Role, Query, Storage} from 'appwrite';
 import { Server } from '../utils/appwriteConfig';
 
 type User = {
@@ -14,11 +14,14 @@ let api = {
       return api.sdk;
     }
     let client = new Client();
-    client.setEndpoint(Server.endpoint).setProject(Server.project);
+    client.setEndpoint(Server.endpoint)
+    .setProject(Server.project);
     const account = new Account(client);
     const database = new Databases(client);
+    const storage = new Storage(client);
+    const avatars = new Avatars(client);
 
-    api.sdk = { database, account};
+    api.sdk = { database, account, storage, avatars};
     return api.sdk;
   },
 
@@ -304,7 +307,69 @@ let api = {
         countDocId,
       }  
     )
+  },
+  uploadPhoto: async(file: File) => {
+    const result = await api.provider().storage.createFile(Server.bucketID, 'unique()', file);
+    return result;
+  },
+  getUserInitials: async(name: string) => {
+    return await api.provider().avatars.getInitials(name,200, 200);
+  },
+  getUserProfile: async(userId: string): Promise<{
+    $id: string,
+    userId: string,
+    name: string,
+    email: string,
+    avatarId: string,
+    role: string,
+    flair: string
+  }[]> => {
+    const {documents: userProfile } = await api.provider().database.listDocuments(Server.profileDatabaseID, Server.profileCollectionID, 
+      [
+        Query.equal("userId", userId)
+      ]  
+    )
+    return userProfile;
+  },
+  createUserProfile: async(name: string, email: string, flair: string, role: string, userId: string, avatarId: string): Promise<{
+    $id: string,
+    userId: string,
+    name: string,
+    email: string,
+    avatarId: string,
+    role: string,
+    flair: string
+  }[]> => {
+    const result = api.provider().database.createDocument(Server.profileDatabaseID, Server.profileCollectionID, 'unique()', {
+      name,
+      email,
+      flair,
+      role,
+      userId,
+      avatarId
+    })
+    return result
+  },
+  getAvatarById: async(avatarId: string): Promise<{
+    href: string,
+  }> => {
+    const result = await api.provider().storage.getFilePreview(Server.bucketID, avatarId, 200,200,"center",100);
+    return result;
+  },
+  updateName: async(name: string) => {
+    await api.provider().account.updateName(name)
+  },
+  deleteProfilePhoto: async(fileId: string) => {
+    await api.provider().storage.deleteFile(Server.bucketID, fileId);
+  },
+  updateProfile: async(docId: string, name?: string, flair?: string, avatarId?: string) => {
+    await api.provider().database.updateDocument(Server.profileDatabaseID, Server.profileCollectionID, docId, {
+      name,
+      flair,
+      avatarId
+    })
   }
+
 
 
 };

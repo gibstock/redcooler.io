@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/hooks/store"
 import { useQuery } from "@tanstack/react-query";
@@ -15,17 +15,24 @@ export default function Dashboard() {
   const [buttonValue, setButtonValue] = useState('New Post +')
   const [activeTab, setActiveTab] = useState("Public")
   const user = useUserStore(state => state.user);
+  const userProfile = useUserStore(state => state.userProfile)
+  const userAvatar = useUserStore(state => state.userAvatar)
 
   const router = useRouter();
-
+  
   const { data: privateTopics, isLoading: privateIsLoading, isError: privateIsError} = useQuery(['private-topics'], () => api.fetchPrivateTopics(user?.email!))
   const {data: publicTopics, isLoading: publicIsLoading, isError: publicIsError } = useQuery(['public-topics'], api.listTopicsWithQuery);
-
-
   const handleNewTopicRoute = () => {
     setButtonValue("One moment please")
     router.push("/newtopic")
   }
+
+  useEffect(() => {
+    if(!user) {
+      router.replace('/')
+    } 
+  })
+
   return (
     <div className="my-20 md:mx-4">
       <div className="new-post-group flex flex-row w-full pb-4 gap-x-8 items-center justify-between md:grid md:grid-cols-12">

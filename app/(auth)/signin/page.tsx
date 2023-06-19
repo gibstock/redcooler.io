@@ -9,8 +9,8 @@ export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
   const setUser = useUserStore(state => state.setUser)
+  const setUserProfile = useUserStore(state => state.setUserProfile);
 
   const router = useRouter();
 
@@ -19,6 +19,8 @@ export default function SignIn() {
     try {
       const userSignIn = await api.signIn({email, password});
       setUser(userSignIn)
+      // const userProfile = await api.getUserProfile(userSignIn.$id)
+      // setUserProfile(userProfile)
       window.location.replace('/dashboard')
     }catch (err) {
       console.error(err)
