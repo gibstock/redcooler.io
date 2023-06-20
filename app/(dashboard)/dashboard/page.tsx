@@ -7,6 +7,7 @@ import Tabs from '@/components/Tabs';
 import { MdDashboard } from 'react-icons/md';
 import api from '@/api/api';
 import Board from '@/components/Board';
+import { imageMap } from '@/hooks/imageMap';
 
 
 
@@ -15,8 +16,8 @@ export default function Dashboard() {
   const [buttonValue, setButtonValue] = useState('New Post +')
   const [activeTab, setActiveTab] = useState("Public")
   const user = useUserStore(state => state.user);
-  const userProfile = useUserStore(state => state.userProfile)
-  const userAvatar = useUserStore(state => state.userAvatar)
+  const imageList = useUserStore(state => state.imageList);
+  const setImageUrlMap = useUserStore(state => state.setImageUrlMap)
 
   const router = useRouter();
   
@@ -31,7 +32,9 @@ export default function Dashboard() {
     if(!user) {
       router.replace('/')
     } 
-  })
+    setImageUrlMap(imageMap(imageList))
+  }, [imageList])
+
 
   return (
     <div className="my-20 md:mx-4">

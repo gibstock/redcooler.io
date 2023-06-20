@@ -2,6 +2,8 @@ import React, { useEffect, useState} from 'react'
 import { truncate } from '@/utils/helpers';
 import { RxChatBubble } from 'react-icons/rx';
 import { categories } from '@/constants/categories';
+import { useUserStore } from '@/hooks/store';
+import api from '@/api/api';
 import Image from 'next/image';
 
 
@@ -19,10 +21,15 @@ type AppProps = {
   database: string
   isPreview?: boolean,
   beat?: string,
+  userAvatarId?: string | null,
 }
 
-const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, userId, canDelete, database, hasDeleteButton, isPreview, beat, category}: AppProps) => {
+const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, userId, canDelete, database, hasDeleteButton, isPreview, beat, category, userAvatarId}: AppProps) => {
   const [youTubeImg, setYouTubeImg] = useState('')
+  const [userAvatar, setUserAvatar] = useState('')
+  const [userInitialsHref, setUserInitialsHref] = useState('')
+  const [communityIcon, setCommunityIcon] = useState('')
+  const imageUrlMap = useUserStore(state => state.imageUrlMap)
 
   useEffect(() => {
     const youtbeImageExtraction = () => {
@@ -31,14 +38,69 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
         setYouTubeImg(result[0])
       }
     }
+    const getUserAvatar = async () => {
+      // get user profile
+      // get proile_pic_id
+      // get img url from imagemap
+      if(userAvatarId !== null && userAvatarId !== undefined) {
+        if(imageUrlMap) {
+          const avId = imageUrlMap.get(userAvatarId)
+          avId !== undefined && setUserAvatar(avId)
+        }
+      } else {
+        const userInitials = await api.getUserInitials(createdBy)
+        setUserInitialsHref(userInitials.href)
+      }
+    }
+    const getCommunityIcon = async () => {
+      const categoryName = categories[category as keyof typeof categories]
+      const communityIcon = await api.getUserInitials(categoryName)
+      setCommunityIcon(communityIcon.href)
+    }
     youtbeImageExtraction()
+    getUserAvatar();
+    getCommunityIcon();
   }, [beat])
 
   return (
     <li key={$id} className="flex flex-col bg-[hsl(200_55%_18%)] py-1 px-4 rounded-sm outline outline-3 outline-transparent hover:outline-red-500 shadow-[inset_0_2px_4px_hsl(200_55%_40%)]">
       <div className="byline flex flex-row items-center justify-start gap-4 text-xs text-slate-400">
+        <Image 
+          src={communityIcon}
+          width={35}
+          height={35}
+          alt='community icon'
+          className='rounded-full'
+        />
         <span className='text-slate-200'>{categories[category as keyof typeof categories]}</span>
-        <h3>Posted by {createdBy} | {new Date(created).toDateString()}</h3>
+        <div className="created">
+            {new Date(created).toDateString()}
+        </div>
+        <div className="right-group flex flex-row gap-2">
+          <div className="posted-by flex flex-col justify-center items-end">
+            <span>Posted by</span>
+            <h3 className='font-bold'>{createdBy}</h3>
+          </div>
+          <div className="user flex flex-row justify-start items-center">
+            {userAvatarId && imageUrlMap?.get(userAvatarId) !== undefined ? (
+              <Image 
+                src={userAvatar}
+                width={35}
+                height={35}
+                alt={createdBy}
+                className='rounded-full'
+              />
+            ) : (
+              <Image 
+                src={userInitialsHref}
+                width={35}
+                height={35}
+                alt={createdBy}
+                className='rounded-full'
+              />
+            )}
+          </div>
+        </div>
       </div>
       <div className="title-group flex flex-row my-2">
         <h2 className="font-semibold text-lg text-slate-200">

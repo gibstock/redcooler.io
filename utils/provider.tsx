@@ -12,9 +12,12 @@ function Providers({children}: React.PropsWithChildren) {
   const setUserProfile = useUserStore(state => state.setUserProfile);
   const setAvatarUrl = useUserStore(state => state.setUserAvatar);
   const setUserInitials = useUserStore(state => state.setUserInitials);
+  const setImageUrlMap = useUserStore(state => state.setImageUrlMap)
+  const setImageList = useUserStore(state => state.setImageList);
   const [client] = useState(
     new QueryClient({ defaultOptions: {queries: {staleTime: 5000}}})
   );
+  
 
   useEffect(() => {
     const user = async () => {
@@ -33,6 +36,8 @@ function Providers({children}: React.PropsWithChildren) {
       const userAvatarUrl = await api.getAvatarById(userProfile[0].avatarId)
       if(!userAvatarUrl) return;
       setAvatarUrl(userAvatarUrl.href);
+      const getAvatars = await api.listAvatars();
+      setImageList(getAvatars)
     };
     
     user();

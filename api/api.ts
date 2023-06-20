@@ -81,6 +81,7 @@ let api = {
       convocount: number,
       countDocId: string,
       community: string,
+      userAvatarId: string,
     }[]> => {
     const { documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
       [
@@ -114,7 +115,7 @@ let api = {
     await api.provider().database.deleteDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, convoId);
   },
 
-  createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, community: string, beat?: string, isPrivate?: boolean, members?: string[], countDocId?: string) => {
+  createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, community: string, beat?: string, isPrivate?: boolean, members?: string[], countDocId?: string, userAvatarId?: string) => {
     const result = await api.provider().database.createDocument(Server.topicsDatabaseID, Server.topicsCollectionID, 'unique()', {
       subject,
       starter,
@@ -126,6 +127,7 @@ let api = {
       members,
       countDocId,
       community,
+      userAvatarId,
     },
     [
       Permission.delete(Role.user(user_account_id)), Permission.update(Role.user(user_account_id))
@@ -167,6 +169,7 @@ let api = {
     countDocId: string,
     members?: string[],
     community: string,
+    userAvatarId: string,
   }> => {
     const result = await api.provider().database.getDocument(Server.topicsDatabaseID, Server.topicsCollectionID, $id);
     return result
@@ -185,6 +188,7 @@ let api = {
     convocount: number,
     countDocId: string,
     community: string,
+    userAvatarId: string,
   }[]> => {
     const {documents: privateTopics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
       [
@@ -368,6 +372,10 @@ let api = {
       flair,
       avatarId
     })
+  },
+  listAvatars: async() => {
+    const {files} = await api.provider().storage.listFiles(Server.bucketID);
+    return files;
   }
 
 

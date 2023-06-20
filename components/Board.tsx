@@ -24,6 +24,7 @@ type AppProps = {
     members: string[];
     convocount: number;
     countDocId: string;
+    userAvatarId: string;
   }[],
   isLoading: boolean,
   isError: boolean,
@@ -80,6 +81,7 @@ const Board = ({activeTab, boardType,topics, isLoading, isError}: AppProps) => {
         <div className='grid grid-cols-12 gap-y-4 mt-1 md:mt-8'>
           <ul className="w-full row-start-2 col-start-1 col-span-12 md:col-start-3 md:col-span-5 flex flex-col justify-center items-stretch gap-4">
             {boardType === 'private' ? (
+              // private posts
               topics.filter((item => item.members.includes(user?.email!))).map((topic) => (
                 <div key={topic?.$id} className="col-start-2 col-span-10 md:col-start-3 md:col-span-5 relative">
                   <Link href={`/${topic.$id}/conversation/`}>
@@ -94,6 +96,8 @@ const Board = ({activeTab, boardType,topics, isLoading, isError}: AppProps) => {
                       isPreview={true}
                       beat={topic.beat}
                       category={topic.community}
+                      userId={topic.user_account_id}
+                      userAvatarId={topic.userAvatarId}
                     />
                   </Link>
                   {canDelete(user?.$id, topic?.$permissions) && (
@@ -102,6 +106,7 @@ const Board = ({activeTab, boardType,topics, isLoading, isError}: AppProps) => {
                 </div>
               )
             )) : (
+              // public posts
               topics.map((topic) => (
                 <div key={topic.$id} className="col-start-2 col-span-10 md:col-start-3 md:col-span-5 relative">
                   <Link href={`${topic.$id}/conversation/`}>
@@ -116,6 +121,8 @@ const Board = ({activeTab, boardType,topics, isLoading, isError}: AppProps) => {
                       isPreview={true}
                       beat={topic.beat}
                       category={topic.community}
+                      userId={topic.user_account_id}
+                      userAvatarId={topic.userAvatarId}
                     />
                   </Link>
                   {canDelete(user?.$id, topic?.$permissions) && (

@@ -37,6 +37,11 @@ type UserInitials = {
   href: string
 }
 
+type ImageListType = {
+  $id: string
+}[]
+
+
 interface UserStore {
   user: User | null,
   setUser: (user: User | null) => void,
@@ -68,7 +73,10 @@ interface UserStore {
   setTopicId: (topicId: string) => void,
   commentId: string | null,
   setCommentId: (commentId: string) => void,
-
+  imageList: ImageListType | null,
+  setImageList: (imageList: ImageListType) => void,
+  imageUrlMap: Map<string, string> | null,
+  setImageUrlMap: (imageUrlMap: Map<string, string>) => void
 }
 
 export const useUserStore = create<UserStore>()(
@@ -103,7 +111,12 @@ export const useUserStore = create<UserStore>()(
       topicId: null,
       setTopicId: (topicId) => set(() => ({ topicId: topicId})),
       commentId: null,
-      setCommentId: (commentId) => set(() => ({ commentId: commentId}))
+      setCommentId: (commentId) => set(() => ({ commentId: commentId})),
+      imageList: null,
+      setImageList: (imageList) => set(() => ({ imageList: imageList})),
+      imageUrlMap: null,
+      setImageUrlMap: (imageUrlMap) => set(() => ({ imageUrlMap}))
+
     })
   )
 )

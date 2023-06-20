@@ -21,6 +21,7 @@ export default function NewTopic(){
   const [emailInput, setEmailInput] = useState('');
   const [buttonValue, setButtonValue] = useState('Post')
   const [category, setCategory] = useState('')
+  const [avatarId, setAvatarId] = useState('')
   
   const user = useUserStore(state => state.user);
 
@@ -41,10 +42,14 @@ export default function NewTopic(){
         parsedEmailInput.push(user?.email!)
       }
       e.preventDefault()
-      e.currentTarget.disab
+      e.currentTarget.disabled
+      const userProfile = await api.getUserProfile(topic.user_account_id)
+      if(userProfile[0].avatarId.length > 0) {
+        setAvatarId(userProfile[0].avatarId);
+      }
       // Create a new topic in the topic database, topic will not contain
       // an entry for coundDocId yet
-      const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, category, topic.beat, topic.isPrivate, parsedEmailInput)
+      const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, category, topic.beat, topic.isPrivate, parsedEmailInput, undefined, avatarId)
       // reset initial data values
       setTopic(initialData);
       // create a new entry in the convoCount database using the $id from the newly created topic
