@@ -45,6 +45,7 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
       if(userAvatarId !== null && userAvatarId !== undefined) {
         if(imageUrlMap) {
           const avId = imageUrlMap.get(userAvatarId)
+          console.log("useravatarid from topiccard", avId)
           avId !== undefined && setUserAvatar(avId)
         }
       } else {
@@ -65,23 +66,26 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
   return (
     <li key={$id} className="flex flex-col bg-[hsl(200_55%_18%)] py-1 px-4 rounded-sm outline outline-3 outline-transparent hover:outline-red-500 shadow-[inset_0_2px_4px_hsl(200_55%_40%)]">
       <div className="byline flex flex-row items-center justify-start gap-4 text-xs text-slate-400">
-        <Image 
+        <div className="community-badge flex justify-center items-center text-slate-400 border border-slate-400 rounded-full w-9 h-9">
+          {category.slice(0,1)}
+        </div>
+        {/* <Image 
           src={communityIcon}
           width={35}
           height={35}
           alt='community icon'
           className='rounded-full'
-        />
+        /> */}
         <span className='text-slate-200'>{categories[category as keyof typeof categories]}</span>
         <div className="created">
             {new Date(created).toDateString()}
         </div>
         <div className="right-group flex flex-row gap-2">
-          <div className="posted-by flex flex-col justify-center items-end">
+          <div className="posted-by flex flex-row justify-center items-end">
             <span>Posted by</span>
             <h3 className='font-bold'>{createdBy}</h3>
           </div>
-          <div className="user flex flex-row justify-start items-center">
+          {/* <div className="user flex flex-row justify-start items-center">
             {userAvatarId && imageUrlMap?.get(userAvatarId) !== undefined ? (
               <Image 
                 src={userAvatar}
@@ -99,7 +103,7 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
                 className='rounded-full'
               />
             )}
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="title-group flex flex-row my-2">

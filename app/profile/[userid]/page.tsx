@@ -57,7 +57,7 @@ const ProfilePage = () => {
           await api.deleteProfilePhoto(userProfile[0].avatarId)
         }
         const res = await api.uploadPhoto(file!);
-        console.log("photo uploaded successfully")
+        console.log("photo uploaded successfully", res)
         await api.updateProfile(userProfile[0].$id, name, flair, res.$id);
         
       }
