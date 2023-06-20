@@ -21,6 +21,7 @@ const ProfilePage = () => {
   const [name, setName] = useState("")
   const [flair, setFlair] = useState("")
   const [modal, setModal] = useState(false);
+  const [buttonValue, setButtonValue] = useState('Save');
 
   const router = useRouter()
   
@@ -50,6 +51,7 @@ const ProfilePage = () => {
     // update account name
     try{
       if(!userProfile) throw Error;
+      setButtonValue("Saving...")
       if(file !== undefined) {
         if(userProfile[0].avatarId.length > 0) {
           await api.deleteProfilePhoto(userProfile[0].avatarId)
@@ -67,6 +69,7 @@ const ProfilePage = () => {
       window.location.reload()
     }catch(err) {
       console.error(err)
+      alert("Something went wrong. Please contact admin: andre@agonzales.dev")
     }
   }
   return (
@@ -148,7 +151,6 @@ const ProfilePage = () => {
                       height={200}
                       className='rounded-full cursor-pointer'
                       onClick={handleUploadClick}
-  
                     />
                   ) : (
                   userAvatar && 
@@ -162,7 +164,6 @@ const ProfilePage = () => {
   
                     />
                   )
-              
               }
               <button onClick={handleUploadClick}>
               {file? `${file.name}` : 'Click to select photo \n(must be less than 10mb)'}
@@ -174,30 +175,37 @@ const ProfilePage = () => {
                 onChange={handlefileChange}
               />
             </div>
-              <div className="username flex flex-col md:flex-row justify-between items-center w-3/4">
-                <label htmlFor="name" className='self-start'>Username</label>
-                <input 
-                  name='name'
-                  type="text" 
-                  ref={nameInputRef}
-                  value={name}
-                  className='text-slate-800 px-2 py-1 rounded-sm'
-                  onChange={(e) => setName(e.target.value)}
-                />
-
-              </div>
-              <div className="flair flex flex-col md:flex-row justify-between items-center w-3/4">
+            <div className="username flex flex-col sm:flex-row sm:justify-start justify-between items-center w-3/4 gap-3">
+              <label htmlFor="name" className='self-start'>Username</label>
+              <input 
+                required
+                name='name'
+                type="text" 
+                ref={nameInputRef}
+                value={name}
+                className='text-slate-800 px-2 py-1 rounded-sm sm:w-full'
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="flair flex flex-col sm:flex-row sm:justify-start justify-between items-center w-3/4 sm:gap-[3.75rem]">
               <label htmlFor="flair" className='self-start'>Flair</label>
-                <input 
-                  name='flair'
-                  type="text" 
-                  ref={flairInputRef}
-                  value={flair}
-                  className='text-slate-800 px-2 py-1 rounded-sm'
-                  onChange={(e) => setFlair(e.target.value)}
-                />
-              </div>
-              <button className='hover:text-slate-400 active:cursor-wait' onClick={handleSubmitDetails} >Save</button>
+              <input 
+                required
+                name='flair'
+                type="text" 
+                ref={flairInputRef}
+                value={flair}
+                className='text-slate-800 px-2 py-1 rounded-sm sm:w-full'
+                onChange={(e) => setFlair(e.target.value)}
+              />
+            </div>
+            <button 
+              className='bg-blue-500 hover:bg-blue-400 px-4 py-1 hover:text-slate-700 disabled:cursor-wait rounded-lg' 
+              onClick={handleSubmitDetails}
+              disabled={buttonValue === 'Saving...' ? true : false}
+            >
+                {buttonValue}
+              </button>
           </div>
         </div>}
       </div>
