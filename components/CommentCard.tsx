@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {RiPencilFill} from 'react-icons/ri'
 import {RxPerson, RxDotsVertical} from 'react-icons/rx'
@@ -18,13 +19,17 @@ type AppProps = {
   commentType: string,
   content: string,
   topicId: string,
+  avatarId?: string,
+  avatarHref?: string,
 }
 
-const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, commentType, content, topicId} : AppProps) => {
+const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, commentType, content, topicId, avatarId, avatarHref} : AppProps) => {
   const [commentMenuOpen, setCommentMenuOpen] = useState(false)
+  const [commentAvatarHref, setCommentAvatarHref] = useState('');
   const setCommentToEdit = useUserStore(state => state.setCommentToEdit)
   const setMark = useUserStore(state => state.setMark)
   const setCommentId = useUserStore(state => state.setCommentId)
+  const imageUrlMap = useUserStore(state => state.imageUrlMap);
   const user = useUserStore(state => state.user)
   const router = useRouter();
 
@@ -64,58 +69,70 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
     }
   }
 
-  
-
-  
-
   return (
     <div key={$id} className='comment-wrapper bg-slate-800 text-white mt-4 relative rounded-b-md'>
-              <div className="info-row flex flex-row justify-start items-center gap-2 bg-slate-500 p-4 rounded-t-md relative">
-                {commentMenuOpen && (
-                  <div className="comment-menu-dropdown p-3 absolute top-[7vh] right-0 bg-[hsl(200_10%_20%)] max-w-[340px] w-[15vw] h-[20vh]">
-                    {canEdit(user?.$id!, $permissions) && (
-                      <div className="edit-button flex flex-row items-center text-red-500 hover:text-red-300">
-                        <RiPencilFill />
-                        <button onClick={handleEditComment}>
-                          <span>edit</span>
-                        </button>
-                      </div>
-                    )}
-                    {canDelete(user?.$id!, $permissions) && (
-                      <div className="edit-button flex flex-row items-center text-red-500 hover:text-red-300">
-                        <TbTrashX />
-                        <button onClick={() => handleDeleteComment(topicId)}>
-                          <span>delete</span>
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
-                <div className="avatar">
-                  <RxPerson size={22} />
-                </div>
-                <div className="username font-bold">
-                  {createdBy}
-                </div>
-              
-                <div className="date-posted text-slate-300 ml-auto">
-                  {new Date(created).toLocaleTimeString()}
-                </div>
-                <button className="comment-menu" onClick={() => setCommentMenuOpen(!commentMenuOpen)}>
-                  <RxDotsVertical />
+      <div className="info-row flex flex-row justify-between items-center gap-2 bg-slate-500 px-4 py-1 rounded-t-md relative">
+        {commentMenuOpen && (
+          <div className="comment-menu-dropdown p-3 absolute top-[7vh] right-0 bg-[hsl(200_10%_20%)] max-w-[340px] w-[15vw] h-[20vh]">
+            {canEdit(user?.$id!, $permissions) && (
+              <div className="edit-button flex flex-row items-center text-red-500 hover:text-red-300">
+                <RiPencilFill />
+                <button onClick={handleEditComment}>
+                  <span>edit</span>
                 </button>
               </div>
-              <div className="content-group p-4">
-                <div className="top-bar mb-2">
-                  {commentType}
-                </div>
-                <div className="content whitespace-pre-wrap">
-                  {content}
-                </div>
+            )}
+            {canDelete(user?.$id!, $permissions) && (
+              <div className="edit-button flex flex-row items-center text-red-500 hover:text-red-300">
+                <TbTrashX />
+                <button onClick={() => handleDeleteComment(topicId)}>
+                  <span>delete</span>
+                </button>
               </div>
-              <div className="options">
-              </div>
+            )}
+          </div>
+        )}
+        <div className="avatar-user flex flex-row justify-start items-center gap-1">
+          {avatarHref && avatarHref !== null ? (
+            <Image 
+              src={avatarHref}
+              width={35}
+              height={35}
+              alt='User avatar'
+              className='rounded-full'
+            />
+          ): (
+            <div className="avatar">
+              <RxPerson size={22} />
             </div>
+          )}
+          <div className="username font-bold justify-self-start">
+            {createdBy}
+          </div>
+        </div>
+        <div className="top-bar">
+          {commentType}
+        </div>
+        <div className="date-dots flex flex-row justify-end items-center gap-3">
+          <div className="date-posted text-slate-300">
+            {new Date(created).toLocaleTimeString()}
+          </div>
+          <button className="comment-menu" onClick={() => setCommentMenuOpen(!commentMenuOpen)}>
+            <RxDotsVertical />
+          </button>
+        </div>
+      </div>
+      <div className="content-group p-4">
+        {/* <div className="top-bar mb-2">
+          {commentType}
+        </div> */}
+        <div className="content whitespace-pre-wrap">
+          {content}
+        </div>
+      </div>
+      <div className="options">
+      </div>
+    </div>
   )
 }
 

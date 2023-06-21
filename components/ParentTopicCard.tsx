@@ -1,18 +1,23 @@
-import React from 'react'
+'use client'
+import React, {useEffect, useState} from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import {MdDashboard} from 'react-icons/md'
 import {RiPencilFill, RiShareForwardLine} from 'react-icons/ri'
 import {RxChatBubble} from 'react-icons/rx'
 import ReactPlayer from 'react-player';
+import { useUserStore } from '@/hooks/store'
+import api from '@/api/api'
 
 type AppProps = {
   $id: string | undefined,
   $permissions: string[] | undefined,
-  createdBy: string | undefined,
+  createdBy: string,
   created: Date | undefined,
   subject: string | undefined,
   starter: string | undefined,
   beat: string | undefined,
+  avatarId: string | undefined,
   countDocId: {
     topicId: string;
     count: number;
@@ -20,13 +25,33 @@ type AppProps = {
 }[] | undefined
 }
 
-const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starter, beat, countDocId}: AppProps) => {
-  
+const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starter, beat, countDocId, avatarId}: AppProps) => {
+  const imageUrlMap = useUserStore(state => state.imageUrlMap)
+  const [userAvatar, setUserAvatar] = useState('')
+  const [userInitialsHref, setUserInitialsHref] = useState('')
 
   const canEdit = (userID:string | undefined, array: string[] | undefined) => {
     const result = array?.some((element) => element.includes('update') && element.includes(userID!))
     return result
   };
+  useEffect(()=>{
+    const getUserAvatar = async () => {
+      // get user profile
+      // get proile_pic_id
+      // get img url from imagemap
+      if(avatarId !== null && avatarId !== undefined) {
+        if(imageUrlMap) {
+          const avId = imageUrlMap.get(avatarId)
+          avId !== undefined && setUserAvatar(avId)
+        }
+      } else {
+        const userInitials = await api.getUserInitials(createdBy)
+        setUserInitialsHref(userInitials.href)
+      }
+    }
+    getUserAvatar();
+  }, [])
+
 
   return (
     <div className="parent-topic bg-slate-700 row-start-1 col-start-2 md:col-start-3 col-span-10 md:col-span-5 p-4">
@@ -47,7 +72,28 @@ const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starte
             )}
           </div>
           <div className="topic-card">
-            <div className="posted-by">Posted by <span className='text-red-400'>{createdBy}</span> | {new Date(created!).toDateString()}</div>
+            
+            <div className="posted-by flex flex-row justify-start items-center gap-2 my-4">
+            {avatarId && imageUrlMap?.get(avatarId) !== undefined ? (
+              <Image 
+                src={userAvatar}
+                width={35}
+                height={35}
+                alt={createdBy}
+                className='rounded-full'
+              />
+            ) : (
+              <Image 
+                src={userInitialsHref}
+                width={35}
+                height={35}
+                alt={createdBy}
+                className='rounded-full'
+              />
+            )}
+              <span className='text-red-400'>{createdBy}</span> 
+              <span>| {new Date(created!).toDateString()}</span>
+            </div>
             <h1 className='font-bold text-3xl'>{subject}</h1>
             <div className="topic-body mt-4 whitespace-pre-wrap">
               {starter}

@@ -65,6 +65,10 @@ const ProfilePage = () => {
       console.log("profile updated successfully")
       await api.updateName(name);
       console.log("account name updated")
+      await api.updateNameInConversationByUserId(userProfile[0].userId, name)
+      console.log("conversation name updated")
+      await api.updateNameInTopicByUserId(userProfile[0].userId, name)
+      console.log("topic name updated")
       setModal(false)
       window.location.reload()
     }catch(err) {
@@ -72,6 +76,7 @@ const ProfilePage = () => {
       alert("Something went wrong. Please contact admin: andre@agonzales.dev")
     }
   }
+
   return (
     <div className='h-screen w-full flex justify-center items-center text-white'>
       <div className="card-wrapper relative w-full md:w-3/4">
