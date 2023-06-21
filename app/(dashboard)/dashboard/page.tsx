@@ -35,7 +35,6 @@ export default function Dashboard() {
     setImageUrlMap(imageMap(imageList))
   }, [imageList])
 
-
   return (
     <div className="my-20 md:mx-4">
       <div className="new-post-group flex flex-row w-full pb-4 gap-x-8 items-center justify-between md:grid md:grid-cols-12">

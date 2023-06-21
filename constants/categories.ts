@@ -16,4 +16,5 @@ export const categories = {
   "random":"Random",
   "personal":"Personal",
   "testing":"Testing",
+  "announcement":"Announcement"
 }

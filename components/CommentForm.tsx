@@ -1,4 +1,5 @@
 import React, {useState, FormEvent, useRef} from 'react'
+import { useUserStore } from '@/hooks/store'
 import api from '@/api/api'
 
 type AppProps = {
@@ -17,6 +18,8 @@ type AppProps = {
 const CommentForm = ({name, $id, topicCoundDocId, countDocId, docId}: AppProps) => {
   const [mark, setMark] = useState('')
   const [buttonValue, setButtonValue] = useState("Post")
+  const userAvatar = useUserStore(state => state.userAvatar);
+
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
@@ -27,7 +30,11 @@ const CommentForm = ({name, $id, topicCoundDocId, countDocId, docId}: AppProps) 
       alert('Please enter content to submit')
     }
     try {
-      await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark)
+      if(userAvatar !== null && userAvatar !== undefined) {
+        await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark, undefined, undefined, userAvatar)
+      } else {
+        await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark)
+      }
       await api.updateCommentCount(topicCoundDocId!, countDocId![0].count + 1 )
       setMark('')
       window.location.reload()

@@ -208,7 +208,9 @@ let api = {
     userAccountId: string,
     parentConversationId?: string,
     commentType: string,
-    $permissions: string[]
+    $permissions: string[],
+    avatarId: string,
+    avatarHref: string,
   }[]> => {
     const {documents: conversations} = await api.provider().database.listDocuments(Server.conversationsDatabaseID, Server.conversationsCollectionID,
       [
@@ -216,6 +218,48 @@ let api = {
       ]  
     );
     return conversations;
+  },
+  updateNameInConversationByUserId: async(userId: string, name: string) => {
+    const {documents: convos} = await api.provider().database.listDocuments(Server.conversationsDatabaseID, Server.conversationsCollectionID, 
+      [
+        Query.equal("userAccountId", userId)
+      ]);
+      console.log("convos from api", convos)
+      try{
+        convos && await convos.forEach(async(convo: {$id: string, createdBy: string}) => {
+          console.log("convo-", convo.$id, convo.createdBy)
+          await api.provider().database.updateDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, convo.$id, 
+            {
+              createdBy: name,
+            })
+        })
+      }catch (err) {
+        console.error("Error updating name in conversation", err)
+      }
+  },
+  testTopicByUserId: async(userId: string) => {
+    const {documents: topics} = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID, 
+      [
+        Query.equal("user_account_id", userId)
+      ]);
+    return topics;
+  },
+  updateNameInTopicByUserId: async(userId: string, name: string) => {
+    const {documents: topics} = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID, 
+      [
+        Query.equal("user_account_id", userId)
+      ]);
+      console.log("topics from api", topics)
+      try{
+        topics && await topics.forEach(async(topic: {$id: string, createdBy: string}) => {
+          await api.provider().database.updateDocument(Server.topicsDatabaseID, Server.topicsCollectionID, topic.$id, 
+            {
+              createdBy: name,
+            })
+        })
+      }catch (err) {
+        console.error("Error updating name in topics", err)
+      }
   },
   fetchConversationCount: async(topicId: string): Promise<{
     topicId: string,
@@ -229,7 +273,7 @@ let api = {
     return count;
   },
 
-  submitCommentToTopicChain: async(content: string, createdBy: string,topicId: string, userAccountId: string, commentType: string, parentConversationId?: string ) => {
+  submitCommentToTopicChain: async(content: string, createdBy: string,topicId: string, userAccountId: string, commentType: string, parentConversationId?: string, avatarId?: string, avatarHref?: string ) => {
     await api.provider().database.createDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, 'unique()', {
       content,
       created: new Date(Date.now()),
@@ -238,6 +282,8 @@ let api = {
       userAccountId,
       parentConversationId,
       commentType,
+      avatarId,
+      avatarHref,
     },
     [Permission.delete(Role.user(userAccountId)), Permission.update(Role.user(userAccountId))]) 
   },

@@ -27,6 +27,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   topic?.members && setEmailsToEdit(topic.members);
   topic?.isPrivate && setIsPrivateForEdit(topic.isPrivate);
   topic?.beat && setBeatToEdit(topic.beat);
+
   
   useEffect(() => {
     topicId && setTopicId(topicId);
@@ -35,16 +36,19 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   
   return (
       <div className='mt-[8vh] grid grid-cols-12 text-slate-200'>
-        <ParentTopicCard 
-          $id={user?.$id}
-          $permissions={topic?.$permissions}
-          createdBy={topic?.createdBy}
-          created={topic?.created}
-          subject={topic?.subject}
-          starter={topic?.starter}
-          beat={topic?.beat}
-          countDocId={countDocId}
-        />
+        {topic && (
+          <ParentTopicCard 
+            $id={user?.$id}
+            $permissions={topic?.$permissions}
+            createdBy={topic?.createdBy}
+            created={topic?.created}
+            subject={topic?.subject}
+            starter={topic?.starter}
+            beat={topic?.beat}
+            countDocId={countDocId}
+            avatarId={topic?.userAvatarId}
+          />
+        )}
         <CommentForm 
           name={user?.name}
           $id={user?.$id}
@@ -63,6 +67,8 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
               commentType={convo.commentType}
               content={convo.content}
               topicId={topicId}
+              avatarId={convo.avatarId}
+              avatarHref={convo.avatarHref}
               key={convo.$id}
             />
           ))}
