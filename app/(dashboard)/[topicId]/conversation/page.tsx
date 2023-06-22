@@ -35,7 +35,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   },[topicId, setTopicId])
   
   return (
-      <div className='mt-[8vh] grid grid-cols-12 text-slate-200'>
+      <div className='mt-[8vh] md:grid grid-cols-12 w-full text-slate-200'>
         {topic && (
           <ParentTopicCard 
             $id={user?.$id}
