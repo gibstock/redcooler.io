@@ -54,11 +54,11 @@ const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starte
 
 
   return (
-    <div className="parent-topic bg-slate-700 row-start-1 col-start-2 md:col-start-3 col-span-10 md:col-span-5 p-4">
+    <div className="parent-topic bg-transparent row-start-1 col-start-2 md:col-start-3 col-span-10 md:col-span-5 p-4 border-b-8 border-b-slate-700/70">
           <div className="dash-edit-wrapper flex flex-row justify-between items-center">
             <Link href={'/dashboard'}>
-              <div className="dashboard-icon flex flex-row items-center justify-start gap-2 hover:text-red-500">
-                <MdDashboard size={22} className=' text-red-500' />
+              <div className="dashboard-icon flex flex-row items-center justify-start gap-2 text-xs hover:text-red-500">
+                <MdDashboard size={14} className=' text-red-500' />
                 <div>Back to Dashboard</div>
               </div>
             </Link>
@@ -77,36 +77,38 @@ const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starte
             {avatarId && imageUrlMap?.get(avatarId) !== undefined ? (
               <Image 
                 src={userAvatar}
-                width={35}
-                height={35}
+                width={24}
+                height={24}
                 alt={createdBy}
                 className='rounded-full'
               />
             ) : (
               <Image 
                 src={userInitialsHref}
-                width={35}
-                height={35}
+                width={24}
+                height={24}
                 alt={createdBy}
                 className='rounded-full'
               />
             )}
-              <span className='text-red-400'>{createdBy}</span> 
-              <span>| {new Date(created!).toDateString()}</span>
+              <span className='text-red-400 text-sm'>{createdBy}</span> 
+              <span className='text-sm'>| {new Date(created!).toDateString()}</span>
             </div>
-            <h1 className='font-bold text-3xl'>{subject}</h1>
-            <div className="topic-body mt-4 whitespace-pre-wrap">
+            <h1 className='font-bold text-lg'>{subject}</h1>
+            <div className="topic-body mt-4 whitespace-pre-wrap text-sm">
               {starter}
             </div>
-            <div className="stats-bar text-slate-300 flex flex-row gap-3 mt-4">
+            <div className="stats-bar text-slate-300 flex flex-row gap-3 mt-4 text-xs">
               <div className="contributions-group flex flex-row justify-start items-center gap-2">
-                <RxChatBubble size={22} />
-                <span>{countDocId? countDocId[0].count : 0} contributions</span>
+                <RxChatBubble size={14} />
+                <span>{countDocId? countDocId[0].count : 0} {countDocId && countDocId[0].count < 1 || countDocId && countDocId[0].count > 1 ? "comments" : "comment" }</span>
               </div>
-              <div className="share-group flex flex-row justify-start items-center gap-2">
+              {/* todo  */}
+              {/* implement share function  */}
+              {/* <div className="share-group flex flex-row justify-start items-center gap-2">
                 <RiShareForwardLine size={22} />
                 <span>Share</span>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="sound-player mt-4">

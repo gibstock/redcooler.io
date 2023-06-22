@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect } from 'react'
+import React, {useEffect, useState } from 'react'
 import { useQuery} from '@tanstack/react-query';
 import { useUserStore } from '@/hooks/store';
 import CommentCard from '@/components/CommentCard';
@@ -19,8 +19,9 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   const setEmailsToEdit = useUserStore(state => state.setEmailsForEdit);
   const setBeatToEdit = useUserStore(state => state.setBeatToEdit);
   const setIsPrivateForEdit = useUserStore(state => state.setIsPrivateToEdit);
-  const setDocId = useUserStore(state => state.setCurrentDoc)
+  // const setDocId = useUserStore(state => state.setCurrentDoc)
   const setTopicId = useUserStore(state => state.setTopicId)
+  const [commentFormModal, setCommentFormModal] = useState(false)
 
   topic?.starter && setContentToEdit(topic.starter)
   topic?.subject && setTitleToEdit(topic.subject);
@@ -49,13 +50,14 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
             avatarId={topic?.userAvatarId}
           />
         )}
-        <CommentForm 
+        {commentFormModal && <CommentForm 
           name={user?.name}
           $id={user?.$id}
           topicCoundDocId={topic?.countDocId}
           countDocId={countDocId}
           docId={topicId}
-        />
+        />}
+        
         <div className="conversation row-start-3 col-start-2 col-span-10 md:col-start-3 md:col-span-5 mb-4">
           {conversations?.map((convo, i) => (
             <CommentCard 

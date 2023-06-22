@@ -132,8 +132,8 @@ const NavBar = () => {
                 <Image 
                   src={userAvatar}
                   alt='user avatar'
-                  width={50}
-                  height={50}
+                  width={30}
+                  height={30}
                   className='rounded-full'
                 />
               ) : (

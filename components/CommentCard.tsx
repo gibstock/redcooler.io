@@ -70,8 +70,8 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
   }
 
   return (
-    <div key={$id} className='comment-wrapper bg-slate-800 text-white mt-4 relative rounded-b-md'>
-      <div className="info-row flex flex-row justify-between items-center gap-2 bg-slate-500 px-4 py-1 rounded-t-md relative">
+    <div key={$id} className='comment-wrapper bg-transparent border-b border-b-slate-300/50 text-white mt-4 relative'>
+      <div className="info-row flex flex-row justify-between items-center gap-2 bg-transparent px-4 py-1 relative">
         {commentMenuOpen && (
           <div className="comment-menu-dropdown p-3 absolute top-[7vh] right-0 bg-[hsl(200_10%_20%)] max-w-[340px] w-[15vw] h-[20vh]">
             {canEdit(user?.$id!, $permissions) && (
@@ -96,8 +96,8 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
           {avatarHref && avatarHref !== null ? (
             <Image 
               src={avatarHref}
-              width={35}
-              height={35}
+              width={24}
+              height={24}
               alt='User avatar'
               className='rounded-full'
             />
@@ -106,15 +106,15 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
               <RxPerson size={22} />
             </div>
           )}
-          <div className="username font-bold justify-self-start">
+          <div className="username font-bold justify-self-start text-xs text-slate-400">
             {createdBy}
           </div>
         </div>
-        <div className="top-bar">
+        {/* <div className="top-bar">
           {commentType}
-        </div>
+        </div> */}
         <div className="date-dots flex flex-row justify-end items-center gap-3">
-          <div className="date-posted text-slate-300">
+          <div className="date-posted text-slate-400 text-xs">
             {new Date(created).toLocaleTimeString()}
           </div>
           <button className="comment-menu" onClick={() => setCommentMenuOpen(!commentMenuOpen)}>
@@ -126,7 +126,7 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
         {/* <div className="top-bar mb-2">
           {commentType}
         </div> */}
-        <div className="content whitespace-pre-wrap">
+        <div className="content whitespace-pre-wrap text-sm">
           {content}
         </div>
       </div>
