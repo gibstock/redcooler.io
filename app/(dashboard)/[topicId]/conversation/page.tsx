@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect, useState } from 'react'
+import React, {useEffect, useState, useRef,  } from 'react'
 import { useQuery} from '@tanstack/react-query';
 import { useUserStore } from '@/hooks/store';
 import CommentCard from '@/components/CommentCard';
@@ -23,13 +23,22 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   const setTopicId = useUserStore(state => state.setTopicId)
   const [commentFormModal, setCommentFormModal] = useState(false)
 
+
   topic?.starter && setContentToEdit(topic.starter)
   topic?.subject && setTitleToEdit(topic.subject);
   topic?.members && setEmailsToEdit(topic.members);
   topic?.isPrivate && setIsPrivateForEdit(topic.isPrivate);
   topic?.beat && setBeatToEdit(topic.beat);
 
-  
+  const commentFormRef = useRef<HTMLDivElement>(null);
+  const commentFormScrollIntoView = () => commentFormRef.current?.scrollIntoView()
+  const handleCommentModalClick = () => {
+    setCommentFormModal(!commentFormModal)
+    if(commentFormModal === true) {
+      commentFormScrollIntoView()
+      commentFormRef.current?.focus()
+    }
+  }
   useEffect(() => {
     topicId && setTopicId(topicId);
 
@@ -53,9 +62,10 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
         {commentFormModal && <CommentForm 
           name={user?.name}
           $id={user?.$id}
-          topicCoundDocId={topic?.countDocId}
+          topicCountDocId={topic?.countDocId}
           countDocId={countDocId}
           docId={topicId}
+          ref={commentFormRef}
         />}
         
         <div className="conversation row-start-3 col-start-2 col-span-10 md:col-start-3 md:col-span-5 mb-4">
@@ -74,6 +84,10 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
               key={convo.$id}
             />
           ))}
+        </div>
+        {/* add comment modal button */}
+        <div className="modal-button bg-[hsl(0_0%_10%)] flex flex-row justify-stretch items-center fixed bottom-0 left-0 px-2 pb-4 pt-2 w-full">
+          <button className='p-2 text-xs bg-slate-800 text-slate-400/90 w-full text-left rounded-md' onClick={handleCommentModalClick}>Add Comment</button>
         </div>
       </div>
   )
