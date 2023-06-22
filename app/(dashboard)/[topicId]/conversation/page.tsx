@@ -39,6 +39,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
       commentFormRef.current?.focus()
     }
   }
+  console.log("commentformmodal", commentFormRef.current)
   useEffect(() => {
     topicId && setTopicId(topicId);
 
@@ -66,6 +67,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
           countDocId={countDocId}
           docId={topicId}
           ref={commentFormRef}
+          commentModalState={commentFormModal}
         />}
         
         <div className="conversation row-start-3 col-start-2 col-span-10 md:col-start-3 md:col-span-5 mb-4">

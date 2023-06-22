@@ -31,6 +31,7 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
   const [communityIcon, setCommunityIcon] = useState('')
   const imageUrlMap = useUserStore(state => state.imageUrlMap)
 
+
   useEffect(() => {
     const youtbeImageExtraction = () => {
       const result = beat?.match("([^\/]+$)")
@@ -66,23 +67,22 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
     <li key={$id} className="flex flex-col bg-[hsl(200_55%_18%)] py-1 px-4 rounded-sm outline outline-3 outline-transparent hover:opacity-70 shadow-[inset_0_2px_4px_hsl(200_55%_40%)]">
       <div className="byline flex flex-row items-center justify-start gap-4 text-xs text-slate-400">
         <div className="community-badge-name flex flex-row justify-start items-center gap-1">
-          <div className="community-badge flex justify-center items-center bg-slate-200 text-slate-900 font-extrabold border border-slate-400 rounded-full w-9 h-9">
+          <div className="community-badge flex justify-center items-center bg-slate-200 text-slate-900 font-extrabold border border-slate-400 rounded-full w-6 h-6">
             {category.slice(0,1).toUpperCase()}
           </div>
           <span className='text-slate-200'>{categories[category as keyof typeof categories]}</span>
         </div>
-        <div className="created">
-            {new Date(created).toDateString()}
-        </div>
+        
         <div className="right-group flex flex-row gap-2">
-          <div className="posted-by flex flex-row justify-center items-end">
-            <span>Posted by</span>
+            {/* <span>Posted by</span> */}
             <h3 className='font-bold'>{createdBy}</h3>
-          </div>
+        </div>
+        <div className="created">
+            {new Date(created).toDateString().split(' ').slice(1).join(' ')}
         </div>
       </div>
       <div className="title-group flex flex-row my-2">
-        <h2 className="font-semibold text-lg text-slate-200">
+        <h2 className="font-semibold text-sm text-slate-200">
           {subject}
         </h2>
       </div>
@@ -95,7 +95,7 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
         />}
         
       </div>
-      <div className='whitespace-pre-wrap text-slate-200'>{isPreview? (truncate(starter, 50)) : (starter)}</div>
+      <div className='whitespace-pre-wrap text-xs text-slate-200'>{isPreview? (truncate(starter, 50)) : (starter)}</div>
       <div className="button-group flex flex-row justify-start items-center my-2">
         <div className="contributions-group flex flex-row justify-start items-center gap-2 text-slate-500">
           <RxChatBubble size={22} />

@@ -111,7 +111,7 @@ const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starte
               </div> */}
             </div>
           </div>
-          <div className="sound-player mt-4">
+          <div className="sound-player mt-4 text-xs">
             {beat?.includes("youtu") ? (
               <>
                 <h2 className='mb-4 font-bold'>YouTube Beat</h2>

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {RiPencilFill} from 'react-icons/ri'
-import {RxPerson, RxDotsVertical} from 'react-icons/rx'
+import {RxPerson, RxDotsVertical, RxCross2} from 'react-icons/rx'
 import {TbTrashX} from 'react-icons/tb'
 import { useUserStore } from '@/hooks/store';
 import api from '@/api/api'
@@ -73,23 +73,24 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
     <div key={$id} className='comment-wrapper bg-transparent border-b border-b-slate-300/50 text-white mt-4 relative'>
       <div className="info-row flex flex-row justify-between items-center gap-2 bg-transparent px-4 py-1 relative">
         {commentMenuOpen && (
-          <div className="comment-menu-dropdown p-3 absolute top-[7vh] right-0 bg-[hsl(200_10%_20%)] max-w-[340px] w-[15vw] h-[20vh]">
+          <div className="comment-menu-dropdown flex flex-col justify-center items-start gap-2 p-3 absolute top-[7vh] right-0 bg-[hsl(200_10%_20%)] ">
             {canEdit(user?.$id!, $permissions) && (
-              <div className="edit-button flex flex-row items-center text-red-500 hover:text-red-300">
-                <RiPencilFill />
+              <div className="edit-button flex flex-row gap-2 items-center text-xs text-red-500 hover:text-red-300">
+                <RiPencilFill size={14} />
                 <button onClick={handleEditComment}>
                   <span>edit</span>
                 </button>
               </div>
             )}
             {canDelete(user?.$id!, $permissions) && (
-              <div className="edit-button flex flex-row items-center text-red-500 hover:text-red-300">
-                <TbTrashX />
+              <div className="edit-button flex flex-row gap-2 items-center text-xs text-red-500 hover:text-red-300">
+                <TbTrashX size={14}/>
                 <button onClick={() => handleDeleteComment(topicId)}>
                   <span>delete</span>
                 </button>
               </div>
             )}
+            {!canEdit(user?.$id!, $permissions) && <div className='text-xs'>No Permissions</div>}
           </div>
         )}
         <div className="avatar-user flex flex-row justify-start items-center gap-1">
@@ -118,7 +119,11 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
             {new Date(created).toLocaleTimeString()}
           </div>
           <button className="comment-menu" onClick={() => setCommentMenuOpen(!commentMenuOpen)}>
-            <RxDotsVertical />
+            {commentMenuOpen ? (
+              <RxCross2 />
+            ): (
+              <RxDotsVertical />
+            )}
           </button>
         </div>
       </div>

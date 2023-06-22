@@ -39,11 +39,11 @@ export default function Dashboard() {
     <div className="my-20 md:mx-4">
       <div className="new-post-group flex flex-row w-full pb-4 gap-x-8 items-center justify-between md:grid md:grid-cols-12">
         <div className="dashboard-icon flex flex-row items-center justify-start gap-2 md:col-start-3 md:col-span-2">
-          <MdDashboard size={22} className=' text-red-500' />
-          <div className='text-slate-200'>Your Dashboard</div>
+          <MdDashboard size={14} className=' text-red-500' />
+          <div className='text-slate-200 md:text-lg text-sm'>Your Dashboard</div>
         </div>
         <button 
-          className="bg-blue-500 text-white rounded-full px-3 py-1 md:col-start-5 md:col-span-3 disabled:bg-blue-200 disabled:cursor-wait" 
+          className="bg-blue-500 text-white text-sm rounded-full px-3 py-1 md:col-start-5 md:col-span-3 disabled:bg-blue-200 disabled:cursor-wait" 
           onClick={handleNewTopicRoute}
           disabled={buttonValue === "One moment please" ? true : false}
         >

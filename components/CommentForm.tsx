@@ -1,4 +1,4 @@
-import React, {useState, FormEvent, useRef, forwardRef, ReactNode} from 'react'
+import React, {useState, FormEvent, useRef, forwardRef, useEffect} from 'react'
 import { useUserStore } from '@/hooks/store'
 import api from '@/api/api'
 
@@ -7,6 +7,7 @@ type AppProps = {
   $id: string | undefined,
   topicCountDocId: string | undefined,
   docId: string,
+  commentModalState: boolean ,
   countDocId: {
     topicId: string;
     count: number;
@@ -46,13 +47,18 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
       console.log(err)
     }
   }
+  useEffect(() => {
+    if(props.commentModalState) {
+      textareaRef.current?.focus();
+    }
+  }, [])
 
  
 
   
   return (
     <div className="submit-comment flex flex-col justify-start items-start row-start-2 col-start-2 md:col-start-3 md:col-span-5 col-span-10 p-4 bg-slate-700 rounded-b-md">
-          <div className="comment-as mb-2">
+          <div className="comment-as mb-2 text-xs">
             Comment as <span className='font-bold'>{name}</span>
           </div>
           <div className="comment-field w-full p-3  outline outline-1 outline-slate-400 rounded-sm">
@@ -64,7 +70,7 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
                 ref={textareaRef}
               >
               </textarea>
-              <div className="comment-type-options mt-2 pt-2 flex flex-row flex-wrap justify-between items-end gap-4 border-solid border-t-2 border-slate-300">
+              <div className="comment-type-options text-xs mt-2 pt-2 flex flex-row flex-wrap justify-between items-end gap-4 border-solid border-t-2 border-slate-300">
                 <div className="radio-option-group flex flex-row justify-start items-center gap-2">
                   <label htmlFor="comment">Comment</label>
                   <input type="radio" name="option-group" id="comment" onChange={() => setMark('comment')} required={true}/>
