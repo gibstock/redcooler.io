@@ -1,11 +1,11 @@
-import React, {useState, FormEvent, useRef} from 'react'
+import React, {useState, FormEvent, useRef, forwardRef, ReactNode} from 'react'
 import { useUserStore } from '@/hooks/store'
 import api from '@/api/api'
 
 type AppProps = {
   name: string | undefined,
   $id: string | undefined,
-  topicCoundDocId: string | undefined,
+  topicCountDocId: string | undefined,
   docId: string,
   countDocId: {
     topicId: string;
@@ -15,12 +15,16 @@ type AppProps = {
   
 }
 
-const CommentForm = ({name, $id, topicCoundDocId, countDocId, docId}: AppProps) => {
+// interface Props {
+//   children: ReactNode;
+// }
+
+const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
   const [mark, setMark] = useState('')
   const [buttonValue, setButtonValue] = useState("Post")
   const userAvatar = useUserStore(state => state.userAvatar);
 
-
+  const {name, $id, topicCountDocId, docId, countDocId} = props
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
@@ -35,7 +39,7 @@ const CommentForm = ({name, $id, topicCoundDocId, countDocId, docId}: AppProps) 
       } else {
         await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark)
       }
-      await api.updateCommentCount(topicCoundDocId!, countDocId![0].count + 1 )
+      await api.updateCommentCount(topicCountDocId!, countDocId![0].count + 1 )
       setMark('')
       window.location.reload()
     }catch(err) {
@@ -90,6 +94,6 @@ const CommentForm = ({name, $id, topicCoundDocId, countDocId, docId}: AppProps) 
           </div>
         </div>
   )
-}
+})
 
 export default CommentForm
