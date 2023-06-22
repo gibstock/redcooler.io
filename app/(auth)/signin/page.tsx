@@ -9,6 +9,7 @@ export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [buttonValue, setButtonValue] = useState('Sign In')
   const setUser = useUserStore(state => state.setUser)
   const setUserProfile = useUserStore(state => state.setUserProfile);
 
@@ -16,6 +17,7 @@ export default function SignIn() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
+    setButtonValue("Checking Credentials...")
     try {
       const userSignIn = await api.signIn({email, password});
       setUser(userSignIn)
@@ -46,11 +48,11 @@ export default function SignIn() {
               id='email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className='peer group-focus-within/email:outline-black bg-slate-800 text-slate-300 outline outline-2 border-2 focus-within:border-yellow-300 outline-blue-500 px-4 py-2 rounded-sm'
+              className='peer group-focus-within/email:outline-black bg-slate-800 text-slate-300 border-none focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
             />
             <div 
               className='absolute left-4 -top-6  text-slate-400 peer-focus-within:text-slate-200'
-              style={email.length > 0 ? {color: 'green'} : {}}
+              style={email.length > 0 ? {color: 'hsl(0, 0%, 90%)'} : {}}
             >
                 Email Address
             </div>
@@ -64,11 +66,11 @@ export default function SignIn() {
               id='password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className='peer group-focus-within/password:outline-black bg-slate-800 text-slate-300 outline outline-2 outline-blue-500 border-2 focus-within:border-yellow-300 px-4 py-2 rounded-sm'
+              className='peer group-focus-within/password:outline-black bg-slate-800 text-slate-300 border-none focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
               />
             <div 
-              className='absolute left-4 -top-6 bg-slate-800 text-slate-400 peer-focus-within:text-slate-200'
-              style={password.length > 0 ? {color: 'green'} : {}}
+              className='absolute left-4 -top-6 text-slate-400 peer-focus-within:text-slate-200'
+              style={password.length > 0 ? {color: 'hsl(0, 0%, 90%)'} : {}}
             >
               Password
             </div>
@@ -76,7 +78,10 @@ export default function SignIn() {
           
           {error && <div className='text-red-500'>{error}</div>}
           {/* Submit button  */}
-          <button type='submit' className='bg-blue-600 hover:bg-blue-500 cursor-pointer p-2 flex flex-col justify-center items-center rounded-sm text-white'>Sign In</button>
+          <button 
+            type='submit' 
+            disabled={buttonValue === "Checking Credentials..." ? true : false}
+            className='bg-blue-600 hover:bg-blue-500 disabled:bg-blue-200 cursor-pointer p-2 flex flex-col justify-center items-center rounded-sm text-white disabled:cursor-wait'>{buttonValue}</button>
         </form>
       <div className='flex flex-row justify-center items-center gap-4 mt-8'>
         <h2 className='text-slate-300'>Need an account?</h2>
