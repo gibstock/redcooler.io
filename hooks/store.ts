@@ -31,6 +31,7 @@ type UserProfile = {
   avatarId: string;
   role: string;
   flair: string;
+  avatarHref: string;
 }[]
 
 type UserInitials = {
@@ -47,8 +48,8 @@ interface UserStore {
   setUser: (user: User | null) => void,
   userProfile: UserProfile | null ,
   setUserProfile: (userProfile: UserProfile | null) => void,
-  userAvatar: string | null,
-  setUserAvatar: (userAvatar: string | null) => void,
+  userAvatar: string | undefined,
+  setUserAvatar: (userAvatar: string | undefined) => void,
   userInitials: UserInitials | null,
   setUserInitials: (userInitials: UserInitials | null) => void,
   currentDoc: string | null,
@@ -86,7 +87,7 @@ export const useUserStore = create<UserStore>()(
       setUser: (user) => set(() => ({ user: user})),
       userProfile: null,
       setUserProfile: (userProfile) => set(() => ({userProfile: userProfile})),
-      userAvatar: null,
+      userAvatar: undefined,
       setUserAvatar: (userAvatar) => set(() => ({ userAvatar: userAvatar})),
       userInitials: null,
       setUserInitials: (userInitials) => set(() => ({ userInitials: userInitials})),

@@ -1,7 +1,6 @@
 'use client'
-import React, { useState} from 'react'
+import React, { useState, useEffect} from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import {RxPerson, RxChevronDown, RxCross1} from 'react-icons/rx' 
 import {FaQuoteLeft, FaQuoteRight} from 'react-icons/fa' 
 import Button from './button'
@@ -13,11 +12,13 @@ const NavBar = () => {
   const [menuPos, setMenuPos] = useState('[40vw]')
   const [overlayZ, setOverlayZ] = useState('-z-40')
   const router = useRouter();
-  const user = useUserStore(state => state.user);
-  const userProfile = useUserStore(state => state.userProfile)
-  const userAvatar = useUserStore(state => state.userAvatar);
-  const userInitials = useUserStore(state => state.userInitials)
-  const setUser = useUserStore(state => state.setUser);
+  const userStore = useUserStore()
+  const user = userStore.user;
+  const userProfile = userStore.userProfile;
+  // const userAvatar = userStore.userAvatar;
+  const userInitials = userStore.userInitials;
+  const setUserInitials = userStore.setUserInitials;
+  const setUser = userStore.setUser;
 
   const handleLogin = () => {
     router.push('/signin')
@@ -44,6 +45,16 @@ const NavBar = () => {
     router.push(`/profile/${user?.$id}`)
   }
 
+  useEffect(() => {
+    const userInitials = async() => {
+      if(user) {
+        const userInitials = await api.getUserInitials(user.name)
+        setUserInitials(userInitials)
+      }
+    }
+    userInitials()
+  }, [user])
+
   return (
     <nav className='relative z-50'>
       <div className="sticky-wrapper flex flex-row min-h-[8vh] w-full justify-between items-center px-4 shadow shadow-slate-300 mb-4 fixed top-0 left-0 right-0 bg-white">
@@ -60,24 +71,24 @@ const NavBar = () => {
                   <FaQuoteRight />
                 </div>
                 <div className="avatar rounded-full relative cursor-pointer hover:opacity-80 active:opacity-50" onClick={handleProfileClick}>
-                  {userAvatar?.length === undefined ? 
+                  {userProfile && userProfile[0].avatarHref === null ? 
                     (
                       userInitials &&
                       <Image 
                         src={userInitials.href}
                         alt='user initials'
-                        width={200}
-                        height={200}
+                        width={150}
+                        height={150}
                         className='rounded-full'
                       />
                     ) : 
                     (
-                      userAvatar && 
+                      userProfile && 
                       <Image 
-                        src={userAvatar}
+                        src={userProfile[0].avatarHref}
                         alt='user avatar'
-                        width={200}
-                        height={200}
+                        width={150}
+                        height={150}
                         className='rounded-full'
                       />
                     )
@@ -128,9 +139,17 @@ const NavBar = () => {
           <div className="profile-group flex flex-row justify-center items-center gap-x-1 px-1 hover:outline hover:outline-1 hover:outline-slate-300 cursor-pointer rounded-[4px] relative">
             <div>{user?.name}</div>
             <div className="avatar">
-              {userAvatar ? (
+              {user && userProfile && userProfile[0].avatarHref !== null ? (
                 <Image 
-                  src={userAvatar}
+                  src={userProfile[0].avatarHref}
+                  alt='user avatar'
+                  width={30}
+                  height={30}
+                  className='rounded-full'
+                />
+              ) : user && userInitials ? (
+                <Image 
+                  src={userInitials.href}
                   alt='user avatar'
                   width={30}
                   height={30}

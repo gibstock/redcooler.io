@@ -32,8 +32,8 @@ type AppProps = {
 }
 
 const Board = ({activeTab, boardType,topics, isLoading, isError}: AppProps) => {
-  const user = useUserStore(state => state.user);
-
+  const userStore = useUserStore()
+  const user = userStore.user;
   const router = useRouter();
   const queryClient = useQueryClient();
 

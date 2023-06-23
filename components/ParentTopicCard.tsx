@@ -18,6 +18,7 @@ type AppProps = {
   starter: string | undefined,
   beat: string | undefined,
   avatarId: string | undefined,
+  userAvatarHref: string | undefined
   countDocId: {
     topicId: string;
     count: number;
@@ -25,11 +26,10 @@ type AppProps = {
 }[] | undefined
 }
 
-const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starter, beat, countDocId, avatarId}: AppProps) => {
+const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starter, beat, countDocId, avatarId, userAvatarHref}: AppProps) => {
   const imageUrlMap = useUserStore(state => state.imageUrlMap)
   const [userAvatar, setUserAvatar] = useState('')
   const [userInitialsHref, setUserInitialsHref] = useState('')
-
   const canEdit = (userID:string | undefined, array: string[] | undefined) => {
     const result = array?.some((element) => element.includes('update') && element.includes(userID!))
     return result
@@ -50,7 +50,7 @@ const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starte
       }
     }
     getUserAvatar();
-  }, [])
+  }, [avatarId])
 
 
   return (
@@ -74,9 +74,10 @@ const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starte
           <div className="topic-card">
             
             <div className="posted-by flex flex-row justify-start items-center gap-2 my-4">
-            {avatarId && imageUrlMap?.get(avatarId) !== undefined ? (
+            {/* {userAvatarHref && imageUrlMap?.get(avatarId) !== undefined ? ( */}
+            {userAvatarHref  ? (
               <Image 
-                src={userAvatar}
+                src={userAvatarHref}
                 width={24}
                 height={24}
                 alt={createdBy}

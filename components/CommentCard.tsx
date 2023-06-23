@@ -25,11 +25,11 @@ type AppProps = {
 
 const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, commentType, content, topicId, avatarId, avatarHref} : AppProps) => {
   const [commentMenuOpen, setCommentMenuOpen] = useState(false)
-  const [commentAvatarHref, setCommentAvatarHref] = useState('');
+  // const [commentAvatarHref, setCommentAvatarHref] = useState('');
   const setCommentToEdit = useUserStore(state => state.setCommentToEdit)
   const setMark = useUserStore(state => state.setMark)
   const setCommentId = useUserStore(state => state.setCommentId)
-  const imageUrlMap = useUserStore(state => state.imageUrlMap);
+  // const imageUrlMap = useUserStore(state => state.imageUrlMap);
   const user = useUserStore(state => state.user)
   const router = useRouter();
 
@@ -93,20 +93,22 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
             {!canEdit(user?.$id!, $permissions) && <div className='text-xs'>No Permissions</div>}
           </div>
         )}
-        <div className="avatar-user flex flex-row justify-start items-center gap-1">
-          {avatarHref && avatarHref !== null ? (
-            <Image 
-              src={avatarHref}
-              width={24}
-              height={24}
-              alt='User avatar'
-              className='rounded-full'
-            />
-          ): (
-            <div className="avatar">
-              <RxPerson size={22} />
-            </div>
-          )}
+        <div className="avatar-user flex flex-row justify-start items-center gap-2">
+          {/* <div className="avatar-wrap"> */}
+            {avatarHref && avatarHref !== null ? (
+              <Image 
+                src={avatarHref}
+                width={24}
+                height={24}
+                alt='User avatar'
+                className='rounded-full object-cover max-h-6'
+              />
+            ): (
+              <div className="avatar">
+                <RxPerson size={22} />
+              </div>
+            )}
+          {/* </div> */}
           <div className="username font-bold justify-self-start text-xs text-slate-400">
             {createdBy}
           </div>
