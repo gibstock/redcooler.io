@@ -15,9 +15,10 @@ import { imageMap } from '@/hooks/imageMap';
 export default function Dashboard() {
   const [buttonValue, setButtonValue] = useState('New Post +')
   const [activeTab, setActiveTab] = useState("Public")
-  const user = useUserStore(state => state.user);
-  const imageList = useUserStore(state => state.imageList);
-  const setImageUrlMap = useUserStore(state => state.setImageUrlMap)
+  const userStore = useUserStore();
+  const user = userStore.user;
+  const imageList = userStore.imageList;
+  const setImageUrlMap = userStore.setImageUrlMap;
 
   const router = useRouter();
   

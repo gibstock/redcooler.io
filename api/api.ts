@@ -115,7 +115,7 @@ let api = {
     await api.provider().database.deleteDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, convoId);
   },
 
-  createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, community: string, beat?: string, isPrivate?: boolean, members?: string[], countDocId?: string, userAvatarId?: string) => {
+  createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, community: string, beat?: string, isPrivate?: boolean, members?: string[], countDocId?: string, userAvatarId?: string, userAvatarHref?: string) => {
     const result = await api.provider().database.createDocument(Server.topicsDatabaseID, Server.topicsCollectionID, 'unique()', {
       subject,
       starter,
@@ -128,6 +128,7 @@ let api = {
       countDocId,
       community,
       userAvatarId,
+      userAvatarHref,
     },
     [
       Permission.delete(Role.user(user_account_id)), Permission.update(Role.user(user_account_id))
@@ -170,6 +171,7 @@ let api = {
     members?: string[],
     community: string,
     userAvatarId: string,
+    userAvatarHref: string,
   }> => {
     const result = await api.provider().database.getDocument(Server.topicsDatabaseID, Server.topicsCollectionID, $id);
     return result
@@ -372,7 +374,8 @@ let api = {
     email: string,
     avatarId: string,
     role: string,
-    flair: string
+    flair: string,
+    avatarHref: string,
   }[]> => {
     const {documents: userProfile } = await api.provider().database.listDocuments(Server.profileDatabaseID, Server.profileCollectionID, 
       [
@@ -381,14 +384,15 @@ let api = {
     )
     return userProfile;
   },
-  createUserProfile: async(name: string, email: string, flair: string, role: string, userId: string, avatarId: string): Promise<{
+  createUserProfile: async(name: string, email: string, flair: string, role: string, userId: string, avatarId: string, avatarHref: string): Promise<{
     $id: string,
     userId: string,
     name: string,
     email: string,
     avatarId: string,
     role: string,
-    flair: string
+    flair: string,
+    avatarHref: string,
   }[]> => {
     const result = api.provider().database.createDocument(Server.profileDatabaseID, Server.profileCollectionID, 'unique()', {
       name,
@@ -396,7 +400,8 @@ let api = {
       flair,
       role,
       userId,
-      avatarId
+      avatarId,
+      avatarHref,
     })
     return result
   },

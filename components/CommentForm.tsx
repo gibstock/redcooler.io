@@ -23,9 +23,11 @@ type AppProps = {
 const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
   const [mark, setMark] = useState('')
   const [buttonValue, setButtonValue] = useState("Post")
+  const userStore = useUserStore()
+  const userProfile = userStore.userProfile;
   const userAvatar = useUserStore(state => state.userAvatar);
 
-  const {name, $id, topicCountDocId, docId, countDocId} = props
+  const {name, $id, topicCountDocId, docId, countDocId, commentModalState} = props
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
@@ -35,23 +37,23 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
       alert('Please enter content to submit')
     }
     try {
-      if(userAvatar !== null && userAvatar !== undefined) {
-        await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark, undefined, undefined, userAvatar)
+      if(userProfile !== null) {
+        await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark, undefined, undefined, userProfile[0].avatarHref)
+        await api.updateCommentCount(topicCountDocId!, countDocId![0].count + 1 )
+        setMark('')
+        window.location.reload()
       } else {
-        await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark)
+        throw Error;
       }
-      await api.updateCommentCount(topicCountDocId!, countDocId![0].count + 1 )
-      setMark('')
-      window.location.reload()
     }catch(err) {
       console.log(err)
     }
   }
   useEffect(() => {
-    if(props.commentModalState) {
+    if(commentModalState) {
       textareaRef.current?.focus();
     }
-  }, [])
+  }, [commentModalState])
 
  
 

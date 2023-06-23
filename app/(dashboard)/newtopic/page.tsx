@@ -21,9 +21,14 @@ export default function NewTopic(){
   const [emailInput, setEmailInput] = useState('');
   const [buttonValue, setButtonValue] = useState('Post')
   const [category, setCategory] = useState('')
-  const [avatarId, setAvatarId] = useState('')
+  // const [avatarId, setAvatarId] = useState('')
+  const userStore = useUserStore();
+  // const avatarUrl = useUserStore(state => state.userAvatar);
   
-  const user = useUserStore(state => state.user);
+  
+  const user = userStore.user;
+  const userProfile = userStore.userProfile;
+  console.log("userPRofile", userProfile)
 
   const router = useRouter();
 
@@ -43,22 +48,24 @@ export default function NewTopic(){
       }
       e.preventDefault()
       e.currentTarget.disabled
-      const userProfile = await api.getUserProfile(topic.user_account_id)
-      if(userProfile[0].avatarId.length > 0) {
-        setAvatarId(userProfile[0].avatarId);
+      // const userProfile = await api.getUserProfile(topic.user_account_id)
+      // if(userProfile[0].avatarId.length > 0) {
+      //   setAvatarId(userProfile[0].avatarId);
+      // }
+      if(userProfile) {
+        // Create a new topic in the topic database, topic will not contain
+        // an entry for coundDocId yet
+        const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, category, topic.beat, topic.isPrivate, parsedEmailInput, undefined, undefined, userProfile[0].avatarHref)
+        // reset initial data values
+        setTopic(initialData);
+        // create a new entry in the convoCount database using the $id from the newly created topic
+        // as a foreing key
+        const createdCountDoc = await api.createCommentCount(createdTopic.$id, 0);
+        // Now that the convoCount entry has been created, add that doc id entry back into
+        // the newly created topic in order to reference the convoCount db entry
+        await api.addCountDocIdToNewTopic(createdTopic.$id, createdCountDoc.$id)
+        router.push('/dashboard')
       }
-      // Create a new topic in the topic database, topic will not contain
-      // an entry for coundDocId yet
-      const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, category, topic.beat, topic.isPrivate, parsedEmailInput, undefined, avatarId)
-      // reset initial data values
-      setTopic(initialData);
-      // create a new entry in the convoCount database using the $id from the newly created topic
-      // as a foreing key
-      const createdCountDoc = await api.createCommentCount(createdTopic.$id, 0);
-      // Now that the convoCount entry has been created, add that doc id entry back into
-      // the newly created topic in order to reference the convoCount db entry
-      await api.addCountDocIdToNewTopic(createdTopic.$id, createdCountDoc.$id)
-      router.push('/dashboard')
 
     }catch (err) {
       console.log("error starting the thread", err)
@@ -99,8 +106,7 @@ export default function NewTopic(){
               />
               <h1 className='text-slate-300'>Add a Category</h1>
             </header>
-            <select value={category} onChange={(e) => setCategory(e.target.value)} name="categories" id="category-select" className='bg-slate-700 text-slate-300 py-2 px-3 rounded-sm'>
-              <option value="">--Categories</option>
+            <select required value={category} onChange={(e) => setCategory(e.target.value)} name="categories" id="category-select" className='bg-slate-700 text-slate-300 py-2 px-3 rounded-sm'>
               <option value="music-collab">Music Collab</option>
               <option value="short-stories">Short Stories</option>
               <option value="long-stories">Long Stories</option>

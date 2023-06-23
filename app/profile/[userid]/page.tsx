@@ -108,6 +108,7 @@ const ProfilePage = () => {
                     width={200}
                     height={200}
                     className='rounded-full'
+                    priority
                   />
                 )
               }
@@ -128,7 +129,7 @@ const ProfilePage = () => {
         <div className="edit-profile-modal">
           <div className="modal-wrapper flex flex-col justify-center items-center gap-4 absolute top-0 left-0 bg-slate-800 w-full p-8 rounded-sm shadow-lg shadow-slate-900">
             <div className="icons self-stretch flex flex-row justify-between items-center">
-              <div className="title">
+              <div className="title text-sm">
                 Edit Profile Details
               </div>
               <div className="close-icon  cursor-pointer hover:opacity-70"  onClick={() => setModal(false)}>
@@ -171,7 +172,7 @@ const ProfilePage = () => {
                   )
               }
               <button onClick={handleUploadClick}>
-              {file? `${file.name}` : 'Click to select photo \n(must be less than 10mb)'}
+              {file? `${file.name}` : <div className='text-sm'>Click to select photo <br />(must be less than 10mb, square ratio works best)</div>}
               </button>
               <input 
                 type="file" 

@@ -98,7 +98,7 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
       <div className='whitespace-pre-wrap text-xs text-slate-200'>{isPreview? (truncate(starter, 50)) : (starter)}</div>
       <div className="button-group flex flex-row justify-start items-center my-2">
         <div className="contributions-group flex flex-row justify-start items-center gap-2 text-slate-500">
-          <RxChatBubble size={22} />
+          <RxChatBubble size={14} />
           {/* <span>{convoCount![0].count} {convoCount![0].count > 1 || convoCount![0].count < 1 ? ("contributors"):("contributor")}</span> */}
         </div>
       </div>

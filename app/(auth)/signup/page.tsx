@@ -26,7 +26,7 @@ export default function SignUp() {
         console.log("sign up success")
         await api.signIn({email, password})
         console.log("sign in success")
-        await api.createUserProfile(username,email,"redcooler noob",'user', res.$id,"")
+        await api.createUserProfile(username,email,"redcooler noob",'user', res.$id,"", "")
         console.log("Profile creation success")
         await api.emailVerification("https://redcooler.io/verifyemail");
         console.log("Verification email sent")
@@ -55,7 +55,7 @@ export default function SignUp() {
               id='username'
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className='peer group-focus-within/username:outline-black bg-slate-800 text-slate-300 outline outline-2 border-2 focus-within:border-yellow-300 outline-blue-500 px-4 py-2 rounded-sm'
+              className='peer group-focus-within/username:outline-black bg-slate-800 text-slate-300 border-none focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
             />
             <div 
               className='absolute left-4 -top-6 text-slate-400 peer-focus-within:text-slate-200'
@@ -73,7 +73,7 @@ export default function SignUp() {
               id='email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className='peer group-focus-within/email:outline-black bg-slate-800 text-slate-300 outline outline-2 border-2 focus-within:border-yellow-300 outline-blue-500 px-4 py-2 rounded-sm'
+              className='peer group-focus-within/email:outline-black bg-slate-800 text-slate-300 border-none focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
             />
             <div 
               className='absolute left-4 -top-6 text-slate-400 peer-focus-within:text-slate-200'
@@ -91,7 +91,7 @@ export default function SignUp() {
               id='password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className='peer group-focus-within/password:outline-black bg-slate-800 text-slate-300 outline outline-2 border-2 focus-within:border-yellow-300 outline-blue-500 px-4 py-2 rounded-sm'
+              className='peer group-focus-within/password:outline-black bg-slate-800 text-slate-300 focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
             />
             <div 
               className='absolute left-4 -top-6 text-slate-400 peer-focus-within:text-slate-200'
@@ -109,7 +109,7 @@ export default function SignUp() {
               id='repassword'
               value={rePassword}
               onChange={(e) => setRePassword(e.target.value)}
-              className='peer group-focus-within/repassword:outline-black bg-slate-800 text-slate-300 outline outline-2 border-2 focus-within:border-yellow-300 outline-blue-500 px-4 py-2 rounded-sm'
+              className='peer group-focus-within/repassword:outline-black bg-slate-800 text-slate-300 focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
               />
             <div 
               className='absolute left-4 -top-6 text-slate-400 peer-focus-within:text-slate-200'
