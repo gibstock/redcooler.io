@@ -15,10 +15,11 @@ const NavBar = () => {
   const userStore = useUserStore()
   const user = userStore.user;
   const userProfile = userStore.userProfile;
-  // const userAvatar = userStore.userAvatar;
   const userInitials = userStore.userInitials;
   const setUserInitials = userStore.setUserInitials;
   const setUser = userStore.setUser;
+
+
 
   const handleLogin = () => {
     router.push('/signin')
@@ -71,7 +72,7 @@ const NavBar = () => {
                   <FaQuoteRight />
                 </div>
                 <div className="avatar rounded-full relative cursor-pointer hover:opacity-80 active:opacity-50" onClick={handleProfileClick}>
-                  {userProfile && userProfile[0].avatarHref === null ? 
+                  {userProfile && userProfile[0].avatarHref.length < 2 ? 
                     (
                       userInitials &&
                       <Image 
