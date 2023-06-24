@@ -15,13 +15,14 @@ const ProfilePage = () => {
   const flairInputRef = useRef<HTMLInputElement | null>(null);
   const [file, setFile] = useState<File>();
   const [imgPreview, setImgPreview] = useState<string | null>(null)
-  const userAvatar = useUserStore(state => state.userAvatar);
-  const userProfile = useUserStore(state => state.userProfile)
-  const userInitials = useUserStore(state => state.userInitials)
+  const userStore = useUserStore()
+  const userProfile = userStore.userProfile;
+  const userInitials = userStore.userInitials;
   const [name, setName] = useState("")
   const [flair, setFlair] = useState("")
   const [modal, setModal] = useState(false);
   const [buttonValue, setButtonValue] = useState('Save');
+
 
   const router = useRouter()
   
@@ -57,18 +58,14 @@ const ProfilePage = () => {
           await api.deleteProfilePhoto(userProfile[0].avatarId)
         }
         const res = await api.uploadPhoto(file!);
-        console.log("photo uploaded successfully", res)
-        await api.updateProfile(userProfile[0].$id, name, flair, res.$id);
-        
+        const avatarUrl = await api.getAvatarById(res.$id);
+        await api.updateProfile(userProfile[0].$id, name, flair, res.$id, avatarUrl.href);
+      } else {
+        await api.updateProfile(userProfile[0].$id, name, flair);
       }
-      await api.updateProfile(userProfile[0].$id, name, flair);
-      console.log("profile updated successfully")
       await api.updateName(name);
-      console.log("account name updated")
       await api.updateNameInConversationByUserId(userProfile[0].userId, name)
-      console.log("conversation name updated")
       await api.updateNameInTopicByUserId(userProfile[0].userId, name)
-      console.log("topic name updated")
       setModal(false)
       window.location.reload()
     }catch(err) {
@@ -91,7 +88,7 @@ const ProfilePage = () => {
               </div>
             </div>
             <div className="avatar">
-              {userAvatar === null ? (
+              {userProfile && userProfile[0].avatarHref.length < 1 ? (
                 userInitials &&
                   <Image 
                     src={userInitials.href}
@@ -101,9 +98,9 @@ const ProfilePage = () => {
                     className='rounded-full'
                   />
                 ) : (
-                userAvatar && 
+                userProfile && 
                   <Image 
-                    src={userAvatar}
+                    src={userProfile[0].avatarHref}
                     alt='user avatar'
                     width={200}
                     height={200}
@@ -148,7 +145,7 @@ const ProfilePage = () => {
 
               />
               ) :
-                userAvatar === null ? (
+                userProfile && userProfile[0].avatarHref.length < 2 ? (
                   userInitials &&
                     <Image 
                       src={userInitials.href}
@@ -159,9 +156,9 @@ const ProfilePage = () => {
                       onClick={handleUploadClick}
                     />
                   ) : (
-                  userAvatar && 
+                  userProfile && 
                     <Image 
-                      src={userAvatar}
+                      src={userProfile[0].avatarHref}
                       alt='user avatar'
                       width={200}
                       height={200}
@@ -172,7 +169,7 @@ const ProfilePage = () => {
                   )
               }
               <button onClick={handleUploadClick}>
-              {file? `${file.name}` : <div className='text-sm'>Click to select photo <br />(must be less than 10mb, square ratio works best)</div>}
+              {file? `${file.name}` : <div className='text-sm'>Click to select photo <br /> Accepted Filetypes: png, jpg, jpeg, svg <br />(must be less than 10mb, square ratio works best)</div>}
               </button>
               <input 
                 type="file" 

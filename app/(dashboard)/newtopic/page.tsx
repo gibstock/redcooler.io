@@ -21,14 +21,11 @@ export default function NewTopic(){
   const [emailInput, setEmailInput] = useState('');
   const [buttonValue, setButtonValue] = useState('Post')
   const [category, setCategory] = useState('')
-  // const [avatarId, setAvatarId] = useState('')
   const userStore = useUserStore();
-  // const avatarUrl = useUserStore(state => state.userAvatar);
   
   
   const user = userStore.user;
   const userProfile = userStore.userProfile;
-  console.log("userPRofile", userProfile)
 
   const router = useRouter();
 
@@ -48,10 +45,6 @@ export default function NewTopic(){
       }
       e.preventDefault()
       e.currentTarget.disabled
-      // const userProfile = await api.getUserProfile(topic.user_account_id)
-      // if(userProfile[0].avatarId.length > 0) {
-      //   setAvatarId(userProfile[0].avatarId);
-      // }
       if(userProfile) {
         // Create a new topic in the topic database, topic will not contain
         // an entry for coundDocId yet

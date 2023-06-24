@@ -226,10 +226,8 @@ let api = {
       [
         Query.equal("userAccountId", userId)
       ]);
-      console.log("convos from api", convos)
       try{
         convos && await convos.forEach(async(convo: {$id: string, createdBy: string}) => {
-          console.log("convo-", convo.$id, convo.createdBy)
           await api.provider().database.updateDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, convo.$id, 
             {
               createdBy: name,
@@ -251,7 +249,6 @@ let api = {
       [
         Query.equal("user_account_id", userId)
       ]);
-      console.log("topics from api", topics)
       try{
         topics && await topics.forEach(async(topic: {$id: string, createdBy: string}) => {
           await api.provider().database.updateDocument(Server.topicsDatabaseID, Server.topicsCollectionID, topic.$id, 
@@ -417,11 +414,12 @@ let api = {
   deleteProfilePhoto: async(fileId: string) => {
     await api.provider().storage.deleteFile(Server.bucketID, fileId);
   },
-  updateProfile: async(docId: string, name?: string, flair?: string, avatarId?: string) => {
+  updateProfile: async(docId: string, name?: string, flair?: string, avatarId?: string, avatarHref?: string) => {
     await api.provider().database.updateDocument(Server.profileDatabaseID, Server.profileCollectionID, docId, {
       name,
       flair,
-      avatarId
+      avatarId,
+      avatarHref
     })
   },
   listAvatars: async() => {
