@@ -5,6 +5,7 @@ import api from '@/api/api';
 import { TbAsteriskSimple } from 'react-icons/tb'
 import { RxCross1 } from 'react-icons/rx'
 import { useRouter } from 'next/navigation';
+import WordCount from '@/components/WordCount';
 
 const initialData = {
   subject: '',
@@ -92,12 +93,12 @@ export default function NewTopic(){
       <div className='new-topic-group p-2 lg:w-full lg:max-w-2xl'>
         <div className="form-wrapper p-4 outline outline-1 outline-slate-400 rounded-sm">
           <div className="community-select py-4">
-            <header className='flex flex-row justify-normal items-center'>
-            <TbAsteriskSimple 
+            <header className='flex flex-row justify-normal items-center gap-2'>
+              <h1 className='text-slate-300'>Add a Category</h1>
+              <TbAsteriskSimple 
                 size={10} 
                 className='text-red-500 -left-0 top-0'
               />
-              <h1 className='text-slate-300'>Add a Category</h1>
             </header>
             <select required value={category} onChange={(e) => setCategory(e.target.value)} name="categories" id="category-select" className='bg-slate-700 text-slate-300 py-2 px-3 rounded-sm'>
               <option value="music-collab">Music Collab</option>
@@ -121,38 +122,44 @@ export default function NewTopic(){
           </div>
           <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
             <div className='flex flex-col relative'>
-              <label htmlFor="subject" hidden>
-                Subject
-              </label>
-              <TbAsteriskSimple 
-                size={10} 
-                className='text-red-500 absolute -left-0 top-0'
-              />
-              <input 
-                className='rounded-sm p-2 bg-slate-700 text-slate-200 md:text-slate-700  md:bg-slate-200'
-                required={true}
-                type="text" 
-                id='subject'
-                placeholder='Title'
-                value={topic.subject}
-                onChange={(e) => setTopic({...topic, subject: e.target.value})}
-              />
+              <div className="label-wrap flex flex-row gap-2">
+                <label htmlFor="subject" className='text-slate-300'>
+                  Title
+                </label>
+                <TbAsteriskSimple 
+                  size={10} 
+                  className='text-red-500'
+                />
+              </div>
+              <div className="subject-input-wrap w-full">
+                <input 
+                  className='w-full rounded-sm p-2 bg-slate-700 text-slate-200 md:text-slate-700  md:bg-slate-200'
+                  required={true}
+                  type="text" 
+                  id='subject'
+                  placeholder='Some descriptive title...'
+                  value={topic.subject}
+                  onChange={(e) => setTopic({...topic, subject: e.target.value})}
+                />
+                <WordCount words={topic.subject.length} count={150} color='text-slate-300' />
+              </div>
             </div>
             <div className='flex flex-col'>
-              <label htmlFor="starter" hidden>
-                Starter
+              <label htmlFor="starter" className='text-slate-300'>
+                Text
               </label>
               <textarea 
                 className='rounded-sm p-2 h-[30vh] bg-slate-700 text-slate-200 md:text-slate-700  md:bg-slate-200'
                 required={false}
                 id='starter'
-                placeholder='Text (Optional)'
+                placeholder='Get the convo started (Optional)'
                 value={topic.starter}
                 onChange={(e) => setTopic({...topic, starter: e.target.value})}
               ></textarea>
+              <WordCount words={topic.starter.length} count={1024} color='text-slate-200' />
             </div>
             <div className='flex flex-col'>
-              <label htmlFor="beat" hidden>
+              <label htmlFor="beat" className='text-slate-300'>
                 Beat Link
               </label>
               <input 
@@ -160,10 +167,11 @@ export default function NewTopic(){
                 required={false}
                 type="text" 
                 id='beat'
-                placeholder='Beat Link (Optional)'
+                placeholder='Ex: https://youtu.be/1wiR9TP6tvs (Optional)'
                 value={topic.beat}
                 onChange={(e) => setTopic({...topic, beat: e.target.value})}
               />
+              <WordCount words={topic.beat.length} count={100} color='text-slate-200' />
               <small className='text-center text-slate-500'>Currently supports YouTube and SoundCloud</small>
             </div>
             <div className='flex flex-col items-center justify-start gap-4 border-y border-y-slate-500 py-4'>
