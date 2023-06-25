@@ -39,18 +39,15 @@ const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starte
       // get user profile
       // get proile_pic_id
       // get img url from imagemap
-      if(avatarId !== null && avatarId !== undefined) {
-        if(imageUrlMap) {
-          const avId = imageUrlMap.get(avatarId)
-          avId !== undefined && setUserAvatar(avId)
-        }
+      if(userAvatarHref !== null && userAvatarHref !== undefined) {
+          console.log("userAvatarHref", userAvatarHref)
       } else {
         const userInitials = await api.getUserInitials(createdBy)
         setUserInitialsHref(userInitials.href)
       }
     }
     getUserAvatar();
-  }, [avatarId])
+  }, [avatarId, imageUrlMap])
 
 
   return (
