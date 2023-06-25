@@ -59,7 +59,9 @@ const ProfilePage = () => {
         }
         const res = await api.uploadPhoto(file!);
         const avatarUrl = await api.getAvatarById(res.$id);
-        await api.updateProfile(userProfile[0].$id, name, flair, res.$id, avatarUrl.href);
+        const updateProfile = await api.updateProfile(userProfile[0].$id, name, flair, res.$id, avatarUrl.href);
+        const updateTopicAvatar = await api.updateAvatarHrefInTopicByUserId(userProfile[0].userId, avatarUrl.href, userProfile[0].avatarId);
+        const updateConvoAvatar = await api.updateAvatarInConversationByUserId(userProfile[0].userId, avatarUrl.href);
       } else {
         await api.updateProfile(userProfile[0].$id, name, flair);
       }

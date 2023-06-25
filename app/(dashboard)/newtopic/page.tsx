@@ -49,7 +49,7 @@ export default function NewTopic(){
       if(userProfile) {
         // Create a new topic in the topic database, topic will not contain
         // an entry for coundDocId yet
-        const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, category, topic.beat, topic.isPrivate, parsedEmailInput, undefined, undefined, userProfile[0].avatarHref)
+        const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, category, topic.beat, topic.isPrivate, parsedEmailInput, undefined, userProfile[0].avatarId, userProfile[0].avatarHref)
         // reset initial data values
         setTopic(initialData);
         // create a new entry in the convoCount database using the $id from the newly created topic

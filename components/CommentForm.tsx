@@ -47,7 +47,7 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
     setButtonValue("Posting...")
     try {
       if(userProfile !== null) {
-        await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark, undefined, undefined, userProfile[0].avatarHref)
+        await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark, undefined, userProfile[0].avatarId, userProfile[0].avatarHref)
         await api.updateCommentCount(topicCountDocId!, countDocId![0].count + 1 )
         setMark('')
         window.location.reload()

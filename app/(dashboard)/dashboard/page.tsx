@@ -18,7 +18,9 @@ export default function Dashboard() {
   const userStore = useUserStore();
   const user = userStore.user;
   const imageList = userStore.imageList;
+  const setImageList = userStore.setImageList;
   const setImageUrlMap = userStore.setImageUrlMap;
+  const imageUrlMap = userStore.imageUrlMap;
 
   const router = useRouter();
   
@@ -33,8 +35,13 @@ export default function Dashboard() {
     if(!user) {
       router.replace('/')
     } 
-    setImageUrlMap(imageMap(imageList))
-  }, [imageList])
+    const getImageList = async () => {
+      const getAvatars = await api.listAvatars();
+      setImageList(getAvatars)
+      setImageUrlMap(imageMap(imageList))
+    }
+    // getImageList();
+  }, [])
 
   return (
     <div className="my-20 md:mx-4">
