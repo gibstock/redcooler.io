@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect} from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import {RxPerson, RxChevronDown, RxCross1} from 'react-icons/rx' 
 import {FaQuoteLeft, FaQuoteRight} from 'react-icons/fa' 
 import Button from './button'
@@ -108,6 +109,14 @@ const NavBar = () => {
                   label='Sign Out'
                   onClick={handleSignOut}
                 />
+              </div>
+              <div className="policies">
+                <span>Policies</span>
+                <div className="links">
+                  <Link href={'/content-guideline'}>
+                    <span>Content Guidelines</span>
+                  </Link>
+                </div>
               </div>
             </div>
             <div className={`overlay absolute transition-all duration-500 top-0 left-0 h-screen w-screen ${overlayZ === 'z-40' ? 'opacity-60' : 'opacity-0'} ${overlayZ === 'z-40' ? '' : 'hidden'} bg-[hsl(0_0%_10%)] ${overlayZ}`} onClick={handleOverlayClick}></div>

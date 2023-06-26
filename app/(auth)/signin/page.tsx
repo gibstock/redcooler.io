@@ -36,7 +36,7 @@ export default function SignIn() {
 
   return (
     <div className='flex flex-row justify-center items-center w-screen h-screen'>
-      <div className='w-1/2 lg:max-w-md lg:flex lg:flex-col lg:justify-center lg:items-stretch'>
+      <div className='w-[80%] lg:max-w-md lg:flex lg:flex-col lg:justify-center lg:items-stretch'>
         <h1 className='text-3xl text-slate-200 mb-8 text-center'>Welcome Back</h1>
         <form onSubmit={handleSubmit} className='flex flex-col items-stretch gap-8 lg:max-w-lg'>
           <div className='input-group group/email flex flex-col relative'>
@@ -83,7 +83,7 @@ export default function SignIn() {
             disabled={buttonValue === "Checking Credentials..." ? true : false}
             className='bg-blue-600 hover:bg-blue-500 disabled:bg-blue-200 cursor-pointer p-2 flex flex-col justify-center items-center rounded-sm text-white disabled:cursor-wait'>{buttonValue}</button>
         </form>
-      <div className='flex flex-row justify-center items-center gap-4 mt-8'>
+      <div className='flex flex-col md:flex-row justify-center items-center gap-4 mt-8'>
         <h2 className='text-slate-300'>Need an account?</h2>
         <button className='text-blue-600' onClick={handleSignUpRoute}>Sign Up</button>
       </div>
