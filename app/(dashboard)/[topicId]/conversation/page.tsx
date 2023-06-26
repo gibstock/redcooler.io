@@ -60,9 +60,9 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
             userAvatarHref={topic.userAvatarHref}
           />
         )}
-        <div className="modal-button bg-[hsl(0_0%_10%)] flex flex-row justify-stretch items-center px-2 pb-4 pt-2 w-full">
+        {/* <div className="modal-button bg-[hsl(0_0%_10%)] flex flex-row justify-stretch items-center px-2 pb-4 pt-2 w-full">
           <button className='p-2 text-xs bg-slate-800 text-slate-300 w-full text-left rounded-md' onClick={handleCommentModalClick}>Add Comment</button>
-        </div>
+        </div> */}
         {commentFormModal && <CommentForm 
           name={user?.name}
           $id={user?.$id}
@@ -92,7 +92,9 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
           ))}
         </div>
         {/* add comment modal button */}
-        
+        <div className="modal-button bg-[hsl(0_0%_10%)] flex flex-row justify-stretch items-center fixed bottom-0 left-0 px-2 pb-4 pt-4 w-full">
+          <button className='px-2 py-4 text-sm bg-slate-800 text-slate-300 w-full text-left rounded-md' onClick={handleCommentModalClick}>Add Comment</button>
+        </div>
       </div>
   )
 }
