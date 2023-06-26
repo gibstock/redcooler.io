@@ -17,6 +17,12 @@ const initialData = {
   email: [''],
 }
 
+const wordLimit = {
+  subject: 150,
+  starter: 1024,
+  beat: 100,
+}
+
 export default function NewTopic(){
   const [topic, setTopic] = useState(initialData)
   const [emailInput, setEmailInput] = useState('');
@@ -35,7 +41,6 @@ export default function NewTopic(){
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    setButtonValue("Posting")
     try{
       let parsedEmailInput: string[] = [];
       if(emailInput.length > 0) {
@@ -46,7 +51,20 @@ export default function NewTopic(){
       }
       e.preventDefault()
       e.currentTarget.disabled
+      if(topic.subject.length > wordLimit.subject){
+      alert("You are over the character limit, please edit your title.")
+      return;
+      }
+      if(topic.starter.length > wordLimit.starter){
+      alert("You are over the character limit, please edit your text content.")
+      return;
+      }
+      if(topic.beat.length > wordLimit.beat){
+      alert("You are over the character limit, please edit your beat link.")
+      return;
+      }
       if(userProfile) {
+        setButtonValue("Posting")
         // Create a new topic in the topic database, topic will not contain
         // an entry for coundDocId yet
         const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, category, topic.beat, topic.isPrivate, parsedEmailInput, undefined, userProfile[0].avatarId, userProfile[0].avatarHref)
@@ -141,7 +159,7 @@ export default function NewTopic(){
                   value={topic.subject}
                   onChange={(e) => setTopic({...topic, subject: e.target.value})}
                 />
-                <WordCount words={topic.subject.length} count={150} color='text-slate-300' />
+                <WordCount words={topic.subject.length} count={wordLimit.subject} color='text-slate-300' />
               </div>
             </div>
             <div className='flex flex-col'>
@@ -156,7 +174,7 @@ export default function NewTopic(){
                 value={topic.starter}
                 onChange={(e) => setTopic({...topic, starter: e.target.value})}
               ></textarea>
-              <WordCount words={topic.starter.length} count={1024} color='text-slate-200' />
+              <WordCount words={topic.starter.length} count={wordLimit.starter} color='text-slate-200' />
             </div>
             <div className='flex flex-col'>
               <label htmlFor="beat" className='text-slate-300'>
@@ -171,7 +189,7 @@ export default function NewTopic(){
                 value={topic.beat}
                 onChange={(e) => setTopic({...topic, beat: e.target.value})}
               />
-              <WordCount words={topic.beat.length} count={100} color='text-slate-200' />
+              <WordCount words={topic.beat.length} count={wordLimit.beat} color='text-slate-200' />
               <small className='text-center text-slate-500'>Currently supports YouTube and SoundCloud</small>
             </div>
             <div className='flex flex-col items-center justify-start gap-4 border-y border-y-slate-500 py-4'>
