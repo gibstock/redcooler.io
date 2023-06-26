@@ -50,7 +50,7 @@ const ContentGuideline = () => {
             </li>
             <li>Stay on Topic:
               <ul className='list-disc list-inside'>
-                <li>Keep your posts relevant to the forum's theme or specific discussion thread.</li>
+                <li>Keep your posts relevant to the forum&apos;s theme or specific discussion thread.</li>
                 <li>Avoid spamming, excessive self-promotion, or advertising unrelated products or services.</li>
                 <li>Use appropriate categories or tags when posting to ensure easy navigation and organization of content.</li>
               </ul>
