@@ -43,7 +43,7 @@ export default function SignUp() {
 
   return (
     <div className='h-screen w-screen flex flex-col justify-center items-center'>
-      <div className='w-1/2'>
+      <div className='w-[80%] lg:max-w-md'>
         <h1 className='text-3xl text-slate-200 mb-8 text-center'>Welcome!</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
           <div className='input-group group/username flex flex-col relative'>
@@ -128,7 +128,7 @@ export default function SignUp() {
           </button>
         </form>
       </div>
-      <div className='flex flex-row justify-center items-center gap-4'>
+      <div className='flex flex-col md:flex-row justify-center items-center gap-4 mt-8'>
         <h2 className='text-slate-300'>Already have an account?</h2>
         <button className='text-blue-600' onClick={handleSignInRoute}>Sign In</button>
       </div>
