@@ -104,19 +104,20 @@ const NavBar = () => {
                 </div>
               </div>
               <div className="options"></div>
+              <div className="policies text-slate-300">
+                <span className='text-sm'>Policies</span>
+                <hr className='opacity-80' />
+                <div className="links text-xs pt-4">
+                  <Link href={'/content-guideline'}>
+                    <span>Content Guidelines</span>
+                  </Link>
+                </div>
+              </div>
               <div className="sign-out bg-red-500 hover:bg-red-400 cursor-pointer rounded-full flex justify-center items-center px-4 py-1">
                 <Button 
                   label='Sign Out'
                   onClick={handleSignOut}
                 />
-              </div>
-              <div className="policies">
-                <span>Policies</span>
-                <div className="links">
-                  <Link href={'/content-guideline'}>
-                    <span>Content Guidelines</span>
-                  </Link>
-                </div>
               </div>
             </div>
             <div className={`overlay absolute transition-all duration-500 top-0 left-0 h-screen w-screen ${overlayZ === 'z-40' ? 'opacity-60' : 'opacity-0'} ${overlayZ === 'z-40' ? '' : 'hidden'} bg-[hsl(0_0%_10%)] ${overlayZ}`} onClick={handleOverlayClick}></div>
