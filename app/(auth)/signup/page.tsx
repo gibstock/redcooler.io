@@ -10,17 +10,26 @@ export default function SignUp() {
   const [rePassword, setRePassword] = useState('');
   const [username, setUsername] = useState('');
   const [buttonValue, setButtonValue] = useState('Sign Up')
+  const [usernameAlert, setUsernameAlert] = useState(false)
 
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
+    setUsernameAlert(false)
     if(password !== rePassword) {
       alert("Passwords must match")
+      return;
     } else if(password.length < 8) {
       alert("Passwords must be at least 8 characters")
+      return;
     } else {
       try {
+        const usernameCheck = await api.checkUsernameExists(username);
+        if(usernameCheck.length > 0) {
+          setUsernameAlert(true)
+          return;
+        }
         setButtonValue("Signing up...")
         const res = await api.signUp({email, password, username});
         console.log("sign up success")
@@ -43,7 +52,7 @@ export default function SignUp() {
 
   return (
     <div className='h-screen w-screen flex flex-col justify-center items-center'>
-      <div className='w-[80%] lg:max-w-md'>
+      <div className='w-[80%] lg:max-w-md mt-8'>
         <h1 className='text-3xl text-slate-200 mb-8 text-center'>Welcome!</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
           <div className='input-group group/username flex flex-col relative'>
@@ -59,9 +68,12 @@ export default function SignUp() {
             />
             <div 
               className='absolute left-4 -top-6 text-slate-400 peer-focus-within:text-slate-200'
-              style={username.length > 0 ? {color: 'green'} : {}}
+              style={username.length > 0 ? {color: 'white'} : {}}
             >
                 Username
+            </div>
+            <div className={`username-alert text-red-700 text-sm ${usernameAlert === false ? 'hidden':''}`}>
+              Username already exists, try again
             </div>
           </div>
           <div className='input-group group/email flex flex-col relative'>
@@ -77,7 +89,7 @@ export default function SignUp() {
             />
             <div 
               className='absolute left-4 -top-6 text-slate-400 peer-focus-within:text-slate-200'
-              style={email.length > 0 ? {color: 'green'} : {}}
+              style={email.length > 0 ? {color: 'white'} : {}}
             >
                 Email Address
             </div>
@@ -95,7 +107,7 @@ export default function SignUp() {
             />
             <div 
               className='absolute left-4 -top-6 text-slate-400 peer-focus-within:text-slate-200'
-              style={password.length > 0 ? {color: 'green'} : {}}
+              style={password.length > 0 ? {color: 'white'} : {}}
             >
               Password
             </div>
@@ -113,7 +125,7 @@ export default function SignUp() {
               />
             <div 
               className='absolute left-4 -top-6 text-slate-400 peer-focus-within:text-slate-200'
-              style={rePassword.length > 0 ? {color: 'green'} : {}}
+              style={rePassword.length > 0 ? {color: 'white'} : {}}
             >
               Re-Type Password
             </div>

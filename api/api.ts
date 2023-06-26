@@ -453,6 +453,14 @@ let api = {
     })
     return updatedProfile;
   },
+  checkUsernameExists: async(username: string) => {
+    const {documents: profile} = await api.provider().database.listDocuments(Server.profileDatabaseID, Server.profileCollectionID,
+      [
+        Query.equal("name", username)
+      ]
+      )
+    return profile;
+  },
 
   // STORAGE BUCKET METHODS
   uploadPhoto: async(file: File) => {
