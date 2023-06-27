@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useQuery} from '@tanstack/react-query';
@@ -17,13 +17,17 @@ export default function Home() {
   
 
   const router = useRouter();
-  if(user) {
-    router.push('/dashboard')
-  }
+  useEffect(() => {
+    if(user) {
+      router.push('/dashboard')
+    }
+  }, [user])
+
   const handleSignUpRoute = () => {
     setButtonValue("...")
     router.push('/signup')
   }
+  if(isLoading) return <h1>Loading content...</h1>
 
   return (
     <main className='lg:p-5 p-0 w-full md:w-[80%] mx-0 md:mx-auto'>

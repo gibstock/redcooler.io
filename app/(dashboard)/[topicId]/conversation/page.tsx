@@ -22,6 +22,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   // const setDocId = useUserStore(state => state.setCurrentDoc)
   const setTopicId = useUserStore(state => state.setTopicId)
   const [commentFormModal, setCommentFormModal] = useState(false)
+  
 
 
   topic?.starter && setContentToEdit(topic.starter)
@@ -58,6 +59,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
             countDocId={countDocId}
             avatarId={topic?.userAvatarId}
             userAvatarHref={topic.userAvatarHref}
+            audioFileId={topic.audioFileId}
           />
         )}
         {/* <div className="modal-button bg-[hsl(0_0%_10%)] flex flex-row justify-stretch items-center px-2 pb-4 pt-2 w-full">
