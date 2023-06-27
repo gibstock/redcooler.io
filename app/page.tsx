@@ -48,7 +48,7 @@ export default function Home() {
   return (
     <main className='lg:p-5 p-0 w-full md:w-[80%] mx-0 md:mx-auto'>
       <section className="welcome flex flex-col justify-center items-center mt-16">
-        <h1 className='text-3xl text-center md:text-5xl text-slate-200 font-bold m-0 pb-8'>Welcome to <span className='text-red-500'>RedCooler.io</span></h1>
+        <h1 className='text-3xl text-center md:text-5xl text-slate-200 font-bold mt-8 pb-8'>Welcome to <span className='text-red-500'>RedCooler.io</span></h1>
         <p className='m-0 pb-8 text-center text-xl md:text-2xl text-slate-300'>A place to write, share, and collab</p>
       </section>
       <div className="hero-banner flex flex-row justify-center items-center w-full">
