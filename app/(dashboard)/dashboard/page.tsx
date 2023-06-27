@@ -15,6 +15,7 @@ import { imageMap } from '@/hooks/imageMap';
 export default function Dashboard() {
   const [buttonValue, setButtonValue] = useState('New Post +')
   const [activeTab, setActiveTab] = useState("Public")
+  const [modal, setModal] = useState(false);
   const userStore = useUserStore();
   const user = userStore.user;
   const imageList = userStore.imageList;
@@ -27,8 +28,16 @@ export default function Dashboard() {
   const { data: privateTopics, isLoading: privateIsLoading, isError: privateIsError} = useQuery(['private-topics'], () => api.fetchPrivateTopics(user?.email!))
   const {data: publicTopics, isLoading: publicIsLoading, isError: publicIsError } = useQuery(['public-topics'], api.listTopicsWithQuery);
   const handleNewTopicRoute = () => {
+    if(user && user.name === "Guest"){
+      setModal(true);
+      return;
+    }
     setButtonValue("One moment please")
     router.push("/newtopic")
+  }
+
+  const handleCancel = () => {
+    setModal(false);
   }
 
   useEffect(() => {
@@ -57,6 +66,24 @@ export default function Dashboard() {
         >
           {buttonValue}
         </button>
+        {modal && (
+              <div className='modal-wrapper absolute z-50 top-0 left-0 w-full h-full'>
+                <div className="overlay absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
+                <div className="modal absolute top-[30%] left-0 w-full bg-black p-4 flex flex-col gap-1">
+                  <header>
+                    <h1 className='text-slate-200 text-xl font-bold'>Only registered users can do that.</h1>
+                  </header>
+                  <div className="body text-slate-300">
+                    <p>Would you like to sign up?</p>
+                  </div>
+                  <div className="responses flex flex-row justify-around items-center">
+                    {/* <button className='text-slate-400' onClick={() => router.push('/signup')}>Yes!</button> */}
+                    <button className='text-slate-100 w-full font-bold bg-blue-500 hover:bg-blue-400 py-1 px-5 rounded-full' onClick={() => router.push('/signup')}>Yes!</button>
+                    <button className='text-slate-400 w-full hover:text-slate-200' onClick={handleCancel}>Keep Browsing</button>
+                  </div>
+                </div>
+              </div>
+            )}
       </div>
       <Tabs 
         activeTab={activeTab}
