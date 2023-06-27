@@ -57,7 +57,7 @@ const ProfilePage = () => {
         if(userProfile[0].avatarId.length > 0) {
           await api.deleteProfilePhoto(userProfile[0].avatarId)
         }
-        const res = await api.uploadPhoto(file!);
+        const res = await api.uploadPhoto(file);
         const avatarUrl = await api.getAvatarById(res.$id);
         const updateProfile = await api.updateProfile(userProfile[0].$id, name, flair, res.$id, avatarUrl.href);
         const updateTopicAvatar = await api.updateAvatarHrefInTopicByUserId(userProfile[0].userId, avatarUrl.href, userProfile[0].avatarId);

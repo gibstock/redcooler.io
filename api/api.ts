@@ -85,7 +85,7 @@ let api = {
   deleteTopic: async (id: string) => {
     await api.provider().database.deleteDocument(Server.topicsDatabaseID, Server.topicsCollectionID, id);
   },
-  createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, community: string, beat?: string, isPrivate?: boolean, members?: string[], countDocId?: string, userAvatarId?: string, userAvatarHref?: string) => {
+  createTopic: async (subject: string, starter: string, user_account_id: string, createdBy: string, community: string, beat?: string, isPrivate?: boolean, members?: string[], countDocId?: string, userAvatarId?: string, userAvatarHref?: string, audioFileId?: string) => {
     const result = await api.provider().database.createDocument(Server.topicsDatabaseID, Server.topicsCollectionID, 'unique()', {
       subject,
       starter,
@@ -99,6 +99,7 @@ let api = {
       community,
       userAvatarId,
       userAvatarHref,
+      audioFileId,
     },
     [
       Permission.delete(Role.user(user_account_id)), Permission.update(Role.user(user_account_id))
@@ -142,6 +143,7 @@ let api = {
     community: string,
     userAvatarId: string,
     userAvatarHref: string,
+    audioFileId: string,
   }> => {
     const result = await api.provider().database.getDocument(Server.topicsDatabaseID, Server.topicsCollectionID, $id);
     return result
@@ -161,6 +163,7 @@ let api = {
     countDocId: string,
     community: string,
     userAvatarId: string,
+    audioFileId: string,
   }[]> => {
     const {documents: privateTopics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
       [
@@ -462,7 +465,7 @@ let api = {
     return profile;
   },
 
-  // STORAGE BUCKET METHODS
+  // PHOTO STORAGE BUCKET METHODS
   uploadPhoto: async(file: File) => {
     const result = await api.provider().storage.createFile(Server.bucketID, 'unique()', file);
     return result;
@@ -483,10 +486,14 @@ let api = {
   listAvatars: async() => {
     const {files} = await api.provider().storage.listFiles(Server.bucketID);
     return files;
+  },
+  // AUDIO STORAGE BUCKET METHODS
+  uploadAudioFile: async(file: File) => {
+    return await api.provider().storage.createFile(Server.audioBucketID, 'unique()', file);
+  },
+  streamAudioFile: async(fileId: string) => {
+    return await api.provider().storage.getFileView(Server.audioBucketID, fileId);
   }
-  // listDocuments: (databaseId: string, collectionId: string) => {
-  //   return api.provider().database.listDocuments(databaseId, collectionId);
-  // },
 };
 
 export default api;

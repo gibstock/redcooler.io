@@ -10,5 +10,7 @@ export const Server = {
   profileDatabaseID : process.env.NEXT_PUBLIC_PROFILE_DATABASE!,
   profileCollectionID : process.env.NEXT_PUBLIC_PROFILE_COLLECTION!,
   bucketID: process.env.NEXT_PUBLIC_BUCKET_ID!,
-  apiKey: process.env.NEXT_PUBLIC_API_KEY!
+  apiKey: process.env.NEXT_PUBLIC_API_KEY!,
+  audioBucketID: process.env.NEXT_PUBLIC_AUDIO_BUCKET_ID!,
+  audioApiKey: process.env.NEXT_PUBLIC_AUDIO_API_KEY!
 }

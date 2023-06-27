@@ -23,3 +23,7 @@ body {
 li {
   padding-bottom: 1em;
 }
+audio::-webkit-media-controls-panel {
+  background-color: #e5e7eb;
+  
+}

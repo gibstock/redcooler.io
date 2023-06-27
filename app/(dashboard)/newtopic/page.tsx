@@ -1,5 +1,5 @@
 'use client'
-import React, {FormEvent, useState} from 'react';
+import React, {FormEvent, useState, ChangeEvent, useRef} from 'react';
 import { useUserStore } from '@/hooks/store';
 import api from '@/api/api';
 import { TbAsteriskSimple } from 'react-icons/tb'
@@ -28,8 +28,12 @@ export default function NewTopic(){
   const [emailInput, setEmailInput] = useState('');
   const [buttonValue, setButtonValue] = useState('Post')
   const [category, setCategory] = useState('')
+  const [file, setFile] = useState<File | null>(null)
+  const [fileTypeWarning, setFileTypeWarning] = useState(false)
+  const [fileSizeWarning, setFileSizeWarning] =  useState(false);
   const userStore = useUserStore();
   
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
   
   const user = userStore.user;
   const userProfile = userStore.userProfile;
@@ -41,6 +45,7 @@ export default function NewTopic(){
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    console.log(e);
     try{
       let parsedEmailInput: string[] = [];
       if(emailInput.length > 0) {
@@ -65,18 +70,28 @@ export default function NewTopic(){
       }
       if(userProfile) {
         setButtonValue("Posting")
-        // Create a new topic in the topic database, topic will not contain
-        // an entry for coundDocId yet
-        const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, category, topic.beat, topic.isPrivate, parsedEmailInput, undefined, userProfile[0].avatarId, userProfile[0].avatarHref)
-        // reset initial data values
-        setTopic(initialData);
-        // create a new entry in the convoCount database using the $id from the newly created topic
-        // as a foreing key
-        const createdCountDoc = await api.createCommentCount(createdTopic.$id, 0);
-        // Now that the convoCount entry has been created, add that doc id entry back into
-        // the newly created topic in order to reference the convoCount db entry
-        await api.addCountDocIdToNewTopic(createdTopic.$id, createdCountDoc.$id)
-        router.push('/dashboard')
+        if(file) {
+          const audioUpload = await api.uploadAudioFile(file);
+          const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, category, topic.beat, topic.isPrivate, parsedEmailInput, undefined, userProfile[0].avatarId, userProfile[0].avatarHref, audioUpload.$id)
+          setTopic(initialData);
+          const createdCountDoc = await api.createCommentCount(createdTopic.$id, 0);
+          await api.addCountDocIdToNewTopic(createdTopic.$id, createdCountDoc.$id)
+          router.push('/dashboard')
+
+        } else {
+          // Create a new topic in the topic database, topic will not contain
+          // an entry for coundDocId yet
+          const createdTopic = await api.createTopic(topic.subject, topic.starter, topic.user_account_id, topic.createdBy, category, topic.beat, topic.isPrivate, parsedEmailInput, undefined, userProfile[0].avatarId, userProfile[0].avatarHref)
+          // reset initial data values
+          setTopic(initialData);
+          // create a new entry in the convoCount database using the $id from the newly created topic
+          // as a foreing key
+          const createdCountDoc = await api.createCommentCount(createdTopic.$id, 0);
+          // Now that the convoCount entry has been created, add that doc id entry back into
+          // the newly created topic in order to reference the convoCount db entry
+          await api.addCountDocIdToNewTopic(createdTopic.$id, createdCountDoc.$id)
+          router.push('/dashboard')
+        }
       }
 
     }catch (err) {
@@ -88,11 +103,33 @@ export default function NewTopic(){
     router.back()
   }
 
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if(!e.target.files) {
+      return;
+    }
+    if(!e.target.files[0].type.includes('audio/mpeg')) {
+      setFileTypeWarning(true)
+      return;
+    }
+    console.log("file size", e.target.files[0].size/1024/1024)
+    if(e.target.files[0].size/1024/1024 > 25) {
+      setFileSizeWarning(true)
+      return;
+    }
+    console.log(e.target.files[0])
+    setFile(e.target.files[0]);
+  }
+
+  const handleClickUpload = () => {
+    // setFileSizeWarning(false)
+    // setFileTypeWarning(false)
+    fileInputRef?.current?.click();
+  }
 
   return (
     <div className='mt-20 lg:flex lg:flex-col items-center'>
       <header className='pt-2 px-2 lg:max-w-2xl lg:w-full lg:flex flex-col items-center'>
-        <h1 className='text-2xl text-slate-200 text-center mb-3'>Create a Topic</h1>
+        <h1 className='text-2xl text-slate-200 text-center mb-3'>Create a Post</h1>
         <div className="required-info flex flex-row justify-center items-center gap-3 text-[10px]">
           <div className='text-xs'>
             <TbAsteriskSimple size={10} className='text-red-500'/>
@@ -176,6 +213,27 @@ export default function NewTopic(){
               ></textarea>
               <WordCount words={topic.starter.length} count={wordLimit.starter} color='text-slate-200' />
             </div>
+            <div className="audio-header text-lg text-center text-slate-300 border-t-2 border-t-slate-300/80">
+              <header>
+                <h1>Audio Options</h1>
+              </header>
+            </div>
+            <div className="upload-audio-file flex flex-col justify-center items-start text-slate-300">
+              <span>Upload MP3</span>
+              <div onClick={handleClickUpload}>
+                {file? <div className='bg-slate-700 rounded-sm p-2 cursor-pointer'>File: {file.name} <br /><span className={`${(file.size/1024/1024) > 25 ? 'text-red-700' : ''}`}>Size: {(file.size/1024/1024).toFixed(2)}mb</span></div> : <div className='bg-slate-700 hover:bg-slate-400 hover:text-slate-800 text-slate-400 rounded-sm p-2 cursor-pointer'>Click to Upload (Optional)</div>}
+              </div>
+              <input 
+                type="file" 
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className='hidden'
+              />
+              <small className={`audio-format-warning text-red-700 ${fileTypeWarning ? 'block': 'hidden'}`}>File format not supported</small>
+              <small className={`audio-size-warning text-red-700 ${fileSizeWarning ? 'block': 'hidden'}`}>File exceeds 25mb limit</small>
+              <small className='text-center text-slate-500'>MP3 format, under 25mb</small>
+            </div>
+
             <div className='flex flex-col'>
               <label htmlFor="beat" className='text-slate-300'>
                 Beat Link
@@ -194,11 +252,11 @@ export default function NewTopic(){
             </div>
             <div className='flex flex-col items-center justify-start gap-4 border-y border-y-slate-500 py-4'>
               <header className='flex flex-row justify-center items-center gap-3'>
+                <span className='text-slate-200'>Choose who can see your post</span>
                 <TbAsteriskSimple 
                   size={10} 
                   className='text-red-500 -left-0 top-0'
                 />
-                <span className='text-slate-200'>Choose who can see your post</span>
               </header>
               <div className="flex flex-row justify-evenly items-center w-full">
                 <div className="radio-group flex flex-row gap-1 text-slate-200">
@@ -240,6 +298,12 @@ export default function NewTopic(){
               >{buttonValue}</button>
             </div>
           </form>
+          {/* <input 
+            type="file" 
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            className='hidden'
+          /> */}
         </div>
       </div>
     </div>

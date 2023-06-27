@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import {MdDashboard} from 'react-icons/md'
+import {MdDashboard, MdPlayCircle, MdPauseCircle,} from 'react-icons/md'
 import {RiPencilFill, RiShareForwardLine} from 'react-icons/ri'
 import {RxChatBubble} from 'react-icons/rx'
 import ReactPlayer from 'react-player';
@@ -18,7 +18,8 @@ type AppProps = {
   starter: string | undefined,
   beat: string | undefined,
   avatarId: string | undefined,
-  userAvatarHref: string | undefined
+  userAvatarHref: string | undefined,
+  audioFileId?: string | undefined,
   countDocId: {
     topicId: string;
     count: number;
@@ -26,29 +27,40 @@ type AppProps = {
 }[] | undefined
 }
 
-const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starter, beat, countDocId, avatarId, userAvatarHref}: AppProps) => {
+const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starter, beat, countDocId, avatarId, userAvatarHref, audioFileId}: AppProps) => {
   const imageUrlMap = useUserStore(state => state.imageUrlMap)
-  const [userAvatar, setUserAvatar] = useState('')
+  // const [userAvatar, setUserAvatar] = useState('')
   const [userInitialsHref, setUserInitialsHref] = useState('')
+  const [audioSrc, setAudioSrc] = useState('');
+  const [audioName, setAudioName] = useState('');
   const canEdit = (userID:string | undefined, array: string[] | undefined) => {
     const result = array?.some((element) => element.includes('update') && element.includes(userID!))
     return result
   };
+
+  useEffect(() => {
+    const getAudioStream = async () => {
+      if(audioFileId && audioFileId.length > 2) {
+        const audioFileSrc = await api.streamAudioFile(audioFileId);
+        setAudioSrc(audioFileSrc.href);
+      }
+    }
+    getAudioStream();
+
+  }, [audioFileId])
+
   useEffect(()=>{
     const getUserAvatar = async () => {
       // get user profile
       // get proile_pic_id
       // get img url from imagemap
-      if(userAvatarHref !== null && userAvatarHref !== undefined) {
-          console.log("userAvatarHref", userAvatarHref)
-      } else {
+      if(userAvatarHref === null || userAvatarHref === undefined) {
         const userInitials = await api.getUserInitials(createdBy)
         setUserInitialsHref(userInitials.href)
-      }
+      } 
     }
     getUserAvatar();
   }, [avatarId, imageUrlMap])
-
 
   return (
     <div className="parent-topic bg-transparent row-start-1 col-start-2 md:col-start-3 col-span-10 md:col-span-5 p-4 border-b-8 border-b-slate-700/70">
@@ -138,7 +150,13 @@ const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starte
                   />
                 </div>
               </>
-            ) : null}
+            ) : audioFileId && audioFileId?.length > 2 ? (
+              <div className='flex flex-col justify-center items-start'>
+                <h2 className='mb-4 font-bold'>Original Beat</h2>
+                {/* <span className=''>{audioName}</span> */}
+                <audio className='bg-[#e5e7eb] w-full rounded-md' src={audioSrc} controls></audio>
+              </div>
+            ): null}
           </div>
         </div>
   )
