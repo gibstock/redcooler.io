@@ -11,7 +11,10 @@ import api from '@/api/api';
 
 export default function Home() {
   const [buttonValue, setButtonValue] = useState("Join Now")
-  const user = useUserStore(state => state.user);
+  const [guestButtonValue, setGuestButtonValue] = useState('Guest Sign In')
+  const userStore = useUserStore()
+  const user = userStore.user;
+  const setUser = userStore.setUser;
 
   const {data, isLoading, isError, error } = useQuery(['latest'], api.fetchLatestPosts);
   
@@ -26,6 +29,19 @@ export default function Home() {
   const handleSignUpRoute = () => {
     setButtonValue("...")
     router.push('/signup')
+  }
+  const handleGuestSignIn = async() => {
+    setGuestButtonValue("Logging in...");
+    try {
+      const userSignIn = await api.signIn({email:'guest@agonzales.dev', password:'redcooler'});
+      setUser(userSignIn)
+      // const userProfile = await api.getUserProfile(userSignIn.$id)
+      // setUserProfile(userProfile)
+      window.location.replace('/dashboard')
+    }catch(err) {
+      console.error(err)
+    }
+
   }
   if(isLoading) return <h1>Loading content...</h1>
 
@@ -78,6 +94,16 @@ export default function Home() {
           disabled={buttonValue === "..." ? true : false}
           >
             {buttonValue}
+          </button>
+      </section>
+      <section className="guest-signin flex flex-col justify-center items-center mt-12">
+        <h2 className='text-3xl text-center md:text-5xl text-slate-200 font-bold mb-7'>Want to sign in as a guest and have a look?</h2>
+        <button 
+          className='bg-blue-600 disabled:bg-blue-200 disabled:cursor-not-allowed hover:bg-blue-500 rounded-3xl min-w-[28px] text-white py-2 px-3 text-center outline-none border-none'
+          onClick={handleGuestSignIn}
+          disabled={guestButtonValue === "Logging in..." ? true : false}
+          >
+            {guestButtonValue}
           </button>
       </section>
     </main>

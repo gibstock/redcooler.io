@@ -20,7 +20,7 @@ const NavBar = () => {
   const setUserInitials = userStore.setUserInitials;
   const setUser = userStore.setUser;
 
-
+  console.log(userProfile && userProfile[0].avatarHref.length < 2)
 
   const handleLogin = () => {
     router.push('/signin')
@@ -73,22 +73,23 @@ const NavBar = () => {
                   <FaQuoteRight />
                 </div>
                 <div className="avatar rounded-full relative cursor-pointer hover:opacity-80 active:opacity-50" onClick={handleProfileClick}>
-                  {userProfile && userProfile[0].avatarHref.length < 2 ? 
-                    (
-                      userInitials &&
-                      <Image 
-                        src={userInitials.href}
-                        alt='user initials'
-                        width={150}
-                        height={150}
-                        className='rounded-full'
-                      />
-                    ) : 
+                  {userProfile && userProfile[0].avatarHref.length > 10 ? 
                     (
                       userProfile && 
                       <Image 
                         src={userProfile[0].avatarHref}
                         alt='user avatar'
+                        width={150}
+                        height={150}
+                        className='rounded-full'
+                      />
+                    )
+                     : 
+                    (
+                      userInitials &&
+                      <Image 
+                        src={userInitials.href}
+                        alt='user initials'
                         width={150}
                         height={150}
                         className='rounded-full'
@@ -150,7 +151,7 @@ const NavBar = () => {
           <div className="profile-group flex flex-row justify-center items-center gap-x-1 px-1 hover:outline hover:outline-1 hover:outline-slate-300 cursor-pointer rounded-[4px] relative">
             <div>{user?.name}</div>
             <div className="avatar">
-              {user && userProfile && userProfile[0].avatarHref !== null ? (
+              {user && userProfile && userProfile[0].avatarHref.length > 10 ? (
                 <Image 
                   src={userProfile[0].avatarHref}
                   alt='user avatar'
