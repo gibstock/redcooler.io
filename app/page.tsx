@@ -12,6 +12,7 @@ import api from '@/api/api';
 export default function Home() {
   const [buttonValue, setButtonValue] = useState("Join Now")
   const [guestButtonValue, setGuestButtonValue] = useState('Guest Sign In')
+  const [pageIsLoading, setPageIsLoading] = useState(true);
   const userStore = useUserStore()
   const user = userStore.user;
   const setUser = userStore.setUser;
@@ -21,10 +22,18 @@ export default function Home() {
 
   const router = useRouter();
   useEffect(() => {
-    if(user) {
-      router.push('/dashboard')
-    }
-  }, [user])
+    const user = async () => {
+      const user = await api.getUser();
+      if(user) {
+        router.push('/dashboard');
+      }
+      if(!user) {
+        setPageIsLoading(false);
+        return;
+      } 
+    };
+    user();
+  }, [])
 
   const handleSignUpRoute = () => {
     setButtonValue("...")
@@ -43,7 +52,7 @@ export default function Home() {
     }
 
   }
-  if(isLoading) return <h1>Loading content...</h1>
+  if(pageIsLoading) return <h1 className='h-screen w-full flex flex-col text-5xl text-red-600'>Loading page...</h1>
 
   return (
     <main className='lg:p-5 p-0 w-full md:w-[80%] mx-0 md:mx-auto'>
