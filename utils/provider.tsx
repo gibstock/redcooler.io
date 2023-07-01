@@ -3,12 +3,13 @@
 import React, {useEffect, useState} from "react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools} from '@tanstack/react-query-devtools';
-import { useUserStore } from "@/hooks/store";
+import { useUserStore, darkModeStore } from "@/hooks/store";
 import api from "@/api/api";
 
 function Providers({children}: React.PropsWithChildren) {
   const setUser = useUserStore(state => state.setUser);
   const setUserProfile = useUserStore(state => state.setUserProfile);
+  const dark = darkModeStore(state => state.dark);
   const [client] = useState(
     new QueryClient({ defaultOptions: {queries: {staleTime: 5000}}})
   );
@@ -25,6 +26,17 @@ function Providers({children}: React.PropsWithChildren) {
     
     user();
   }, []);
+
+  useEffect(() => {
+    const darkCheck = () => {
+      if(dark) {
+        document.querySelector('html')?.classList.add('dark')
+      } else {
+        document.querySelector('html')?.classList.remove('dark')
+      }
+    }
+    darkCheck()
+  }, [dark])
   return (
       <QueryClientProvider client={client}>
         {children}

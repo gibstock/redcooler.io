@@ -4,16 +4,20 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {RxPerson, RxChevronDown, RxCross1} from 'react-icons/rx' 
 import {FaQuoteLeft, FaQuoteRight} from 'react-icons/fa' 
+import { BsFillMoonFill, BsSunFill} from 'react-icons/bs'
 import Button from './button'
 import { useRouter } from 'next/navigation'
-import { useUserStore } from '@/hooks/store'
+import { useUserStore, darkModeStore } from '@/hooks/store'
 import api from '@/api/api'
 
 const NavBar = () => {
   const [menuPos, setMenuPos] = useState('[40vw]')
   const [overlayZ, setOverlayZ] = useState('-z-40')
   const router = useRouter();
-  const userStore = useUserStore()
+  const userStore = useUserStore();
+  const darkStore = darkModeStore();
+  const dark = darkStore.dark;
+  const toggleDarkMode = darkStore.toggleDarkMode;
   const user = userStore.user;
   const userProfile = userStore.userProfile;
   const userInitials = userStore.userInitials;
@@ -62,7 +66,7 @@ const NavBar = () => {
       <div className="sticky-wrapper flex flex-row min-h-[8vh] w-full justify-between items-center px-4 shadow shadow-slate-300 mb-4 fixed top-0 left-0 right-0 bg-white">
         {user && (
           <>
-            <div className={`profile-menu flex flex-col justify-evenly items-center absolute transition-all duration-500 top-0 -right-${menuPos} md:w-[40vw] w-[60vw] h-[100vh] bg-[hsl(0_0%_10%)] z-50`} style={ menuPos === '[40vw]' ? {right: '-60vw'} : {right: '0'}}>
+            <div className={`profile-menu flex flex-col justify-evenly items-center absolute transition-all duration-500 top-0 -right-${menuPos} md:w-[40vw] w-[60vw] h-[100vh] bg-white dark:bg-dark-dark z-50`} style={ menuPos === '[40vw]' ? {right: '-60vw'} : {right: '0'}}>
               <div className="close-menu-icon absolute text-slate-300 hover:text-slate-200 top-4 right-4 pr-[2vw] cursor-pointer" onClick={handleOverlayClick}>
                 <RxCross1  size={'5vw'} />
               </div>
@@ -103,6 +107,12 @@ const NavBar = () => {
                 <div className="joined-on text-slate-400 text-xs">
                   Joined {new Date(user?.registration!).toDateString()}
                 </div>
+                <div className="dark-mode-group flex flex-col justify-center items-center gap-2">
+                  <span>{dark? 'Use Light Mode' : 'Use Dark Mode'}</span>
+                  <div className="dark-mode-icon border border-blue-200 p-2 rounded-lg" onClick={toggleDarkMode}>
+                  {!dark ? <BsFillMoonFill /> : <BsSunFill />}
+                  </div>
+                </div>
               </div>
               <div className="options"></div>
               <div className="policies text-slate-300">
@@ -140,11 +150,16 @@ const NavBar = () => {
             {user ? (
               null
             ) : (
-              <div className='bg-red-500 hover:bg-red-400 cursor-pointer rounded-full flex justify-center items-center px-4 py-1'>
-                <Button 
-                  label='Sign In'
-                  onClick={handleLogin}
-                />
+              <div>
+                <div className="dark-mode-icon">
+                  {!dark ? <BsFillMoonFill /> : <BsSunFill />}
+                </div>
+                <div className='bg-red-500 hover:bg-red-400 cursor-pointer rounded-full flex justify-center items-center px-4 py-1'>
+                  <Button 
+                    label='Sign In'
+                    onClick={handleLogin}
+                  />
+              </div>
               </div>
             )}
           </div>
