@@ -73,6 +73,7 @@ let api = {
       countDocId: string,
       community: string,
       userAvatarId: string,
+      audioFileId: string,
     }[]> => {
     const { documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
       [
@@ -251,9 +252,11 @@ let api = {
         Query.equal("topicId", topicId)
       ]  
     )
-    conversations.map( async (convo: any) => {
-      await api.provider().database.deleteDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, convo.$id);
-    })
+    if(conversations !== null) {
+      conversations.map( async (convo: any) => {
+        await api.provider().database.deleteDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, convo.$id);
+      })
+    }
     return conversations;
   },
   deleteConverstaionWithId: async (convoId: string) => {
@@ -493,7 +496,10 @@ let api = {
   },
   streamAudioFile: async(fileId: string) => {
     return await api.provider().storage.getFileView(Server.audioBucketID, fileId);
-  }
+  },
+  deleteAudioFile: async(fileId: string) => {
+    await api.provider().storage.deleteFile(Server.audioBucketID, fileId);
+  },
 };
 
 export default api;

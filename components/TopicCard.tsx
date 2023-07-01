@@ -22,9 +22,10 @@ type AppProps = {
   isPreview?: boolean,
   beat?: string,
   userAvatarId?: string | null,
+  audioFileId?: string | null,
 }
 
-const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, userId, canDelete, database, hasDeleteButton, isPreview, beat, category, userAvatarId}: AppProps) => {
+const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, userId, canDelete, database, hasDeleteButton, isPreview, beat, category, userAvatarId, audioFileId}: AppProps) => {
   const [youTubeImg, setYouTubeImg] = useState('')
   const [userAvatar, setUserAvatar] = useState('')
   const [userInitialsHref, setUserInitialsHref] = useState('')
