@@ -53,7 +53,7 @@ export default function SignUp() {
   return (
     <div className='h-screen w-screen flex flex-col justify-center items-center'>
       <div className='w-[80%] lg:max-w-md mt-8'>
-        <h1 className='text-3xl text-slate-200 mb-8 text-center'>Welcome!</h1>
+        <h1 className='text-3xl text-slate-800 dark:text-slate-200 mb-8 text-center'>Welcome!</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
           <div className='input-group group/username flex flex-col relative'>
             <label htmlFor="username" hidden>
@@ -64,11 +64,11 @@ export default function SignUp() {
               id='username'
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className='peer group-focus-within/username:outline-black bg-slate-800 text-slate-300 border-none focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
+              className='peer group-focus-within/username:outline-black bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-300 border-none focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
             />
             <div 
-              className='absolute left-4 -top-6 text-slate-400 peer-focus-within:text-slate-200'
-              style={username.length > 0 ? {color: 'white'} : {}}
+              className='absolute left-4 -top-6 text-slate-500 dark:text-slate-400 peer-focus-within:text-slate-800'
+              style={username.length > 0 ? {color: 'hsl(200, 80%, 60%)'} : {}}
             >
                 Username
             </div>
@@ -85,11 +85,11 @@ export default function SignUp() {
               id='email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className='peer group-focus-within/email:outline-black bg-slate-800 text-slate-300 border-none focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
+              className='peer group-focus-within/email:outline-black bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-300 border-none focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
             />
             <div 
-              className='absolute left-4 -top-6 text-slate-400 peer-focus-within:text-slate-200'
-              style={email.length > 0 ? {color: 'white'} : {}}
+              className='absolute left-4 -top-6 text-slate-500 dark:text-slate-400 peer-focus-within:text-slate-800'
+              style={email.length > 0 ? {color: 'hsl(200, 80%, 60%)'} : {}}
             >
                 Email Address
             </div>
@@ -103,11 +103,11 @@ export default function SignUp() {
               id='password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className='peer group-focus-within/password:outline-black bg-slate-800 text-slate-300 focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
+              className='peer group-focus-within/password:outline-black bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-300 focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
             />
             <div 
-              className='absolute left-4 -top-6 text-slate-400 peer-focus-within:text-slate-200'
-              style={password.length > 0 ? {color: 'white'} : {}}
+              className='absolute left-4 -top-6 text-slate-500 dark:text-slate-400 peer-focus-within:text-slate-800'
+              style={password.length > 0 ? {color: 'hsl(200, 80%, 60%)'} : {}}
             >
               Password
             </div>
@@ -121,11 +121,11 @@ export default function SignUp() {
               id='repassword'
               value={rePassword}
               onChange={(e) => setRePassword(e.target.value)}
-              className='peer group-focus-within/repassword:outline-black bg-slate-800 text-slate-300 focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
+              className='peer group-focus-within/repassword:outline-black bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-300 focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
               />
             <div 
-              className='absolute left-4 -top-6 text-slate-400 peer-focus-within:text-slate-200'
-              style={rePassword.length > 0 ? {color: 'white'} : {}}
+              className='absolute left-4 -top-6 text-slate-500 dark:text-slate-400 peer-focus-within:text-slate-800'
+              style={rePassword.length > 0 ? {color: 'hsl(200, 80%, 60%)'} : {}}
             >
               Re-Type Password
             </div>
@@ -141,7 +141,7 @@ export default function SignUp() {
         </form>
       </div>
       <div className='flex flex-col md:flex-row justify-center items-center gap-4 mt-8'>
-        <h2 className='text-slate-300'>Already have an account?</h2>
+        <h2 className='text-slate-500 dark:text-slate-300'>Already have an account?</h2>
         <button className='text-blue-600' onClick={handleSignInRoute}>Sign In</button>
       </div>
     </div>

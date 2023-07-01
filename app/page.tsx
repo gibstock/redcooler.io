@@ -7,6 +7,7 @@ import { useUserStore } from '@/hooks/store';
 import { useRouter } from 'next/navigation';
 import { BsArrowDownCircleFill} from 'react-icons/bs'
 import TopicCard from '@/components/TopicCard';
+import LoadingComponent from '@/components/LoadingComponent';
 import api from '@/api/api';
 
 export default function Home() {
@@ -52,7 +53,7 @@ export default function Home() {
     }
 
   }
-  if(pageIsLoading) return <h1 className='h-screen w-full flex flex-col text-5xl text-red-600'>Loading page...</h1>
+  if(pageIsLoading) return <LoadingComponent />
 
   return (
     <main className='lg:p-5 p-0 w-full md:w-[80%] mx-0 md:mx-auto'>
