@@ -10,7 +10,7 @@ const Tabs = ({activeTab, setActiveTab}: AppProps) => {
 
   return (
     <div className="tab-group-wrapper">
-      <div className="tab-group flex flex-row border-b-2 border-slate-300">
+      <div className="tab-group flex flex-row justify-center gap-1 ">
         <Tab  
           label='Public'
           activeTab={activeTab}

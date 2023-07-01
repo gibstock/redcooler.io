@@ -64,13 +64,13 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
   }, [beat])
 
   return (
-    <li key={$id} className="flex flex-col bg-[hsl(200_55%_18%)] py-1 px-4 rounded-sm outline outline-3 outline-transparent hover:opacity-70 shadow-[inset_0_2px_4px_hsl(200_55%_40%)]">
-      <div className="byline flex flex-row items-center justify-start gap-4 text-xs text-slate-400">
+    <li key={$id} className="flex flex-col bg-white dark:bg-dark-black py-1 px-4 rounded-sm outline outline-3 outline-transparent dark:outline-1 dark:outline-slate-700 hover:opacity-70 dark:shadow-none shadow-[0_0px_30px_0px_hsl(200_35%_90%)]">
+      <div className="byline flex flex-row items-center justify-start gap-4 text-xs text-slate-800 dark:text-slate-400">
         <div className="community-badge-name flex flex-row justify-start items-center gap-1">
-          <div className="community-badge flex justify-center items-center bg-slate-200 text-slate-900 font-extrabold border border-slate-400 rounded-full w-6 h-6">
+          <div className="community-badge flex justify-center items-center dark:bg-slate-200 text-slate-900 font-extrabold border border-slate-400 rounded-full w-6 h-6">
             {category.slice(0,1).toUpperCase()}
           </div>
-          <span className='text-slate-200'>{categories[category as keyof typeof categories]}</span>
+          <span className='text-slate-800 dark:text-slate-200'>{categories[category as keyof typeof categories]}</span>
         </div>
         
         <div className="right-group flex flex-row gap-2">
@@ -82,7 +82,7 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
         </div>
       </div>
       <div className="title-group flex flex-row my-2">
-        <h2 className="font-semibold text-sm text-slate-200">
+        <h2 className="font-semibold text-sm dark:text-slate-200">
           {subject}
         </h2>
       </div>
@@ -95,7 +95,7 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
         />}
         
       </div>
-      <div className='whitespace-pre-wrap text-xs text-slate-200'>{isPreview? (truncate(starter, 50)) : (starter)}</div>
+      <div className='whitespace-pre-wrap text-xs dark:text-slate-200'>{isPreview? (truncate(starter, 50)) : (starter)}</div>
       <div className="button-group flex flex-row justify-start items-center my-2">
         <div className="contributions-group flex flex-row justify-start items-center gap-2 text-slate-500">
           <RxChatBubble size={14} />

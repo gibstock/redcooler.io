@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>
+      <body className={`${montserrat.className} dark:bg-dark-black`}>
         <Providers>
           <NavBar />
           {children}

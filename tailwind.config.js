@@ -11,7 +11,7 @@ module.exports = {
       colors: {
         primary: 'hsl(0,73%,41.8%)',
         dark: {
-          dark: '#000000',
+          black: 'hsl(0,5%,3%)',
           primaryText: '#ffffff',
         }
       }

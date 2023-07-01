@@ -66,11 +66,11 @@ const NavBar = () => {
       <div className="sticky-wrapper flex flex-row min-h-[8vh] w-full justify-between items-center px-4 shadow shadow-slate-300 mb-4 fixed top-0 left-0 right-0 bg-white">
         {user && (
           <>
-            <div className={`profile-menu flex flex-col justify-evenly items-center absolute transition-all duration-500 top-0 -right-${menuPos} md:w-[40vw] w-[60vw] h-[100vh] bg-white dark:bg-dark-dark z-50`} style={ menuPos === '[40vw]' ? {right: '-60vw'} : {right: '0'}}>
-              <div className="close-menu-icon absolute text-slate-300 hover:text-slate-200 top-4 right-4 pr-[2vw] cursor-pointer" onClick={handleOverlayClick}>
+            <div className={`profile-menu flex flex-col justify-evenly items-center absolute transition-all duration-500 top-0 -right-${menuPos} md:w-[40vw] w-[60vw] h-[100vh] bg-white dark:bg-dark-black z-50`} style={ menuPos === '[40vw]' ? {right: '-60vw'} : {right: '0'}}>
+              <div className="close-menu-icon absolute text-slate-800 dark:text-slate-300 dark:hover:text-slate-600 hover:text-slate-200 top-4 right-4 pr-[2vw] cursor-pointer" onClick={handleOverlayClick}>
                 <RxCross1  size={'5vw'} />
               </div>
-              <div className="user flex flex-col justify-center items-center gap-4 text-slate-200">
+              <div className="user flex flex-col justify-center items-center gap-4 text-slate-900 dark:text-slate-200">
                 <div className="flair flex flex-row justify-center items-center gap-2">
                   <FaQuoteLeft />
                   {userProfile && userProfile[0].flair.length > 0 ? userProfile[0].flair : "noob"}
@@ -109,15 +109,15 @@ const NavBar = () => {
                 </div>
                 <div className="dark-mode-group flex flex-col justify-center items-center gap-2">
                   <span>{dark? 'Use Light Mode' : 'Use Dark Mode'}</span>
-                  <div className="dark-mode-icon border border-blue-200 p-2 rounded-lg" onClick={toggleDarkMode}>
+                  <div className="dark-mode-icon border border-blue-200 p-2 rounded-lg cursor-pointer" onClick={toggleDarkMode}>
                   {!dark ? <BsFillMoonFill /> : <BsSunFill />}
                   </div>
                 </div>
               </div>
               <div className="options"></div>
-              <div className="policies text-slate-300">
+              <div className="policies text-slate-800 dark:text-slate-300">
                 <span className='text-sm'>Policies</span>
-                <hr className='opacity-80' />
+                <hr className='w-1/2 border-slate-600 dark:border-slate-300' />
                 <div className="links text-xs pt-4">
                   <Link href={'/content-guideline'}>
                     <span>Content Guidelines</span>
