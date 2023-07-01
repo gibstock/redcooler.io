@@ -108,7 +108,7 @@ const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starte
             <div className="topic-body mt-4 whitespace-pre-wrap text-sm">
               {starter}
             </div>
-            <div className="stats-bar text-slate-300 flex flex-row gap-3 mt-4 text-xs">
+            <div className="stats-bar text-slate-400 dark:text-slate-300 flex flex-row gap-3 mt-4 text-xs">
               <div className="contributions-group flex flex-row justify-start items-center gap-2">
                 <RxChatBubble size={14} />
                 <span>{countDocId? countDocId[0].count : 0} {countDocId && countDocId[0].count < 1 || countDocId && countDocId[0].count > 1 ? "comments" : "comment" }</span>

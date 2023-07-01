@@ -85,8 +85,8 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
 
   
   return (
-    <div className="submit-comment flex flex-col justify-start items-start row-start-2 col-start-2 md:col-start-3 md:col-span-5 col-span-10 p-4 bg-slate-700 rounded-b-md">
-      <RxCross2 onClick={() => setCommentModalState(!commentModalState)} title='Cancel' size={22} className='text-4xl text-slate-300 hover:text-slate-100 mb-4 cursor-pointer'/>
+    <div className="submit-comment flex flex-col justify-start items-start row-start-2 col-start-2 md:col-start-3 md:col-span-5 col-span-10 p-4 bg-white dark:bg-slate-700 rounded-b-md">
+      <RxCross2 onClick={() => setCommentModalState(!commentModalState)} title='Cancel' size={22} className='text-4xl text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-slate-100 mb-4 cursor-pointer'/>
       <div className="comment-as mb-2 text-xs">
         Comment as <span className='font-bold'>{name}</span>
       </div>

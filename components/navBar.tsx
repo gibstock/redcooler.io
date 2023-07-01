@@ -63,7 +63,7 @@ const NavBar = () => {
 
   return (
     <nav className='relative z-50'>
-      <div className="sticky-wrapper flex flex-row min-h-[8vh] w-full justify-between items-center px-4 shadow shadow-slate-300 mb-4 fixed top-0 left-0 right-0 bg-white">
+      <div className="sticky-wrapper flex flex-row min-h-[8vh] w-full justify-between items-center px-4 shadow shadow-slate-300 mb-4 fixed top-0 left-0 right-0 bg-white dark:bg-dark-black">
         {user && (
           <>
             <div className={`profile-menu flex flex-col justify-evenly items-center absolute transition-all duration-500 top-0 -right-${menuPos} md:w-[40vw] w-[60vw] h-[100vh] bg-white dark:bg-dark-black z-50`} style={ menuPos === '[40vw]' ? {right: '-60vw'} : {right: '0'}}>
@@ -136,30 +136,41 @@ const NavBar = () => {
 
         )}
         <div className="logo rounded-full">
-          <Image 
-            src='/rc-logo-white-bg.png'
-            width={50}
-            height={50}
-            alt='The letters R and C with a pen and white background'
-            onClick={() => router.push('/')}
-            className='cursor-pointer'
-          />
+          {dark ? (
+            <Image 
+              src='/rc-logo-black-bg.png'
+              width={50}
+              height={50}
+              alt='The letters R and C with a pen and white background'
+              onClick={() => router.push('/')}
+              className='cursor-pointer'
+            />
+          ) : (
+            <Image 
+              src='/rc-logo-white-bg.png'
+              width={50}
+              height={50}
+              alt='The letters R and C with a pen and white background'
+              onClick={() => router.push('/')}
+              className='cursor-pointer'
+            />
+          )}
         </div>
         <div className="login-profile flex flex-row gap-x-3">
           <div className="login-logout">
             {user ? (
               null
             ) : (
-              <div>
-                <div className="dark-mode-icon">
-                  {!dark ? <BsFillMoonFill /> : <BsSunFill />}
-                </div>
+              <div className='flex flex-row justify-center items-center gap-4'>
                 <div className='bg-red-500 hover:bg-red-400 cursor-pointer rounded-full flex justify-center items-center px-4 py-1'>
                   <Button 
                     label='Sign In'
                     onClick={handleLogin}
                   />
-              </div>
+                </div>
+                <div className={`dark-mode-icon ${dark? "text-white" : "text-black"}`} onClick={toggleDarkMode}>
+                  {!dark ? <BsFillMoonFill /> : <BsSunFill />}
+                </div>
               </div>
             )}
           </div>
@@ -183,11 +194,11 @@ const NavBar = () => {
                   className='rounded-full'
                 />
               ) : (
-                <RxPerson size={22} />
+                <RxPerson className={`${dark? "text-white" : "text-black"}`} size={22} />
               )}
             </div>
             {user && (
-              <div className="profile-dropdown" onClick={handleProfileMenuClick}>
+              <div className={`profile-dropdown ${dark ? 'text-white' : 'text-black'}`} onClick={handleProfileMenuClick}>
                 <RxChevronDown size={22} />
               </div>
             )}

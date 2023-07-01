@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       colors: {
         primary: 'hsl(0,73%,41.8%)',
+        secondary: 'hsl(0,84.2%,60.2%)',
         dark: {
           black: 'hsl(0,5%,3%)',
           primaryText: '#ffffff',
