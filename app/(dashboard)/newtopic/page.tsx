@@ -27,7 +27,7 @@ export default function NewTopic(){
   const [topic, setTopic] = useState(initialData)
   const [emailInput, setEmailInput] = useState('');
   const [buttonValue, setButtonValue] = useState('Post')
-  const [category, setCategory] = useState('')
+  const [category, setCategory] = useState('music-collab')
   const [file, setFile] = useState<File | null>(null)
   const [fileTypeWarning, setFileTypeWarning] = useState(false)
   const [fileSizeWarning, setFileSizeWarning] =  useState(false);
