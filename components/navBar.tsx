@@ -24,8 +24,6 @@ const NavBar = () => {
   const setUserInitials = userStore.setUserInitials;
   const setUser = userStore.setUser;
 
-  console.log(userProfile && userProfile[0].avatarHref.length < 2)
-
   const handleLogin = () => {
     router.push('/signin')
   }
@@ -144,6 +142,7 @@ const NavBar = () => {
               alt='The letters R and C with a pen and white background'
               onClick={() => router.push('/')}
               className='cursor-pointer'
+              priority
             />
           ) : (
             <Image 
@@ -153,6 +152,7 @@ const NavBar = () => {
               alt='The letters R and C with a pen and white background'
               onClick={() => router.push('/')}
               className='cursor-pointer'
+              priority
             />
           )}
         </div>
