@@ -70,7 +70,7 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
   }
 
   return (
-    <div key={$id} className='comment-wrapper bg-transparent border-b border-b-slate-300/50 text-white mt-4 relative'>
+    <div key={$id} className='comment-wrapper bg-transparent border-b border-b-slate-300/50 text-slate-900 dark:text-white mt-4 relative'>
       <div className="info-row flex flex-row justify-between items-center gap-2 bg-transparent px-4 py-1 relative">
         {commentMenuOpen && (
           <div className="comment-menu-dropdown flex flex-col justify-center items-start gap-2 p-3 absolute top-[7vh] right-0 bg-[hsl(200_10%_20%)] ">

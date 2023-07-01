@@ -1,19 +1,22 @@
 import { create } from 'zustand';
-import { devtools} from 'zustand/middleware';
+import { devtools, persist} from 'zustand/middleware';
 
-interface BearState {
-  bears: number;
-  increase: (by: number) => void;
+interface DarkMode {
+  dark: boolean;
+  toggleDarkMode: () => void;
 }
 
-export const useBearStore = create<BearState>()(
+export const darkModeStore = create<DarkMode>()(
   devtools(
-    (set) => ({
-      bears: 0,
-      increase: (by) => set((state) => ({ bears: state.bears + by})),
-    })
+    persist((set) => ({
+      dark: false,
+      toggleDarkMode: () => set((state) => ({ dark: !state.dark })),
+    }),
+      {name: 'darkmode_user_pref'}
+    )
   )
 )
+
 
 type User = {
   $id: string,

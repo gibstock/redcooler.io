@@ -46,7 +46,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   },[topicId, setTopicId])
   
   return (
-      <div className='mt-[8vh] md:grid grid-cols-12 w-full text-slate-200'>
+      <div className='mt-[8vh] md:grid grid-cols-12 w-full text-slate-900 dark:text-slate-200'>
         {topic && (
           <ParentTopicCard 
             $id={user?.$id}
@@ -94,8 +94,8 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
           ))}
         </div>
         {/* add comment modal button */}
-        <div className="modal-button bg-[hsl(0_0%_10%)] flex flex-row justify-stretch items-center fixed bottom-0 left-0 px-2 pb-4 pt-4 w-full">
-          <button className='px-2 py-4 text-sm bg-slate-800 text-slate-300 w-full text-left rounded-md' onClick={handleCommentModalClick}>Add Comment</button>
+        <div className="modal-button bg-white dark:bg-dark-black flex flex-row justify-stretch items-center fixed bottom-0 left-0 px-2 pb-4 pt-4 w-full">
+          <button className='px-2 py-4 text-sm bg-[hsl(200,45%,95%)] dark:bg-slate-800 dark:text-slate-300 w-full text-center rounded-md' onClick={handleCommentModalClick}>Add Comment</button>
         </div>
       </div>
   )
