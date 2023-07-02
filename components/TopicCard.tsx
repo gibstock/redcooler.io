@@ -208,15 +208,18 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
             {subject}
           </h2>
         </div>
-        <div className="thumbs flex flex-row justify-center items-center shadow-sm shadow-[hsl(200_55%_40%)]">
-          {beat && <Image 
-            src={`http://img.youtube.com/vi/${youTubeImg}/0.jpg`}
-            width={480}
-            height={270}
-            alt='youtube thumbnail'
-          />}
-          
-        </div>
+          {beat && 
+            (
+              <div className="thumbs flex flex-row justify-center items-center shadow-sm shadow-[hsl(200_55%_40%)] mb-2">
+                  <Image 
+                  src={`http://img.youtube.com/vi/${youTubeImg}/0.jpg`}
+                  width={480}
+                  height={270}
+                  alt='youtube thumbnail'
+                />
+              </div>
+            ) 
+          }
         <div className='whitespace-pre-wrap text-xs dark:text-slate-200'>{isPreview? (truncate(starter, 50)) : (starter)}</div>
         <div className="button-group text-xs flex flex-row justify-start items-center my-2">
           <div className="contributions-group flex flex-row justify-start items-center gap-2 text-slate-500">
