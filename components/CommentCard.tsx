@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import Image from 'next/image'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {RiPencilFill} from 'react-icons/ri'
 import {RxPerson, RxDotsVertical, RxCross2} from 'react-icons/rx'
 import {TbTrashX} from 'react-icons/tb'
 import { useUserStore } from '@/hooks/store';
+import { timeSince } from '@/utils/helpers'
 import api from '@/api/api'
 
 
@@ -118,7 +118,7 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
         </div> */}
         <div className="date-dots flex flex-row justify-end items-center gap-3">
           <div className="date-posted text-slate-400 text-xs">
-            {new Date(created).toLocaleTimeString()}
+          {timeSince(new Date(created))}
           </div>
           <button className="comment-menu" onClick={() => setCommentMenuOpen(!commentMenuOpen)}>
             {commentMenuOpen ? (
