@@ -94,9 +94,12 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
           ))}
         </div>
         {/* add comment modal button */}
+        {/* Button should dissapear when the comment form is active  */}
+        {!commentFormModal && 
         <div className="modal-button bg-white dark:bg-dark-black flex flex-row justify-stretch items-center fixed bottom-0 left-0 px-2 pb-4 pt-4 w-full">
           <button className='px-2 py-4 text-sm bg-[hsl(200,45%,95%)] dark:bg-slate-800 dark:text-slate-300 w-full text-center rounded-md' onClick={handleCommentModalClick}>Add Comment</button>
         </div>
+        }
       </div>
   )
 }
