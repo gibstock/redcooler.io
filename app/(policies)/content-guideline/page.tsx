@@ -1,28 +1,40 @@
+'use client'
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {AiOutlineHome} from 'react-icons/ai'
+import { darkModeStore } from '@/hooks/store'
 
 const ContentGuideline = () => {
+  const dark = darkModeStore(state => state.dark)
   return (
     <main>
-      <header className='mt-[8vh] p-10 w-full bg-white relative'>
+      <header className='mt-[8vh] p-10 w-full text-black dark:text-slate-200 dark:bg-dark-black bg-white relative'>
         <div className="home-icon absolute top-4 left-4 flex flex-row justify-start items-center w-full">
           <Link href={'/'}>
             <AiOutlineHome size={22} />
           </Link>
         </div>
         <div className="hero flex flex-row justify-center items-center w-full">
-          <Image 
-            src={'/rc-logo-white-bg.png'}
-            alt='Redcooler logo'
-            width={200}
-            height={200}
-          />
+          {dark ? (
+            <Image 
+              src={'/rc-logo-black-bg.png'}
+              alt='Redcooler logo'
+              width={200}
+              height={200}
+            />
+          ) : (
+            <Image 
+              src={'/rc-logo-white-bg.png'}
+              alt='Redcooler logo'
+              width={200}
+              height={200}
+            />
+          )}
         </div>
         <h1 className='text-2xl font-semibold'>Community Content Guidelines</h1>
       </header>
-      <section className='text-slate-200 p-10'>
+      <section className='text-slate-800 dark:text-slate-200 p-10'>
         <div className="effective text-lg">
           Effective June 25, 2023.
         </div>
@@ -71,7 +83,7 @@ const ContentGuideline = () => {
             </li>
             <li>Moderation and Enforcement:
               <ul className='list-disc list-inside'>
-                <li>The moderators/administrators reserve the right to edit, remove, or take appropriate action on any content that violates these guidelines.</li>
+                <li>The moderators and/or administrators reserve the right to edit, remove, or take appropriate action on any content that violates these guidelines.</li>
                 <li>Persistent violation of the guidelines may result in warnings, temporary suspension, or permanent banning from the forum.</li>
                 <li>If you believe your content was wrongly moderated, contact the moderators/administrators to resolve the issue.</li>
               </ul>

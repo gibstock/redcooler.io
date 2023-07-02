@@ -91,6 +91,7 @@ export default function Home() {
                 database='topics'
                 isPreview={true}
                 category={convo.community}
+                countDocId={convo.countDocId}
               />
             </Link>
           ))}

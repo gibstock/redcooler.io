@@ -117,6 +117,7 @@ let api = {
     isPrivate: boolean,
     created: Date,
     community: string,
+    countDocId: string,
   }[]> => {
     const {documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
       [
@@ -252,7 +253,8 @@ let api = {
         Query.equal("topicId", topicId)
       ]  
     )
-    if(conversations !== null) {
+    if(conversations !== null && conversations !== undefined) {
+      console.log("Conversations not null or undefined", conversations)
       conversations.map( async (convo: any) => {
         await api.provider().database.deleteDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, convo.$id);
       })
