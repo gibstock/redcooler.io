@@ -18,7 +18,7 @@ type AppProps = {
   created: Date,
   starter: string,
   category: string,
-  boardType: string,
+  boardType?: string,
   $permissions?: string[],
   userId?: string,
   hasDeleteButton: boolean,

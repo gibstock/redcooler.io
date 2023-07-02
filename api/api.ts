@@ -117,6 +117,7 @@ let api = {
     isPrivate: boolean,
     created: Date,
     community: string,
+    countDocId: string,
   }[]> => {
     const {documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
       [
