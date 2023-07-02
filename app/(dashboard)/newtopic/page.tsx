@@ -45,7 +45,6 @@ export default function NewTopic(){
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    console.log(e);
     try{
       let parsedEmailInput: string[] = [];
       if(emailInput.length > 0) {
@@ -290,10 +289,10 @@ export default function NewTopic(){
               />
             </div>
             {/* Submit button  */}
-            <div className='text-slate-800 dark:text-slate-200'>
+            <div className='text-slate-800 dark:text-slate-200 w-full'>
               <button 
                 type='submit' 
-                className='outline outline-1 outline-red-500 px-2 py-1 rounded-md hover:bg-red-500 disabled:cursor-not-allowed disabled:bg-red-200 disabled:outline-none' 
+                className='w-full outline outline-1 outline-red-500 px-2 py-1 rounded-md hover:bg-red-500 disabled:cursor-not-allowed disabled:bg-red-200 disabled:outline-none' 
                 disabled={buttonValue === 'Posting' ? true : false}
               >{buttonValue}</button>
             </div>
