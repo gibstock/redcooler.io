@@ -5,7 +5,7 @@ import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import {RiPencilFill, RiReplyLine} from 'react-icons/ri'
 import {RxPerson, RxDotsVertical, RxCross2} from 'react-icons/rx'
 import {TbTrashX} from 'react-icons/tb'
-import { useUserStore } from '@/hooks/store';
+import { useUserStore, commentModalStore } from '@/hooks/store';
 import { timeSince } from '@/utils/helpers'
 import ChildCommentCard from './ChildCommentCard'
 import CommentForm from './CommentForm'
@@ -40,6 +40,8 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
   })
   const [commentMenuOpen, setCommentMenuOpen] = useState(false)
   // const [commentAvatarHref, setCommentAvatarHref] = useState('');
+  const toggleModalActive = commentModalStore(state => state.toggleModalActive);
+
   const setCommentToEdit = useUserStore(state => state.setCommentToEdit)
   const setMark = useUserStore(state => state.setMark)
   const setCommentId = useUserStore(state => state.setCommentId)
@@ -89,6 +91,7 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
 
   const handleReply = async() => {
     setCommentFormModal(!commentFormModal)
+    toggleModalActive(true)
   }
 
   return (
