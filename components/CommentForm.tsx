@@ -11,6 +11,8 @@ type AppProps = {
   topicCountDocId: string | undefined,
   docId: string,
   commentModalState: boolean,
+  isChildComment: boolean,
+  parentCommentId?: string,
   setCommentModalState: (state: boolean) => void ,
   countDocId: {
     topicId: string;
@@ -35,7 +37,7 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
 
   const router = useRouter()
 
-  const {name, $id, topicCountDocId, docId, countDocId, commentModalState, setCommentModalState} = props
+  const {name, $id, topicCountDocId, docId, countDocId, commentModalState, setCommentModalState, isChildComment, parentCommentId} = props
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
@@ -55,7 +57,11 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
     setButtonValue("Posting...")
     try {
       if(userProfile !== null) {
-        await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark, undefined, userProfile[0].avatarId, userProfile[0].avatarHref)
+        if(isChildComment && parentCommentId) {
+          await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark, parentCommentId, userProfile[0].avatarId, userProfile[0].avatarHref)
+        } else {
+          await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark, undefined, userProfile[0].avatarId, userProfile[0].avatarHref)
+        }
         await api.updateCommentCount(topicCountDocId!, countDocId![0].count + 1 )
         setMark('')
         window.location.reload()

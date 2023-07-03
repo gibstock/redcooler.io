@@ -110,12 +110,10 @@ export default function NewTopic(){
       setFileTypeWarning(true)
       return;
     }
-    console.log("file size", e.target.files[0].size/1024/1024)
     if(e.target.files[0].size/1024/1024 > 25) {
       setFileSizeWarning(true)
       return;
     }
-    console.log(e.target.files[0])
     setFile(e.target.files[0]);
   }
 

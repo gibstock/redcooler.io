@@ -203,16 +203,13 @@ let api = {
       [
         Query.equal("user_account_id", userId)
       ]);
-      console.log("topics returned from update avatar href method", topics)
       try{
         topics && await topics.forEach(async(topic: {$id: string}) => {
-          console.log("topic $id to try", topic)
           const res = await api.provider().database.updateDocument(Server.topicsDatabaseID, Server.topicsCollectionID, topic.$id, 
             {
               userAvatarHref: avatarHref,
               userAvatarId: avatarId
             })
-            console.log("topic update", res)
         })
       }catch (err) {
         console.error("Error updating avatarHref in topics", err)
@@ -279,7 +276,7 @@ let api = {
   }[]> => {
     const {documents: conversations} = await api.provider().database.listDocuments(Server.conversationsDatabaseID, Server.conversationsCollectionID,
       [
-        Query.equal("topicId", topicId)
+        Query.equal("topicId", topicId),
       ]  
     );
     return conversations;
@@ -290,6 +287,15 @@ let api = {
         Query.equal("userAccountId", userId)
       ])
     return convos;
+  },
+  fetchConversationsByParentId: async(parentId: string | null | undefined) => {
+    return parentId === undefined || parentId === null ? 
+      null :
+      await api.provider().database.listDocuments(Server.conversationsDatabaseID, Server.conversationsCollectionID,
+      [
+        Query.equal("parentConversationId", parentId)
+      ]  
+    )
   },
   updateAvatarHrefByConvoById: async(convoId: string, avatarHref: string, avatarId: string) => {
     const {document: convo} = await api.provider().database.updateDocument(Server.conversationsDatabaseID, Server.conversationsCollectionID, convoId, 
@@ -406,8 +412,8 @@ let api = {
     )
     return countDocId
   },
-  updateCommentCount: async(topicId: string, convoCount: number) => {
-    await api.provider().database.updateDocument(Server.convoCountDatabaseID, Server.convoCountCollectionID, topicId,
+  updateCommentCount: async(convoCountId: string, convoCount: number) => {
+    await api.provider().database.updateDocument(Server.convoCountDatabaseID, Server.convoCountCollectionID, convoCountId,
       {
         count: convoCount
       }  

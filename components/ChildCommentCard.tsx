@@ -7,8 +7,8 @@ import {RxPerson, RxDotsVertical, RxCross2} from 'react-icons/rx'
 import {TbTrashX} from 'react-icons/tb'
 import { useUserStore } from '@/hooks/store';
 import { timeSince } from '@/utils/helpers'
-import ChildCommentCard from './ChildCommentCard'
 import CommentForm from './CommentForm'
+import CommentCard from './CommentCard'
 import api from '@/api/api'
 
 
@@ -23,16 +23,16 @@ type AppProps = {
   topicId: string,
   avatarId?: string,
   avatarHref?: string,
+  parentConversationId?: string,
   convoCountDocId: string,
   countDocId: {
     topicId: string;
     count: number;
     $id: string;
 }[] | undefined,
-  parentConversationId?: string,
 }
 
-const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, commentType, content, convoCountDocId, countDocId, topicId, avatarId, avatarHref, parentConversationId} : AppProps) => {
+const ChildCommentCard = ({$id, userAccountId, $permissions, createdBy, created, commentType, content, topicId, avatarId, avatarHref, parentConversationId, convoCountDocId,countDocId} : AppProps) => {
   const {data: childConvos, isLoading, isError } = useQuery({
     queryKey: ['child-convos', $id], 
     queryFn: () => api.fetchConversationsByParentId($id), 
@@ -49,7 +49,6 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
   const router = useRouter();
 
   const commentFormRef = useRef<HTMLDivElement>(null);
-
 
   const queryClient = useQueryClient();
 
@@ -151,7 +150,7 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
           </button>
         </div>
       </div>
-      <div className="content-group px-4 pt-4">
+      <div className="content-group p-4">
         {/* <div className="top-bar mb-2">
           {commentType}
         </div> */}
@@ -164,6 +163,8 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
             <span className='text-xs'>Reply</span>
           </div>
         </div>
+      </div>
+      <div className="options">
       {commentFormModal && <CommentForm 
           name={user?.name}
           $id={user?.$id}
@@ -179,7 +180,7 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
       </div>
       <div className="child-comments pl-4">
         {childConvos && childConvos.documents && childConvos.documents.map((convo: AppProps) => (
-          <ChildCommentCard 
+          <CommentCard 
             $id={convo.$id}
             userAccountId={convo.userAccountId}
             $permissions={convo.$permissions}
@@ -201,4 +202,4 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
   )
 }
 
-export default CommentCard
+export default ChildCommentCard
