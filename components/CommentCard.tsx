@@ -39,6 +39,7 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
     enabled: Boolean($id),
   })
   const [commentMenuOpen, setCommentMenuOpen] = useState(false)
+  const [deleteBtnValue, setDeleteBtnValue] = useState('delete')
   // const [commentAvatarHref, setCommentAvatarHref] = useState('');
   const toggleModalActive = commentModalStore(state => state.toggleModalActive);
 
@@ -80,6 +81,7 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
 
   const handleDeleteComment = async (topicId: string) => {
     try {
+      setDeleteBtnValue('deleting')
       const count = await api.fetchCommentCountByTopicId(topicId)
       deleteCommentMutation.mutate($id);
       await api.updateCommentCount(count[0].$id, count[0].count - 1);
@@ -110,8 +112,8 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
             {canDelete(user?.$id!, $permissions) && (
               <div className="edit-button flex flex-row gap-2 items-center text-xs text-red-500 hover:text-red-300">
                 <TbTrashX size={14}/>
-                <button onClick={() => handleDeleteComment(topicId)}>
-                  <span>delete</span>
+                <button disabled={deleteBtnValue === 'deleting' ? true : false} onClick={() => handleDeleteComment(topicId)}>
+                  <span>{deleteBtnValue}</span>
                 </button>
               </div>
             )}

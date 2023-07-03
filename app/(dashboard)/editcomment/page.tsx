@@ -35,8 +35,8 @@ const EditComment = () => {
     <div className='w-full h-screen flex justify-center items-center p-4'>
       <div className="form-wrapper w-full p-3 relative">
         <form className='mt-[8vh]' onSubmit={handleSubmitEdit}>
-          <div className="save-group mt-[4vh] bg-[#272b30] absolute top-0 left-0 w-full flex flex-row justify-between items-center py-3 px-2">
-            <div className='text-slate-200'>Edit Post</div>
+          <div className="save-group mt-[4vh] bg-white dark:bg-dark-black absolute top-0 left-0 w-full flex flex-row justify-between items-center py-3 px-2">
+            <div className='text-slate-800 dark:text-slate-200'>Edit Post</div>
             <div className="button-group flex flex-row gap-x-2">
               <input type="button" value="Cancel" className='text-slate-400 hover:text-slate-300 cursor-pointer' onClick={() => setModal(true)} />
               <button type="submit" className='text-red-500 hover:text-red-400'>Save</button>
@@ -50,7 +50,7 @@ const EditComment = () => {
               name="topic-reply" 
               id="topic-reply" 
               value={commentToEdit!}
-              className='w-full px-2 py-3 text-slate-900 h-[80vh] focus-within:outline-none'
+              className='w-full px-2 py-3 bg-white dark:bg-slate-800 dark:text-slate-200 text-slate-900 h-[80vh] focus-within:outline-none'
               onChange={(e) => setCommentToEdit(e.target.value)}
             >
             </textarea>
