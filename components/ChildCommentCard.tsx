@@ -5,7 +5,7 @@ import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import {RiPencilFill, RiReplyLine} from 'react-icons/ri'
 import {RxPerson, RxDotsVertical, RxCross2} from 'react-icons/rx'
 import {TbTrashX} from 'react-icons/tb'
-import { useUserStore } from '@/hooks/store';
+import { useUserStore, commentModalStore } from '@/hooks/store';
 import { timeSince } from '@/utils/helpers'
 import CommentForm from './CommentForm'
 import CommentCard from './CommentCard'
@@ -46,6 +46,7 @@ const ChildCommentCard = ({$id, userAccountId, $permissions, createdBy, created,
   const [commentFormModal, setCommentFormModal] = useState(false)
   // const imageUrlMap = useUserStore(state => state.imageUrlMap);
   const user = useUserStore(state => state.user)
+  const toggleModalActive = commentModalStore(state => state.toggleModalActive)
   const router = useRouter();
 
   const commentFormRef = useRef<HTMLDivElement>(null);
@@ -88,6 +89,7 @@ const ChildCommentCard = ({$id, userAccountId, $permissions, createdBy, created,
 
   const handleReply = async() => {
     setCommentFormModal(!commentFormModal)
+    toggleModalActive(true)
   }
 
   return (

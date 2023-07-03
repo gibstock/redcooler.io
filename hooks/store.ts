@@ -17,6 +17,16 @@ export const darkModeStore = create<DarkMode>()(
   )
 )
 
+interface CommentModalState {
+  modalActive: boolean;
+  toggleModalActive: (value: boolean) => void;
+}
+
+export const commentModalStore = create<CommentModalState>((set) => ({
+  modalActive: false,
+  toggleModalActive: (value) => set(() => ({ modalActive: value}))
+}))
+
 
 type User = {
   $id: string,

@@ -1,11 +1,10 @@
 'use client'
 import React, {useEffect, useState, useRef,  } from 'react'
 import { useQuery} from '@tanstack/react-query';
-import { useUserStore } from '@/hooks/store';
+import { useUserStore, commentModalStore } from '@/hooks/store';
 import CommentCard from '@/components/CommentCard';
 import CommentForm from '@/components/CommentForm';
 import ParentTopicCard from '@/components/ParentTopicCard';
-import ChildCommentCard from '@/components/ChildCommentCard';
 import api from '@/api/api';
 
 const Conversation = ({ params }: {params: {topicId: string}}) => {
@@ -14,6 +13,8 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   const {data: topic, isLoading, isError, error } = useQuery(['convoWithId'], () => api.fetchPostByTopicId(topicId));
   const {data: conversations, isLoading: convoIsLoading, isError: convoIsError } = useQuery(['conversations'], () => api.fetchConversationByTopicId(topicId))
   const {data: countDocId} = useQuery(['countDocId'], () => api.fetchCommentCountByTopicId(topicId))
+  const modalActive = commentModalStore(state => state.modalActive);
+  const toggleModalActive = commentModalStore(state => state.toggleModalActive);
   const user = useUserStore(state => state.user);
   const setContentToEdit = useUserStore(state => state.setContentToEdit);
   const setTitleToEdit = useUserStore(state => state.setTitleToEdit);
@@ -33,6 +34,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   const commentFormScrollIntoView = () => commentFormRef.current?.scrollIntoView()
   const handleCommentModalClick = () => {
     setCommentFormModal(!commentFormModal)
+    toggleModalActive(true)
     if(commentFormModal === true) {
       commentFormScrollIntoView()
       commentFormRef.current?.focus()
@@ -45,8 +47,8 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
     topic?.members && setEmailsToEdit(topic.members);
     topic?.isPrivate && setIsPrivateForEdit(topic.isPrivate);
     topic?.beat && setBeatToEdit(topic.beat);
-
-  },[topicId, setTopicId, topic])
+    console.log(modalActive)
+  },[topicId, setTopicId, topic, setContentToEdit, setTitleToEdit, setEmailsToEdit, setBeatToEdit])
   
   return (
       <div className='mt-[8vh] md:grid grid-cols-12 w-full text-slate-900 dark:text-slate-200'>
@@ -109,7 +111,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
         </div>
         {/* add comment modal button */}
         {/* Button should dissapear when the comment form is active  */}
-        {!commentFormModal && 
+        {!commentFormModal && !modalActive &&
         <div className="modal-button bg-white dark:bg-dark-black flex flex-row justify-stretch items-center fixed bottom-0 left-0 px-2 pb-4 pt-4 w-full">
           <button className='px-2 py-4 text-sm bg-[hsl(200,45%,95%)] dark:bg-slate-800 dark:text-slate-300 w-full text-center rounded-md' onClick={handleCommentModalClick}>Add Comment</button>
         </div>

@@ -44,13 +44,13 @@ export default function Dashboard() {
     if(!user) {
       router.replace('/')
     } 
-    const getImageList = async () => {
-      const getAvatars = await api.listAvatars();
-      setImageList(getAvatars)
-      setImageUrlMap(imageMap(imageList))
-    }
+    // const getImageList = async () => {
+    //   const getAvatars = await api.listAvatars();
+    //   setImageList(getAvatars)
+    //   setImageUrlMap(imageMap(imageList))
+    // }
     // getImageList();
-  }, [])
+  }, [user, router])
 
   return (
     <div className="my-20 md:mx-4">
