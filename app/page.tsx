@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { BsArrowDownCircleFill} from 'react-icons/bs'
 import TopicCard from '@/components/TopicCard';
 import LoadingComponent from '@/components/LoadingComponent';
-import Button from '@/components/button';
+import Button from '@/components/Button';
 import api from '@/api/api';
 
 export default function Home() {
@@ -117,7 +117,7 @@ export default function Home() {
           fontColor='text-white'
           padding='py-2 px-3'
           hover='hover:bg-blue-500'
-          disabled={buttonValue === "..." ? true : false}
+          disabled={guestButtonValue === "Logging in..." ? true : false}
           disabledConditions='disabled:bg-blue-200 disabled:cursor-not-allowed'
         />
       </section>

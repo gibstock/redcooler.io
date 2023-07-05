@@ -2,7 +2,7 @@ import React from 'react'
 
 type ButtonProps = {
   label: string,
-  onClick: () => void,
+  onClick?: () => void,
   bgColor: string,
   fontColor: string,
   padding: string,
