@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { useUserStore } from '@/hooks/store';
-
+import Button from '@/components/button';
 import api from '@/api/api';
 
 export default function SignIn() {
@@ -85,7 +85,14 @@ export default function SignIn() {
         </form>
       <div className='flex flex-col md:flex-row justify-center items-center gap-4 mt-8'>
         <h2 className='text-slate-500 dark:text-slate-300'>Need an account?</h2>
-        <button className='text-blue-600' onClick={handleSignUpRoute}>Sign Up</button>
+        <Button 
+          label='Sign Up'
+          onClick={handleSignUpRoute} 
+          bgColor='bg-transparent'
+          fontColor='text-blue-600'
+          padding='px-3 py-1'
+          hover='hover:text-black'
+        />
       </div>
       </div>
     </div>

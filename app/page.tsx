@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useQuery} from '@tanstack/react-query';
@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { BsArrowDownCircleFill} from 'react-icons/bs'
 import TopicCard from '@/components/TopicCard';
 import LoadingComponent from '@/components/LoadingComponent';
+import Button from '@/components/button';
 import api from '@/api/api';
 
 export default function Home() {
@@ -15,7 +16,6 @@ export default function Home() {
   const [guestButtonValue, setGuestButtonValue] = useState('Guest Sign In')
   const [pageIsLoading, setPageIsLoading] = useState(true);
   const userStore = useUserStore()
-  const user = userStore.user;
   const setUser = userStore.setUser;
 
   const {data, isLoading, isError, error } = useQuery(['latest'], api.fetchLatestPosts);
@@ -45,8 +45,6 @@ export default function Home() {
     try {
       const userSignIn = await api.signIn({email:'guest@agonzales.dev', password:'redcooler'});
       setUser(userSignIn)
-      // const userProfile = await api.getUserProfile(userSignIn.$id)
-      // setUserProfile(userProfile)
       window.location.replace('/dashboard')
     }catch(err) {
       console.error(err)
@@ -99,23 +97,29 @@ export default function Home() {
       </section>
       <section className="onboarding flex flex-col justify-center items-center mt-12">
         <h2 className='text-3xl text-center md:text-5xl text-slate-800 dark:text-slate-200 font-bold mb-7'>New to the Conversation?</h2>
-        <button 
-          className='bg-blue-600 disabled:bg-blue-200 disabled:cursor-not-allowed hover:bg-blue-500 rounded-3xl min-w-[28px] text-white py-2 px-3 text-center outline-none border-none'
+        <Button 
+          label={buttonValue}
           onClick={handleSignUpRoute}
+          bgColor='bg-blue-600'
+          fontColor='text-white'
+          padding='py-2 px-3'
+          hover='hover:bg-blue-500'
           disabled={buttonValue === "..." ? true : false}
-          >
-            {buttonValue}
-          </button>
+          disabledConditions='disabled:bg-blue-200 disabled:cursor-not-allowed'
+        />
       </section>
       <section className="guest-signin flex flex-col justify-center items-center mt-12">
         <h2 className='text-3xl text-center md:text-5xl text-slate-800 dark:text-slate-200 font-bold mb-7'>Want to sign in as a guest and have a look?</h2>
-        <button 
-          className='bg-blue-600 disabled:bg-blue-200 disabled:cursor-not-allowed hover:bg-blue-500 rounded-3xl min-w-[28px] text-white py-2 px-3 text-center outline-none border-none'
+        <Button 
+          label={guestButtonValue}
           onClick={handleGuestSignIn}
-          disabled={guestButtonValue === "Logging in..." ? true : false}
-          >
-            {guestButtonValue}
-          </button>
+          bgColor='bg-blue-600'
+          fontColor='text-white'
+          padding='py-2 px-3'
+          hover='hover:bg-blue-500'
+          disabled={buttonValue === "..." ? true : false}
+          disabledConditions='disabled:bg-blue-200 disabled:cursor-not-allowed'
+        />
       </section>
     </main>
   )
