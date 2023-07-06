@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/hooks/store"
 import { useQuery } from "@tanstack/react-query";
+import Button from '@/components/Button';
 import Tabs from '@/components/Tabs';
 import { MdDashboard } from 'react-icons/md';
 import api from '@/api/api';
 import Board from '@/components/Board';
-import { imageMap } from '@/hooks/imageMap';
 
 
 
@@ -18,10 +18,6 @@ export default function Dashboard() {
   const [modal, setModal] = useState(false);
   const userStore = useUserStore();
   const user = userStore.user;
-  const imageList = userStore.imageList;
-  const setImageList = userStore.setImageList;
-  const setImageUrlMap = userStore.setImageUrlMap;
-  const imageUrlMap = userStore.imageUrlMap;
 
   const router = useRouter();
   
@@ -44,12 +40,6 @@ export default function Dashboard() {
     if(!user) {
       router.replace('/')
     } 
-    // const getImageList = async () => {
-    //   const getAvatars = await api.listAvatars();
-    //   setImageList(getAvatars)
-    //   setImageUrlMap(imageMap(imageList))
-    // }
-    // getImageList();
   }, [user, router])
 
   return (
@@ -59,13 +49,16 @@ export default function Dashboard() {
           <MdDashboard size={14} className=' text-red-500' />
           <div className='dark:text-slate-200 md:text-lg text-sm'>Your Dashboard</div>
         </div>
-        <button 
-          className="bg-blue-500 text-white text-sm rounded-full px-3 py-1 md:col-start-5 md:col-span-3 disabled:bg-blue-200 disabled:cursor-wait" 
+        <Button 
+          label={buttonValue}
           onClick={handleNewTopicRoute}
+          bgColor='bg-blue-500'
+          fontColor='text-white'
+          padding='px-3 py-1'
+          hover='hover:bg-blue-400'
           disabled={buttonValue === "One moment please" ? true : false}
-        >
-          {buttonValue}
-        </button>
+          disabledConditions='disabled:bg-blue-200 disabled:cursor-wait'
+        />
         {modal && (
               <div className='modal-wrapper absolute z-50 top-0 left-0 w-full h-full'>
                 <div className="overlay absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>

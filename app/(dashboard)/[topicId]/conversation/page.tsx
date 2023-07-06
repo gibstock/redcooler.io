@@ -5,6 +5,7 @@ import { useUserStore, commentModalStore } from '@/hooks/store';
 import CommentCard from '@/components/CommentCard';
 import CommentForm from '@/components/CommentForm';
 import ParentTopicCard from '@/components/ParentTopicCard';
+import Button from '@/components/Button';
 import api from '@/api/api';
 
 const Conversation = ({ params }: {params: {topicId: string}}) => {
@@ -24,12 +25,6 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   const setTopicId = useUserStore(state => state.setTopicId)
   const [commentFormModal, setCommentFormModal] = useState(false)
   
-  // topic?.starter && setContentToEdit(topic.starter)
-  // topic?.subject && setTitleToEdit(topic.subject);
-  // topic?.members && setEmailsToEdit(topic.members);
-  // topic?.isPrivate && setIsPrivateForEdit(topic.isPrivate);
-  // topic?.beat && setBeatToEdit(topic.beat);
-
   const commentFormRef = useRef<HTMLDivElement>(null);
   const commentFormScrollIntoView = () => commentFormRef.current?.scrollIntoView()
   const handleCommentModalClick = () => {
@@ -67,9 +62,6 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
             audioFileId={topic.audioFileId}
           />
         )}
-        {/* <div className="modal-button bg-[hsl(0_0%_10%)] flex flex-row justify-stretch items-center px-2 pb-4 pt-2 w-full">
-          <button className='p-2 text-xs bg-slate-800 text-slate-300 w-full text-left rounded-md' onClick={handleCommentModalClick}>Add Comment</button>
-        </div> */}
         {commentFormModal && <CommentForm 
           name={user?.name}
           $id={user?.$id}
@@ -112,8 +104,16 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
         {/* add comment modal button */}
         {/* Button should dissapear when the comment form is active  */}
         {!commentFormModal && !modalActive &&
-        <div className="modal-button bg-white dark:bg-dark-black flex flex-row justify-stretch items-center fixed bottom-0 left-0 px-2 pb-4 pt-4 w-full">
-          <button className='px-2 py-4 text-sm bg-[hsl(200,45%,95%)] dark:bg-slate-800 dark:text-slate-300 w-full text-center rounded-md' onClick={handleCommentModalClick}>Add Comment</button>
+        <div className="modal-button text-sm bg-white dark:bg-dark-black flex flex-row justify-stretch items-center fixed bottom-0 left-0 px-2 pb-4 pt-4 w-full">
+          <Button 
+            label='Add Comment'
+            bgColor='bg-[hsl(200,45%,95%)] dark:bg-slate-800'
+            fontColor='dark:text-slate-300'
+            padding='px-2 py-4'
+            hover=''
+            onClick={handleCommentModalClick}
+            fullWidth={true}
+          />
         </div>
         }
       </div>

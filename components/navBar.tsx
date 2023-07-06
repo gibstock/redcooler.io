@@ -5,7 +5,7 @@ import Link from 'next/link'
 import {RxPerson, RxChevronDown, RxCross1} from 'react-icons/rx' 
 import {FaQuoteLeft, FaQuoteRight} from 'react-icons/fa' 
 import { BsFillMoonFill, BsSunFill} from 'react-icons/bs'
-import Button from './button'
+import Button from './Button'
 import { useRouter } from 'next/navigation'
 import { useUserStore, darkModeStore } from '@/hooks/store'
 import api from '@/api/api'
@@ -122,10 +122,14 @@ const NavBar = () => {
                   </Link>
                 </div>
               </div>
-              <div className="sign-out bg-red-500 hover:bg-red-400 cursor-pointer rounded-full flex justify-center items-center px-4 py-1">
+              <div className="sign-out ">
                 <Button 
                   label='Sign Out'
                   onClick={handleSignOut}
+                  fontColor='text-white'
+                  bgColor='bg-red-500'
+                  padding='px-4 py-1'
+                  hover='hover:bg-red-400'
                 />
               </div>
             </div>
@@ -162,13 +166,17 @@ const NavBar = () => {
               null
             ) : (
               <div className='flex flex-row justify-center items-center gap-4'>
-                <div className='bg-red-500 hover:bg-red-400 cursor-pointer rounded-full flex justify-center items-center px-4 py-1'>
+                <div className='nav-sign-in'>
                   <Button 
                     label='Sign In'
                     onClick={handleLogin}
+                    fontColor='text-white'
+                    bgColor='bg-red-500'
+                    hover='hover:bg-red-400'
+                    padding=' px-4 py-1'
                   />
                 </div>
-                <div className={`dark-mode-icon ${dark? "text-white" : "text-black"}`} onClick={toggleDarkMode}>
+                <div className={`dark-mode-icon ${dark? "text-white" : "text-black"} cursor-pointer`} onClick={toggleDarkMode}>
                   {!dark ? <BsFillMoonFill /> : <BsSunFill />}
                 </div>
               </div>

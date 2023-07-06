@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { useUserStore } from '@/hooks/store';
-
+import Button from '@/components/Button';
 import api from '@/api/api';
 
 export default function SignIn() {
@@ -11,7 +11,6 @@ export default function SignIn() {
   const [error, setError] = useState('');
   const [buttonValue, setButtonValue] = useState('Sign In')
   const setUser = useUserStore(state => state.setUser)
-  const setUserProfile = useUserStore(state => state.setUserProfile);
 
   const router = useRouter();
 
@@ -21,8 +20,6 @@ export default function SignIn() {
     try {
       const userSignIn = await api.signIn({email, password});
       setUser(userSignIn)
-      // const userProfile = await api.getUserProfile(userSignIn.$id)
-      // setUserProfile(userProfile)
       window.location.replace('/dashboard')
     }catch (err) {
       console.error(err)
@@ -78,14 +75,27 @@ export default function SignIn() {
           
           {error && <div className='text-red-500'>{error}</div>}
           {/* Submit button  */}
-          <button 
+          <Button 
+            label={buttonValue}
+            bgColor='bg-blue-600'
+            fontColor='text-white'
+            padding='p-2'
+            hover='hover:bg-blue-500'
             type='submit' 
             disabled={buttonValue === "Checking Credentials..." ? true : false}
-            className='bg-blue-600 hover:bg-blue-500 disabled:bg-blue-200 cursor-pointer p-2 flex flex-col justify-center items-center rounded-sm text-white disabled:cursor-wait'>{buttonValue}</button>
+            disabledConditions='disabled:bg-blue-200 disabled:cursor-wait'
+          />
         </form>
       <div className='flex flex-col md:flex-row justify-center items-center gap-4 mt-8'>
         <h2 className='text-slate-500 dark:text-slate-300'>Need an account?</h2>
-        <button className='text-blue-600' onClick={handleSignUpRoute}>Sign Up</button>
+        <Button 
+          label='Sign Up'
+          onClick={handleSignUpRoute} 
+          bgColor='bg-transparent'
+          fontColor='text-blue-600'
+          padding='px-3 py-1'
+          hover='hover:text-black'
+        />
       </div>
       </div>
     </div>

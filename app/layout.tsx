@@ -1,7 +1,7 @@
 import Providers from "@/utils/provider";
 import React from 'react';
-import NavBar from "@/components/navBar";
-import Footer from "@/components/footer";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 import {Montserrat} from 'next/font/google'
 import './globals.css'
 

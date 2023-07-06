@@ -1,6 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
+import Button from '@/components/Button';
 
 import api from '@/api/api';
 
@@ -131,13 +132,16 @@ export default function SignUp() {
             </div>
           </div>
           {/* Submit button  */}
-          <button 
-            type='submit' 
-            className='text-white bg-blue-600 disabled:bg-blue-200 hover:bg-blue-500 cursor-pointer disabled:cursor-not-allowed p-2 flex flex-col justify-center items-center rounded-sm'
+          <Button 
+            label={buttonValue}
+            bgColor='bg-blue-600'
+            fontColor='text-white'
+            padding='p-2'
+            hover='hover:bg-blue-500'
             disabled={buttonValue === "Signing up..." ? true : false}
-          >
-            {buttonValue}
-          </button>
+            disabledConditions='disabled:bg-blue-200 disabled:cursor-not-allowed'
+            type='submit' 
+          />
         </form>
       </div>
       <div className='flex flex-col md:flex-row justify-center items-center gap-4 mt-8'>
