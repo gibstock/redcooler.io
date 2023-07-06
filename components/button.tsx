@@ -9,13 +9,15 @@ type ButtonProps = {
   hover: string,
   disabled?: boolean,
   disabledConditions?: string,
+  outline?: string,
   type?: "button" | "submit" | "reset" | undefined,
+  fullWidth?: boolean,
 }
 
-function Button({label, onClick, bgColor, fontColor, padding, hover, disabled, disabledConditions, type}: ButtonProps) {
+function Button({label, onClick, bgColor, fontColor, padding, hover, disabled, disabledConditions, outline, type, fullWidth}: ButtonProps) {
   return (
     <button 
-      className={` ${fontColor} ${bgColor} ${padding} ${hover} ${disabledConditions} flex flex-row justify-center items-center rounded-full`}
+      className={` ${fontColor} ${bgColor} ${padding} ${hover} ${disabledConditions} ${outline} ${fullWidth? 'w-full' : ''} flex flex-row justify-center items-center rounded-full`}
       onClick={onClick}
       disabled={disabled ? true : false}
       type={type? type : "button"}

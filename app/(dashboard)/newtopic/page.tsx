@@ -6,6 +6,7 @@ import { TbAsteriskSimple } from 'react-icons/tb'
 import { RxCross1 } from 'react-icons/rx'
 import { useRouter } from 'next/navigation';
 import WordCount from '@/components/WordCount';
+import Button from '@/components/Button';
 
 const initialData = {
   subject: '',
@@ -118,8 +119,6 @@ export default function NewTopic(){
   }
 
   const handleClickUpload = () => {
-    // setFileSizeWarning(false)
-    // setFileTypeWarning(false)
     fileInputRef?.current?.click();
   }
 
@@ -287,20 +286,21 @@ export default function NewTopic(){
               />
             </div>
             {/* Submit button  */}
-            <div className='text-slate-800 dark:text-slate-200 w-full'>
-              <button 
-                type='submit' 
-                className='w-full outline outline-1 outline-red-500 px-2 py-1 rounded-md hover:bg-red-500 disabled:cursor-not-allowed disabled:bg-red-200 disabled:outline-none' 
+            <div className='post-button w-full'>
+              <Button 
+                label={buttonValue}
+                bgColor='bg-transparent'
+                fontColor='text-slate-800 dark:text-slate-200'
+                padding='px-2 py-1'
+                hover='hover:bg-red-500 hover:text-white'
                 disabled={buttonValue === 'Posting' ? true : false}
-              >{buttonValue}</button>
+                disabledConditions='disabled:cursor-not-allowed disabled:bg-red-200 disabled:outline-none'
+                outline='outline outline-1 outline-red-500'
+                type='submit' 
+                fullWidth={true}
+              />
             </div>
           </form>
-          {/* <input 
-            type="file" 
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            className='hidden'
-          /> */}
         </div>
       </div>
     </div>

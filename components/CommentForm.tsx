@@ -3,6 +3,7 @@ import { useUserStore, commentModalStore } from '@/hooks/store'
 import { RxCross2 } from 'react-icons/rx'
 import { useRouter } from 'next/navigation'
 import WordCount from './WordCount'
+import Button from './Button'
 import api from '@/api/api'
 
 type AppProps = {
@@ -132,15 +133,18 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
               <label htmlFor="other">Other</label>
               <input type="radio" name="option-group" id="other" onChange={() => setMark('other')} />
             </div>
-            <button 
-              type='submit' 
-              title='Post'
-              className='col-start-6 justify-self-end outline outline-1 outline-slate-400 rounded-full px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white disabled:bg-blue-200 disabled:cursor-not-allowed' 
+            <Button 
+              label={buttonValue}
+              onClick={() =>handleSubmitComment}
+              bgColor='bg-blue-600'
+              fontColor='text-white'
+              padding='px-2 py-1'
+              hover='hover:bg-blue-500'
               disabled={buttonValue === "Posting..." ? true : false} 
-              onSubmit={() =>handleSubmitComment}
-            >
-              {buttonValue}
-            </button>
+              disabledConditions='disabled:bg-blue-200 disabled:cursor-not-allowed'
+              outline='outline outline-1 outline-slate-400'
+              type='submit' 
+            />
             {modal && (
               <div className='modal-wrapper top-0 left-0 w-full h-full'>
                 <div className="overlay absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>

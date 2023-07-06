@@ -41,9 +41,6 @@ const EditPost2 = () => {
       <header className='pt-8'>
         <h1 className='text-2xl text-slate-800 dark:text-slate-200 text-center mb-3'>Edit your Post</h1>
         <div className="required-info flex flex-row justify-center items-center gap-3 text-[10px]">
-          {/* <div className='text-xs'>
-            <TbAsteriskSimple size={10} className='text-red-500'/>
-          </div> */}
         </div>
       </header>
       <div className='new-topic-group p-2'>
@@ -60,10 +57,6 @@ const EditPost2 = () => {
               <label htmlFor="subject" hidden>
                 Subject
               </label>
-              {/* <TbAsteriskSimple 
-                size={10} 
-                className='text-red-500 absolute -left-0 top-0'
-              /> */}
               <input 
                 className='rounded-sm p-2 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 cursor-not-allowed'
                 required={true}
@@ -135,10 +128,6 @@ const EditPost2 = () => {
                 multiple={true}
               />
             </div>
-            {/* Submit button  */}
-            {/* <div className='text-slate-200'>
-              <button type='submit' className='outline outline-1 outline-red-500 px-2 py-1 rounded-md hover:bg-red-500'>Submit</button>
-            </div> */}
           </form>
           {modal && (
           <div className='modal-wrapper absolute top-0 left-0 w-full h-full'>
