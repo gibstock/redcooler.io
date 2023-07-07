@@ -58,6 +58,29 @@ let api = {
   },
   // GENERAL METHODS
   // TOPIC METHODS
+  listAllTopics: async (): Promise<{
+      subject: string, 
+      $id: string, 
+      starter: string, 
+      beat: string, 
+      createdBy: string, 
+      user_account_id: string,
+      isPrivate: boolean,
+      created: Date,
+      $permissions: string[],
+      members: string[],
+      convocount: number,
+      countDocId: string,
+      community: string,
+      userAvatarId: string,
+      audioFileId: string,
+    }[]> => {
+    const { documents: topics } = await api.provider().database.listDocuments(Server.topicsDatabaseID, Server.topicsCollectionID,
+      [
+        Query.orderDesc("created")
+      ]);
+    return topics;
+  },
   listTopicsWithQuery: async (): Promise<{
       subject: string, 
       $id: string, 
