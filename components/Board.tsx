@@ -1,11 +1,6 @@
 import React from 'react'
-import Link from 'next/link';
-// import { useRouter } from "next/navigation";
 import TopicCard from './TopicCard'
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserStore } from "@/hooks/store"
-
-// import api from '@/api/api';
 
 type AppProps = {
   activeTab: string,
@@ -27,50 +22,18 @@ type AppProps = {
     userAvatarId: string;
     audioFileId: string;
   }[],
-  isLoading: boolean,
-  isError: boolean,
+  isLoading?: boolean,
+  isError?: boolean,
 
 }
 
 const Board = ({activeTab, boardType,topics, isLoading, isError}: AppProps) => {
   const userStore = useUserStore()
   const user = userStore.user;
-  // const router = useRouter();
-  // const queryClient = useQueryClient();
-
-  // const deleteTopicMutation = useMutation({
-  //   mutationFn: api.deleteTopic, 
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries([`${boardType}-topics`]);
-  //   }
-  // })
-  // const deleteConversationMutation = useMutation({
-  //   mutationFn: api.deleteConversation,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries([`${boardType}-topics`]);
-  //   }
-  // })
-  // const deleteConvoCountMutation = useMutation({
-  //   mutationFn: api.deleteConvoCount,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries([`${boardType}-topics`])
-  //   }
-  // })
   const canDelete = (userID:string | undefined, array: string[] | undefined) => {
     const result = array?.some((element) => element.includes('delete') && element.includes(userID!))
     return result
   };
-
-  // const handleDeleteMutations = (topicId: string, countDocId: string) => {
-  //   try {
-  //     deleteConversationMutation.mutate(topicId)
-  //     deleteTopicMutation.mutate(topicId)
-  //     deleteConvoCountMutation.mutate(countDocId);
-  //     router.refresh()
-  //   } catch(err) {
-  //     console.error(err)
-  //   }
-  // }
 
   return (
     <div className={`${boardType}-board`}>
@@ -85,56 +48,46 @@ const Board = ({activeTab, boardType,topics, isLoading, isError}: AppProps) => {
               // private posts
               topics.filter((item => item.members.includes(user?.email!))).map((topic) => (
                 <div key={topic?.$id} className="col-start-2 col-span-10 md:col-start-3 md:col-span-5 relative">
-                  {/* <Link href={`/${topic.$id}/conversation/`}> */}
-                    <TopicCard 
-                      $id={topic.$id}
-                      subject={topic.subject}
-                      createdBy={topic.createdBy}
-                      created={topic.created}
-                      starter={topic.starter}
-                      database='topics'
-                      hasDeleteButton={canDelete(user?.$id, topic?.$permissions) ? true : false}
-                      isPreview={true}
-                      beat={topic.beat}
-                      category={topic.community}
-                      boardType={boardType}
-                      userId={topic.user_account_id}
-                      userAvatarId={topic.userAvatarId}
-                      countDocId={topic.countDocId}
-                      audioFileId={topic.audioFileId}
-                    />
-                  {/* </Link> */}
-                  {/* {canDelete(user?.$id, topic?.$permissions) && (
-                    <button className="text-red-500 absolute top-1 right-4 opacity-30 hover:opacity-100" onClick={() => handleDeleteMutations(topic.$id, topic.countDocId)}>Delete</button>
-                  )} */}
+                  <TopicCard 
+                    $id={topic.$id}
+                    subject={topic.subject}
+                    createdBy={topic.createdBy}
+                    created={topic.created}
+                    starter={topic.starter}
+                    database='topics'
+                    hasDeleteButton={canDelete(user?.$id, topic?.$permissions) ? true : false}
+                    isPreview={true}
+                    beat={topic.beat}
+                    category={topic.community}
+                    boardType={boardType}
+                    userId={topic.user_account_id}
+                    userAvatarId={topic.userAvatarId}
+                    countDocId={topic.countDocId}
+                    audioFileId={topic.audioFileId}
+                  />
                 </div>
               )
             )) : (
               // public posts
               topics.map((topic) => (
                 <div key={topic.$id} className="col-start-2 col-span-10 md:col-start-3 md:col-span-5 relative">
-                  {/* <Link href={`${topic.$id}/conversation/`}> */}
-                    <TopicCard 
-                      $id={topic.$id}
-                      subject={topic.subject}
-                      createdBy={topic.createdBy}
-                      created={topic.created}
-                      starter={topic.starter}
-                      database='topics'
-                      hasDeleteButton={canDelete(user?.$id, topic?.$permissions) ? true : false}
-                      isPreview={true}
-                      beat={topic.beat}
-                      category={topic.community}
-                      boardType={boardType}
-                      userId={topic.user_account_id}
-                      userAvatarId={topic.userAvatarId}
-                      countDocId={topic.countDocId}
-                      audioFileId={topic.audioFileId}
-                    />
-                  {/* </Link> */}
-                  {/* {canDelete(user?.$id, topic?.$permissions) && (
-                    <button className="text-red-500 absolute top-1 right-4 opacity-30 hover:opacity-100" onClick={() => handleDeleteMutations(topic.$id, topic.countDocId)}>Delete</button>
-                  )} */}
+                  <TopicCard 
+                    $id={topic.$id}
+                    subject={topic.subject}
+                    createdBy={topic.createdBy}
+                    created={topic.created}
+                    starter={topic.starter}
+                    database='topics'
+                    hasDeleteButton={canDelete(user?.$id, topic?.$permissions) ? true : false}
+                    isPreview={true}
+                    beat={topic.beat}
+                    category={topic.community}
+                    boardType={boardType}
+                    userId={topic.user_account_id}
+                    userAvatarId={topic.userAvatarId}
+                    countDocId={topic.countDocId}
+                    audioFileId={topic.audioFileId}
+                  />
                 </div>
               ))
             )}

@@ -164,7 +164,7 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
           {content}
         </div>
         <div className="options w-full flex flex-row justify-end items-center">
-          <div className="items-wrap flex flex-row justify-center items-center" onClick={handleReply}>
+          <div className="items-wrap flex flex-row justify-center items-center cursor-pointer" onClick={handleReply}>
             <RiReplyLine />
             <span className='text-xs'>Reply</span>
           </div>

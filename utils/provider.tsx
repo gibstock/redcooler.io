@@ -11,7 +11,15 @@ function Providers({children}: React.PropsWithChildren) {
   const setUserProfile = useUserStore(state => state.setUserProfile);
   const dark = darkModeStore(state => state.dark);
   const [client] = useState(
-    new QueryClient({ defaultOptions: {queries: {staleTime: 5000}}})
+    new QueryClient(
+      { 
+      defaultOptions: {
+        queries: {
+          staleTime: 15000,
+        }
+      }
+    }
+    )
   );
   
   
