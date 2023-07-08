@@ -1,8 +1,9 @@
 'use client'
 import React, {useState} from 'react'
-import { useQuery} from '@tanstack/react-query';
+import { useQuery, dehydrate, Hydrate} from '@tanstack/react-query';
 import Image from 'next/image'
 import Link from 'next/link'
+import getQueryClient from '@/utils/getQueryClient';
 import { useRouter } from 'next/navigation'
 import LatestTopicCard from './LatestTopicCard';
 import Button from './Button'
@@ -10,6 +11,17 @@ import LoadingComponent from './LoadingComponent';
 import {BsArrowDownCircleFill} from 'react-icons/bs'
 import { useUserStore } from '@/hooks/store'
 import api from '@/api/api'
+
+export async function getStaticProps() {
+  const queryClient = getQueryClient()
+  await queryClient.prefetchQuery(['latest'], api.fetchLatestPosts)
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient)
+    }
+  }
+}
 
 const WelcomePage = () => {
   const [buttonValue, setButtonValue] = useState("Join Now")

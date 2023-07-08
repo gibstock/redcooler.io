@@ -11,7 +11,7 @@ import api from '@/api/api';
 const Conversation = ({ params }: {params: {topicId: string}}) => {
   const topicId = decodeURIComponent(params.topicId);
 
-  const {data: topic, isLoading, isError, error } = useQuery(['convoWithId'], () => api.fetchPostByTopicId(topicId));
+  const {data: topic, isLoading, isError, error } = useQuery(['convoWithId', topicId], () => api.fetchPostByTopicId(topicId));
   const {data: conversations, isLoading: convoIsLoading, isError: convoIsError } = useQuery(['conversations'], () => api.fetchConversationByTopicId(topicId))
   const {data: countDocId} = useQuery(['countDocId'], () => api.fetchCommentCountByTopicId(topicId))
   const modalStore = commentModalStore()
@@ -45,6 +45,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
     topic?.isPrivate && setIsPrivateForEdit(topic.isPrivate);
     topic?.beat && setBeatToEdit(topic.beat);
   },[topicId, topic])
+
   
   return (
       <div className='mt-[8vh] md:grid grid-cols-12 w-full text-slate-900 dark:text-slate-200'>

@@ -18,7 +18,7 @@ function Providers({children}: React.PropsWithChildren) {
       { 
       defaultOptions: {
         queries: {
-          staleTime: 15000,
+          staleTime: 5000,
         }
       }
     }

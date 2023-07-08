@@ -42,7 +42,7 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
   const userStore = useUserStore()
   const imageUrlMap = userStore.imageUrlMap
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const router = useRouter();
 
 
@@ -82,31 +82,31 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
     getConvoCount();
   }, [beat])
 
-  const deleteTopicMutation = useMutation({
-    mutationFn: api.deleteTopic, 
-    onSuccess: () => {
-      queryClient.invalidateQueries([`${boardType}-topics`]);
-    }
-  })
-  const deleteConversationMutation = useMutation({
-    mutationFn: api.deleteConversation,
-    onSuccess: () => {
-      queryClient.invalidateQueries([`${boardType}-topics`]);
-    }
-  })
-  const deleteConvoCountMutation = useMutation({
-    mutationFn: api.deleteConvoCount,
-    onSuccess: () => {
-      queryClient.invalidateQueries([`${boardType}-topics`])
-    }
-  })
+  // const deleteTopicMutation = useMutation({
+  //   mutationFn: api.deleteTopic, 
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries([`${boardType}-topics`]);
+  //   }
+  // })
+  // const deleteConversationMutation = useMutation({
+  //   mutationFn: api.deleteConversation,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries([`${boardType}-topics`]);
+  //   }
+  // })
+  // const deleteConvoCountMutation = useMutation({
+  //   mutationFn: api.deleteConvoCount,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries([`${boardType}-topics`])
+  //   }
+  // })
 
-  const deleteAudioFileMutation = useMutation({
-    mutationFn: api.deleteAudioFile,
-    onSuccess: () => {
-      queryClient.invalidateQueries([`${boardType}-topics`])
-    }
-  })
+  // const deleteAudioFileMutation = useMutation({
+  //   mutationFn: api.deleteAudioFile,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries([`${boardType}-topics`])
+  //   }
+  // })
 
   const handleDelete = async (topicId: string, countDocId: string) => {
     if(window.confirm("Are you sure you want to delete this post?") === false) return;

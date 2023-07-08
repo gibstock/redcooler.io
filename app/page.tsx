@@ -1,27 +1,37 @@
+'use client'
+import React, {useEffect, useState} from 'react';
+import { useRouter } from 'next/navigation';
 import WelcomePage from '@/app/components/WelcomePage';
-import getQueryClient from '@/utils/getQueryClient';
-import { dehydrate, Hydrate } from "@tanstack/react-query";
-import CheckUser from '@/utils/checkUser';
-import ClientOnly from '@/utils/clientOnly';
+import LoadingComponent from './components/LoadingComponent';
 import api from '@/api/api';
 
-
-const preFetchLatest = async () => {
-  const queryClient = getQueryClient()
-  await queryClient.prefetchQuery(['latest'], api.fetchLatestPosts)
-  const dehydratedState = dehydrate(queryClient)
-  return dehydratedState
-}
-
 export default function Home() {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  console.log("Page Render")
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log("UseEffect Render")
+    const user = async () => {
+      console.log("User func runs")
+      const user = await api.getUser();
+      if(user) {
+        console.log("found user")
+        router.push('/dashboard')
+      }
+      if(!user) {
+        setHasMounted(true);
+        console.log("no user")
+      }
+    };
+    user();
+
+  }, [])
+
+  if(!hasMounted) return <LoadingComponent />;
 
   return (
-    <ClientOnly>
-      <CheckUser>
-        <Hydrate state={preFetchLatest()}>
-          <WelcomePage />
-        </Hydrate>
-      </CheckUser>
-    </ClientOnly>
-)
+    <WelcomePage />
+  )
 }
