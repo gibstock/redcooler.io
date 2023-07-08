@@ -63,7 +63,7 @@ const EditPost2 = () => {
                 type="text" 
                 id='subject'
                 placeholder='Title'
-                value={titleToEdit!}
+                value={titleToEdit? titleToEdit : ""}
                 disabled={true}
               />
             </div>
@@ -76,7 +76,7 @@ const EditPost2 = () => {
                 required={false}
                 id='starter'
                 placeholder='Text (Optional)'
-                value={contentToEdit!}
+                value={contentToEdit? contentToEdit : ""}
                 onChange={(e) => setContentToEdit(e.target.value)}
               ></textarea>
             </div>
@@ -90,7 +90,7 @@ const EditPost2 = () => {
                 type="text" 
                 id='beat'
                 placeholder='Beat Link (Optional)'
-                value={beatToEdit!}
+                value={beatToEdit? beatToEdit : ""}
                 onChange={(e) => setBeatToEdit(e.target.value)}
               />
               <small className='text-center text-slate-500'>Currently supports YouTube and SoundCloud</small>

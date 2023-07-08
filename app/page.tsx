@@ -1,34 +1,27 @@
-"use client";
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import WelcomePage from '@/components/WelcomePage';
+import WelcomePage from '@/app/components/WelcomePage';
 import getQueryClient from '@/utils/getQueryClient';
 import { dehydrate, Hydrate } from "@tanstack/react-query";
+import CheckUser from '@/utils/checkUser';
+import ClientOnly from '@/utils/clientOnly';
 import api from '@/api/api';
 
 
 const preFetchLatest = async () => {
   const queryClient = getQueryClient()
   await queryClient.prefetchQuery(['latest'], api.fetchLatestPosts)
-  return dehydrate(queryClient)
+  const dehydratedState = dehydrate(queryClient)
+  return dehydratedState
 }
 
 export default function Home() {
-  const router = useRouter();
-
-  useEffect(() => {
-    const user = async () => {
-      const user = await api.getUser();
-      if(user) {
-        router.push('/dashboard')
-      }
-    };
-    user();
-  }, [])
 
   return (
-    <Hydrate state={preFetchLatest()}>
-      <WelcomePage />
-    </Hydrate>
+    <ClientOnly>
+      <CheckUser>
+        <Hydrate state={preFetchLatest()}>
+          <WelcomePage />
+        </Hydrate>
+      </CheckUser>
+    </ClientOnly>
 )
 }

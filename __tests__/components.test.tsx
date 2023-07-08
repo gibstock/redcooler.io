@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import Footer from '@/components/Footer';
-import Button from '@/components/Button';
+import Footer from '@/app/components/Footer';
+import Button from '@/app/components/Button';
 
 const defaultButtonProps = {
   label: 'Click Me',

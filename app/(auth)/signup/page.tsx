@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
-import Button from '@/components/Button';
+import Button from '@/app/components/Button';
 
 import api from '@/api/api';
 

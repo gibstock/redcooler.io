@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { useUserStore } from '@/hooks/store';
-import Button from '@/components/Button';
+import Button from '@/app/components/Button';
 import api from '@/api/api';
 
 export default function SignIn() {

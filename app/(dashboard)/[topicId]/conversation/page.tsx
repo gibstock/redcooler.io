@@ -2,10 +2,10 @@
 import React, {useEffect, useState, useRef,  } from 'react'
 import { useQuery} from '@tanstack/react-query';
 import { useUserStore, commentModalStore } from '@/hooks/store';
-import CommentCard from '@/components/CommentCard';
-import CommentForm from '@/components/CommentForm';
-import ParentTopicCard from '@/components/ParentTopicCard';
-import Button from '@/components/Button';
+import CommentCard from '@/app/components/CommentCard';
+import CommentForm from '@/app/components/CommentForm';
+import ParentTopicCard from '@/app/components/ParentTopicCard';
+import Button from '@/app/components/Button';
 import api from '@/api/api';
 
 const Conversation = ({ params }: {params: {topicId: string}}) => {
@@ -42,8 +42,7 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
     topic?.members && setEmailsToEdit(topic.members);
     topic?.isPrivate && setIsPrivateForEdit(topic.isPrivate);
     topic?.beat && setBeatToEdit(topic.beat);
-    console.log(modalActive)
-  },[topicId, setTopicId, topic, setContentToEdit, setTitleToEdit, setEmailsToEdit, setBeatToEdit])
+  },[topicId, topic])
   
   return (
       <div className='mt-[8vh] md:grid grid-cols-12 w-full text-slate-900 dark:text-slate-200'>

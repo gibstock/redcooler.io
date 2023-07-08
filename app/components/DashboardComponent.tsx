@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation";
 import api from "@/api/api"
 import { useQuery } from "@tanstack/react-query"
 import { postFiler } from "@/utils/postFilter"
-import Button from '@/components/Button';
-import Tabs from '@/components/Tabs';
-import Board from '@/components/Board';
+import Button from '@/app/components/Button';
+import Tabs from '@/app/components/Tabs';
+import Board from '@/app/components/Board';
 import { MdDashboard } from 'react-icons/md';
 import { useUserStore } from "@/hooks/store"
 
@@ -40,8 +40,6 @@ export default function DashboardComponent() {
       router.replace('/')
     } 
   }, [user, router])
-
-  console.log(user)
 
   return (
   <div className="my-20 md:mx-4">

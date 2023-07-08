@@ -1,5 +1,5 @@
 import React from 'react'
-import Skeleton from '@/components/Skeleton'
+import Skeleton from '@/app/components/Skeleton'
 
 const LoadingComponent = () => {
   return (

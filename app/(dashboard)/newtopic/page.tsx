@@ -5,8 +5,8 @@ import api from '@/api/api';
 import { TbAsteriskSimple } from 'react-icons/tb'
 import { RxCross1 } from 'react-icons/rx'
 import { useRouter } from 'next/navigation';
-import WordCount from '@/components/WordCount';
-import Button from '@/components/Button';
+import WordCount from '@/app/components/WordCount';
+import Button from '@/app/components/Button';
 
 const initialData = {
   subject: '',
