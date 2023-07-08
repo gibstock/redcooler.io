@@ -7,17 +7,19 @@ import api from '@/api/api'
 
 const EditPost2 = () => {
   const [modal, setModal] = useState(false);
-  const docId = useUserStore(state => state.currentDoc)
-  const topicId = useUserStore(state => state.topicId);
-  const contentToEdit = useUserStore(state => state.contentToEdit)
-  const setContentToEdit = useUserStore(state => state.setContentToEdit)
-  const titleToEdit = useUserStore(state => state.titleToEdit);
-  const emailsToEdit = useUserStore(state => state.emailsForEdit);
-  const setEmailsForEdit = useUserStore(state => state.setEmailsForEdit);
-  const beatToEdit = useUserStore(state => state.beatToEdit);
-  const setBeatToEdit = useUserStore(state => state.setBeatToEdit)
-  const isPrivateForEdit = useUserStore(state => state.isPrivateToEdit)
-  const setIsPrivateForEdit = useUserStore(state => state.setIsPrivateToEdit)
+
+  const userStore = useUserStore()
+  const docId = userStore.currentDoc
+  const topicId = userStore.topicId
+  const contentToEdit = userStore.contentToEdit
+  const setContentToEdit = userStore.setContentToEdit
+  const titleToEdit = userStore.titleToEdit
+  const emailsToEdit = userStore.emailsForEdit
+  const setEmailsForEdit = userStore.setEmailsForEdit
+  const beatToEdit = userStore.beatToEdit
+  const setBeatToEdit = userStore.setBeatToEdit
+  const isPrivateForEdit = userStore.isPrivateToEdit
+  const setIsPrivateForEdit = userStore.setIsPrivateToEdit
 
   const router = useRouter();
 

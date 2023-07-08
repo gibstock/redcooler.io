@@ -6,11 +6,12 @@ import api from '@/api/api'
 
 const EditComment = () => {
   const [modal, setModal] = useState(false);
-  const commentToEdit = useUserStore(state => state.commentToEdit)
-  const setCommentToEdit = useUserStore(state => state.setCommentToEdit)
-  const mark = useUserStore(state => state.mark)
-  const topicId = useUserStore(state => state.topicId)
-  const commentId = useUserStore(state => state.commentId)
+  const userStore = useUserStore()
+  const commentToEdit = userStore.commentToEdit
+  const setCommentToEdit = userStore.setCommentToEdit
+  const mark = userStore.mark
+  const topicId = userStore.topicId
+  const commentId = userStore.commentId
 
 
 

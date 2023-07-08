@@ -39,14 +39,16 @@ const ChildCommentCard = ({$id, userAccountId, $permissions, createdBy, created,
     enabled: Boolean($id),
   })
   const [commentMenuOpen, setCommentMenuOpen] = useState(false)
-  // const [commentAvatarHref, setCommentAvatarHref] = useState('');
-  const setCommentToEdit = useUserStore(state => state.setCommentToEdit)
-  const setMark = useUserStore(state => state.setMark)
-  const setCommentId = useUserStore(state => state.setCommentId)
   const [commentFormModal, setCommentFormModal] = useState(false)
-  // const imageUrlMap = useUserStore(state => state.imageUrlMap);
-  const user = useUserStore(state => state.user)
-  const toggleModalActive = commentModalStore(state => state.toggleModalActive)
+  const userStore = useUserStore()
+  const modalStore = commentModalStore()
+
+  const user = userStore.user
+  const setCommentToEdit = userStore.setCommentToEdit
+  const setMark = userStore.setMark
+  const setCommentId = userStore.setCommentId
+  const toggleModalActive = modalStore.toggleModalActive
+
   const router = useRouter();
 
   const commentFormRef = useRef<HTMLDivElement>(null);
@@ -117,7 +119,6 @@ const ChildCommentCard = ({$id, userAccountId, $permissions, createdBy, created,
           </div>
         )}
         <div className="avatar-user flex flex-row justify-start items-center gap-2">
-          {/* <div className="avatar-wrap"> */}
             {avatarHref && avatarHref !== null ? (
               <Image 
                 src={avatarHref}
@@ -131,14 +132,10 @@ const ChildCommentCard = ({$id, userAccountId, $permissions, createdBy, created,
                 <RxPerson size={22} />
               </div>
             )}
-          {/* </div> */}
           <div className="username font-bold justify-self-start text-xs text-slate-400">
             {createdBy}
           </div>
         </div>
-        {/* <div className="top-bar">
-          {commentType}
-        </div> */}
         <div className="date-dots flex flex-row justify-end items-center gap-3">
           <div className="date-posted text-slate-400 text-xs">
           {timeSince(new Date(created))}
@@ -153,9 +150,6 @@ const ChildCommentCard = ({$id, userAccountId, $permissions, createdBy, created,
         </div>
       </div>
       <div className="content-group p-4">
-        {/* <div className="top-bar mb-2">
-          {commentType}
-        </div> */}
         <div className="content whitespace-pre-wrap text-sm">
           {content}
         </div>

@@ -7,9 +7,12 @@ import { useUserStore, darkModeStore } from "@/hooks/store";
 import api from "@/api/api";
 
 function Providers({children}: React.PropsWithChildren) {
-  const setUser = useUserStore(state => state.setUser);
-  const setUserProfile = useUserStore(state => state.setUserProfile);
-  const dark = darkModeStore(state => state.dark);
+  const userStore = useUserStore()
+  const darkMode = darkModeStore()
+
+  const setUser = userStore.setUser
+  const setUserProfile = userStore.setUserProfile
+  const dark = darkMode.dark
   const [client] = useState(
     new QueryClient(
       { 

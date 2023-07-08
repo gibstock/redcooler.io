@@ -39,16 +39,17 @@ const CommentCard = ({$id, userAccountId, $permissions, createdBy, created, comm
     enabled: Boolean($id),
   })
   const [commentMenuOpen, setCommentMenuOpen] = useState(false)
-  const [deleteBtnValue, setDeleteBtnValue] = useState('delete')
-  // const [commentAvatarHref, setCommentAvatarHref] = useState('');
-  const toggleModalActive = commentModalStore(state => state.toggleModalActive);
-
-  const setCommentToEdit = useUserStore(state => state.setCommentToEdit)
-  const setMark = useUserStore(state => state.setMark)
-  const setCommentId = useUserStore(state => state.setCommentId)
   const [commentFormModal, setCommentFormModal] = useState(false)
-  // const imageUrlMap = useUserStore(state => state.imageUrlMap);
-  const user = useUserStore(state => state.user)
+  const [deleteBtnValue, setDeleteBtnValue] = useState('delete')
+  const userStore = useUserStore()
+  const modalStore = commentModalStore()
+
+  const user = userStore.user
+  const setCommentToEdit = userStore.setCommentToEdit
+  const setMark = userStore.setMark
+  const setCommentId = userStore.setCommentId
+  const toggleModalActive = modalStore.toggleModalActive
+
   const router = useRouter();
 
   const commentFormRef = useRef<HTMLDivElement>(null);
