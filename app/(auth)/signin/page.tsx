@@ -10,7 +10,8 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [buttonValue, setButtonValue] = useState('Sign In')
-  const setUser = useUserStore(state => state.setUser)
+  const userStore = useUserStore()
+  const setUser = userStore.setUser;
 
   const router = useRouter();
 
