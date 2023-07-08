@@ -15,10 +15,10 @@ const preFetchPosts = async () => {
 export default function Dashboard() {
 
   return (
-    <ClientOnly>
+    // <ClientOnly>
       <Hydrate state={preFetchPosts()}>
         <DashboardComponent />
       </Hydrate>
-    </ClientOnly>
+    // </ClientOnly>
   )
 }
