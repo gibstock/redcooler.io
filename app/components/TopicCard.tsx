@@ -39,7 +39,8 @@ const TopicCard = ({$id, subject, createdBy, created, starter, $permissions, use
   const [convoCount, setConvoCount] = useState(0);
   const [deleting, setDeleting] = useState('Delete');
   const [commentMenuOpen, setCommentMenuOpen] = useState(false)
-  const imageUrlMap = useUserStore(state => state.imageUrlMap)
+  const userStore = useUserStore()
+  const imageUrlMap = userStore.imageUrlMap
 
   const queryClient = useQueryClient();
   const router = useRouter();

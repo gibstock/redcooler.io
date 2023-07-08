@@ -28,11 +28,8 @@ type AppProps = {
 }
 
 const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starter, beat, countDocId, avatarId, userAvatarHref, audioFileId}: AppProps) => {
-  const imageUrlMap = useUserStore(state => state.imageUrlMap)
-  // const [userAvatar, setUserAvatar] = useState('')
   const [userInitialsHref, setUserInitialsHref] = useState('')
   const [audioSrc, setAudioSrc] = useState('');
-  const [audioName, setAudioName] = useState('');
   const canEdit = (userID:string | undefined, array: string[] | undefined) => {
     const result = array?.some((element) => element.includes('update') && element.includes(userID!))
     return result
@@ -60,7 +57,7 @@ const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starte
       } 
     }
     getUserAvatar();
-  }, [avatarId, imageUrlMap])
+  }, [avatarId])
 
   return (
     <div className="parent-topic bg-transparent row-start-1 col-start-2 md:col-start-3 col-span-10 md:col-span-5 p-4 border-b-8 border-b-slate-700/70">
@@ -83,7 +80,6 @@ const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starte
           <div className="topic-card">
             
             <div className="posted-by flex flex-row justify-start items-center gap-2 my-4">
-            {/* {userAvatarHref && imageUrlMap?.get(avatarId) !== undefined ? ( */}
             {userAvatarHref  ? (
               <Image 
                 src={userAvatarHref}
@@ -153,7 +149,6 @@ const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starte
             ) : audioFileId && audioFileId?.length > 2 ? (
               <div className='flex flex-col justify-center items-start'>
                 <h2 className='mb-4 font-bold'>Original Beat</h2>
-                {/* <span className=''>{audioName}</span> */}
                 <audio className='bg-[#e5e7eb] w-full rounded-md' src={audioSrc} controls></audio>
               </div>
             ): null}
