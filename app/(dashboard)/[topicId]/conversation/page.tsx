@@ -14,15 +14,17 @@ const Conversation = ({ params }: {params: {topicId: string}}) => {
   const {data: topic, isLoading, isError, error } = useQuery(['convoWithId'], () => api.fetchPostByTopicId(topicId));
   const {data: conversations, isLoading: convoIsLoading, isError: convoIsError } = useQuery(['conversations'], () => api.fetchConversationByTopicId(topicId))
   const {data: countDocId} = useQuery(['countDocId'], () => api.fetchCommentCountByTopicId(topicId))
-  const modalActive = commentModalStore(state => state.modalActive);
-  const toggleModalActive = commentModalStore(state => state.toggleModalActive);
-  const user = useUserStore(state => state.user);
-  const setContentToEdit = useUserStore(state => state.setContentToEdit);
-  const setTitleToEdit = useUserStore(state => state.setTitleToEdit);
-  const setEmailsToEdit = useUserStore(state => state.setEmailsForEdit);
-  const setBeatToEdit = useUserStore(state => state.setBeatToEdit);
-  const setIsPrivateForEdit = useUserStore(state => state.setIsPrivateToEdit);
-  const setTopicId = useUserStore(state => state.setTopicId)
+  const modalStore = commentModalStore()
+  const userStore = useUserStore()
+  const modalActive = modalStore.modalActive;
+  const toggleModalActive = modalStore.toggleModalActive
+  const user = userStore.user
+  const setContentToEdit = userStore.setContentToEdit
+  const setTitleToEdit = userStore.setTitleToEdit
+  const setEmailsToEdit = userStore.setEmailsForEdit
+  const setBeatToEdit = userStore.setBeatToEdit
+  const setIsPrivateForEdit = userStore.setIsPrivateToEdit
+  const setTopicId = userStore.setTopicId
   const [commentFormModal, setCommentFormModal] = useState(false)
   
   const commentFormRef = useRef<HTMLDivElement>(null);
