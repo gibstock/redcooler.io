@@ -33,8 +33,9 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
   const [buttonValue, setButtonValue] = useState("Post")
   const [modal, setModal] = useState(false);
   const userStore = useUserStore()
+  const modalStore = commentModalStore()
   const userProfile = userStore.userProfile;
-  const toggleModalActive = commentModalStore(state => state.toggleModalActive)
+  const toggleModalActive = modalStore.toggleModalActive
   // const userAvatar = useUserStore(state => state.userAvatar);
 
   const router = useRouter()
