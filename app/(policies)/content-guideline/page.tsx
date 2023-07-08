@@ -6,7 +6,8 @@ import {AiOutlineHome} from 'react-icons/ai'
 import { darkModeStore } from '@/hooks/store'
 
 const ContentGuideline = () => {
-  const dark = darkModeStore(state => state.dark)
+  const darkMode = darkModeStore()
+  const dark = darkMode.dark
   return (
     <main>
       <header className='mt-[8vh] p-10 w-full text-black dark:text-slate-200 dark:bg-dark-black bg-white relative'>
