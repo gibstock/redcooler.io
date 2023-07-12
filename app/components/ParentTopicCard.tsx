@@ -2,6 +2,7 @@
 import React, {useEffect, useState} from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import {MdDashboard, MdPlayCircle, MdPauseCircle,} from 'react-icons/md'
 import {RiPencilFill, RiShareForwardLine} from 'react-icons/ri'
 import {RxChatBubble} from 'react-icons/rx'
@@ -30,6 +31,9 @@ type AppProps = {
 const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starter, beat, countDocId, avatarId, userAvatarHref, audioFileId}: AppProps) => {
   const [userInitialsHref, setUserInitialsHref] = useState('')
   const [audioSrc, setAudioSrc] = useState('');
+
+  const router = useRouter()
+
   const canEdit = (userID:string | undefined, array: string[] | undefined) => {
     const result = array?.some((element) => element.includes('update') && element.includes(userID!))
     return result
@@ -62,12 +66,15 @@ const ParentTopicCard = ({$id, $permissions, createdBy, created, subject, starte
   return (
     <div className="parent-topic bg-transparent row-start-1 col-start-2 md:col-start-3 col-span-10 md:col-span-5 p-4 border-b-8 border-b-slate-700/70">
           <div className="dash-edit-wrapper flex flex-row justify-between items-center">
-            <Link href={'/dashboard'}>
-              <div className="dashboard-icon flex flex-row items-center justify-start gap-2 text-xs hover:text-red-500">
+            {/* <Link href={'/dashboard'}> */}
+              <div 
+                className="dashboard-icon flex flex-row items-center justify-start gap-2 text-xs hover:text-red-500 cursor-pointer"
+                onClick={() => router.back()}  
+              >
                 <MdDashboard size={14} className=' text-red-500' />
                 <div>Back to Dashboard</div>
               </div>
-            </Link>
+            {/* </Link> */}
             {canEdit($id, $permissions) && (
               <div className="edit-button flex flex-row text-red-500">
                 <RiPencilFill />

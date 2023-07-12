@@ -7,6 +7,7 @@ import { RxCross1 } from 'react-icons/rx'
 import { useRouter } from 'next/navigation';
 import WordCount from '@/app/components/WordCount';
 import Button from '@/app/components/Button';
+import CategorySelect from '@/app/components/CategorySelect';
 
 const initialData = {
   subject: '',
@@ -151,7 +152,12 @@ export default function NewTopic(){
                 className='text-red-500 -left-0 top-0'
               />
             </header>
-            <select required value={category} onChange={(e) => setCategory(e.target.value)} name="categories" id="category-select" className='bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-300 py-2 px-3 rounded-sm'>
+            <CategorySelect 
+              category={category}
+              setCategory={setCategory}
+              isFilter={false}
+            />
+            {/* <select required value={category} onChange={(e) => setCategory(e.target.value)} name="categories" id="category-select" className='bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-300 py-2 px-3 rounded-sm'>
               <option value="music-collab">Music Collab</option>
               <option value="short-stories">Short Stories</option>
               <option value="long-stories">Long Stories</option>
@@ -169,7 +175,7 @@ export default function NewTopic(){
               <option value="random">Random</option>
               <option value="personal">Personal</option>
               <option hidden value="testing">Testing</option>
-            </select>
+            </select> */}
           </div>
           <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
             <div className='flex flex-col relative'>
