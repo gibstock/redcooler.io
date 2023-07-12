@@ -123,6 +123,10 @@ export default function NewTopic(){
     fileInputRef?.current?.click();
   }
 
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(e.target.value)
+  }
+
   return (
     <div className='mt-20 lg:flex lg:flex-col items-center'>
       <header className='pt-2 px-2 lg:max-w-2xl lg:w-full lg:flex flex-col items-center'>
@@ -154,8 +158,8 @@ export default function NewTopic(){
             </header>
             <CategorySelect 
               category={category}
-              setCategory={setCategory}
               isFilter={false}
+              onChange={handleSelectChange}
             />
             {/* <select required value={category} onChange={(e) => setCategory(e.target.value)} name="categories" id="category-select" className='bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-300 py-2 px-3 rounded-sm'>
               <option value="music-collab">Music Collab</option>
