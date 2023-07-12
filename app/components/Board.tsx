@@ -43,7 +43,7 @@ const Board = ({activeTab, boardType,topics, isLoading, isError}: AppProps) => {
         <p className='text-slate-200'>Loading {boardType} posts...</p>
       ) : (
         <div className='grid grid-cols-12 gap-y-4 mt-1 md:mt-8'>
-          <ul className="w-full row-start-2 col-start-1 col-span-12 md:col-start-3 md:col-span-5 flex flex-col justify-center items-stretch gap-2 md:gap-4">
+          <ul className="w-full row-start-2 col-start-1 col-span-12 md:col-start-3 lg:col-start-3 md:col-span-8 lg:col-span-5 flex flex-col justify-center items-stretch gap-2 md:gap-4">
             {boardType === 'private' ? (
               // private posts
               topics.filter((item => item.members.includes(user?.email!))).map((topic) => (
