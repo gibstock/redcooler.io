@@ -27,6 +27,22 @@ export const commentModalStore = create<CommentModalState>((set) => ({
   toggleModalActive: (value) => set(() => ({ modalActive: value}))
 }))
 
+interface CategoryStore {
+  savedCategory: string | null;
+  setSavedCategory: (value: string | null) => void;
+}
+
+export const useCategoryStore = create<CategoryStore>()(
+  devtools(
+    persist((set) => ({
+      savedCategory: null,
+      setSavedCategory: (value) => set(() => ({ savedCategory: value}))
+    }), 
+      {name: 'user_selected_category'}
+    )
+  )
+)
+
 
 type User = {
   $id: string,
