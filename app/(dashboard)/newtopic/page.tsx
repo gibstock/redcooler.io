@@ -161,25 +161,6 @@ export default function NewTopic(){
               isFilter={false}
               onChange={handleSelectChange}
             />
-            {/* <select required value={category} onChange={(e) => setCategory(e.target.value)} name="categories" id="category-select" className='bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-300 py-2 px-3 rounded-sm'>
-              <option value="music-collab">Music Collab</option>
-              <option value="short-stories">Short Stories</option>
-              <option value="long-stories">Long Stories</option>
-              <option value="journal">Journal</option>
-              <option value="showcase">Showcase</option>
-              <option value="music-share">Music Share</option>
-              <option value="feedback">Feedback</option>
-              <option value="looking-for-writers">Looking For Writers</option>
-              <option value="looking-for-beats">Looking For Beats</option>
-              <option value="creative-writing">Creative Writing</option>
-              <option value="incubator">Incubator</option>
-              <option value="suggestion-box">Suggestion Box</option>
-              <option value="help">Help</option>
-              <option value="music-discussion">Music Discussion</option>
-              <option value="random">Random</option>
-              <option value="personal">Personal</option>
-              <option hidden value="testing">Testing</option>
-            </select> */}
           </div>
           <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
             <div className='flex flex-col relative'>

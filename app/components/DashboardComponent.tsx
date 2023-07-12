@@ -103,11 +103,11 @@ export default function DashboardComponent() {
   return (
   <div className="my-20 md:mx-4">
       <div className="new-post-group flex flex-row w-full pb-4 sm:pb-8 px-2 gap-x-8 items-center justify-between sm:grid sm:grid-cols-12">
-        <div className="dashboard-icon flex flex-row items-center justify-start gap-2 md:col-start-3 md:col-span-2 sm:col-span-3">
+        <div className="dashboard-icon flex flex-row items-center justify-start gap-2 lg:col-start-3 md:col-start-3 lg:col-span-3 md:col-span-4 sm:col-span-4">
           <MdDashboard size={14} className=' text-red-500' />
           <div className='dark:text-slate-200 md:text-lg text-sm'>Your Dashboard</div>
         </div>
-        <div className="new-post-btn w-full md:col-start-5 sm:col-start-5 md:col-span-3 sm:col-span-3">
+        <div className="new-post-btn lg:col-start-6 md:col-start-7 sm:col-start-5 md:col-span-3 sm:col-span-4">
           <Button 
             label={buttonValue}
             onClick={handleNewTopicRoute}
@@ -138,13 +138,13 @@ export default function DashboardComponent() {
         )}
       </div>
       <div className="category-select-row flex flex-col-reverse sm:flex-row items-center justify-start gap-4 md:gap-x-4 pl-4 md:grid md:grid-cols-12">
-        <div className="cat-select-comp-wrapper md:col-start-3 md:col-span-2">
+        <div className="cat-select-comp-wrapper md:col-start-3 md:col-span-2 self-start">
           <CategorySelect 
             isFilter={true}
             onChange={handleCategoryChange}
           />
         </div>
-        <div className="tabs-comp-wrapper md:col-start-5 md:col-span-3">
+        <div className="tabs-comp-wrapper lg:col-start-5 md:col-start-7 lg:col-span-4 md:col-span-3">
           <Tabs 
             activeTab={activeTab}
             setActiveTab={setActiveTab}
