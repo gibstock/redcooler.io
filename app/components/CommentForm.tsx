@@ -49,6 +49,10 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
       setModal(true)
       return
     }
+    if(userProfile === null) {
+      setModal(true)
+      return
+    }
     if(textareaRef.current?.value?.length === undefined) {
       alert('Please enter content to submit')
       return;
@@ -92,7 +96,6 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
     setModal(false)
   }
 
-  
   return (
     <div className="submit-comment flex flex-col justify-start items-start row-start-2 col-start-2 md:col-start-3 md:col-span-5 col-span-10 p-4 bg-white dark:bg-slate-700 rounded-b-md">
       <RxCross2 onClick={() => {
