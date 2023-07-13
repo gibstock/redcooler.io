@@ -30,6 +30,7 @@ const CategorySelect = ({isFilter, onChange, category}:AppProps) => {
         <option value="music-discussion">Music Discussion</option>
         <option value="random">Random</option>
         <option value="personal">Personal</option>
+        <option value="announcement">Announcement</option>
         <option hidden value="testing">Testing</option>
       </select>
     </div>
