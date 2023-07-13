@@ -2,13 +2,17 @@
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import Button from '@/app/components/Button';
+import {AiFillEye, AiFillEyeInvisible} from 'react-icons/ai'
 
 import api from '@/api/api';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState(false);
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  const [reIsVisible, setReIsVisible] = useState(false);
   const [username, setUsername] = useState('');
   const [buttonValue, setButtonValue] = useState('Sign Up')
   const [usernameAlert, setUsernameAlert] = useState(false)
@@ -42,7 +46,14 @@ export default function SignUp() {
         console.log("Verification email sent")
         router.push('/awaitverify')
       }catch(err) {
-        console.log('Error signing up ', {err});
+        let message;
+        if (err instanceof Error) message = err.message
+        else message = String(err)
+        if(message.includes('email')){
+          setEmailError(true)
+          setButtonValue('Sign Up')
+          return
+        }
       }
     }
   };
@@ -88,6 +99,9 @@ export default function SignUp() {
               onChange={(e) => setEmail(e.target.value)}
               className='peer group-focus-within/email:outline-black bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-300 border-none focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
             />
+            <div className="email-error-message text-red-600" hidden={emailError ? false : true}>
+              <small>A user with this email already exists</small>
+            </div>
             <div 
               className='absolute left-4 -top-6 text-slate-500 dark:text-slate-400 peer-focus-within:text-slate-800'
               style={email.length > 0 ? {color: 'hsl(200, 80%, 60%)'} : {}}
@@ -100,12 +114,19 @@ export default function SignUp() {
               Password
             </label>
             <input 
-              type="password" 
+              type={isVisible ? 'text' : 'password'} 
               id='password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className='peer group-focus-within/password:outline-black bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-300 focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
             />
+            <div className="eye-wrapper text-blue-600 absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer" onClick={() => setIsVisible(!isVisible)}>
+                {isVisible ? (
+                <AiFillEye size={35} />
+              ) : (
+                <AiFillEyeInvisible size={35} />
+              )}
+              </div>
             <div 
               className='absolute left-4 -top-6 text-slate-500 dark:text-slate-400 peer-focus-within:text-slate-800'
               style={password.length > 0 ? {color: 'hsl(200, 80%, 60%)'} : {}}
@@ -118,12 +139,19 @@ export default function SignUp() {
               RePassword
             </label>
             <input 
-              type="password" 
+              type={reIsVisible ? 'text' : 'password'} 
               id='repassword'
               value={rePassword}
               onChange={(e) => setRePassword(e.target.value)}
               className='peer group-focus-within/repassword:outline-black bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-300 focus-within:border-2 focus-within:border-blue-700 px-4 py-2 rounded-sm'
               />
+              <div className="eye-wrapper text-blue-600 absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer" onClick={() => setReIsVisible(!reIsVisible)}>
+                {reIsVisible ? (
+                <AiFillEye size={35} />
+              ) : (
+                <AiFillEyeInvisible size={35} />
+              )}
+              </div>
             <div 
               className='absolute left-4 -top-6 text-slate-500 dark:text-slate-400 peer-focus-within:text-slate-800'
               style={rePassword.length > 0 ? {color: 'hsl(200, 80%, 60%)'} : {}}
