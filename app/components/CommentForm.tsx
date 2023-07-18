@@ -28,7 +28,7 @@ type AppProps = {
 // }
 
 const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
-  const [mark, setMark] = useState('')
+  // const [mark, setMark] = useState('')
   const [charTotal, setCharTotal] = useState(0)
   const [buttonValue, setButtonValue] = useState("Post")
   const [modal, setModal] = useState(false);
@@ -65,12 +65,11 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
     try {
       if(userProfile !== null) {
         if(isChildComment && parentCommentId) {
-          await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark, parentCommentId, userProfile[0].avatarId, userProfile[0].avatarHref)
+          await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, "comment", parentCommentId, userProfile[0].avatarId, userProfile[0].avatarHref)
         } else {
-          await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, mark, undefined, userProfile[0].avatarId, userProfile[0].avatarHref)
+          await api.submitCommentToTopicChain(textareaRef?.current?.value!, name!, docId!, $id!, "comment", undefined, userProfile[0].avatarId, userProfile[0].avatarHref)
         }
         await api.updateCommentCount(topicCountDocId!, countDocId![0].count + 1 )
-        setMark('')
         window.location.reload()
       } else {
         throw Error;
@@ -121,7 +120,7 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
             </div>
           </div>
           <div className="comment-type-options text-xs mt-2 pt-2 flex flex-row flex-wrap justify-between items-end gap-4 border-solid border-t-2 border-slate-300">
-            <div className="radio-option-group flex flex-row justify-start items-center gap-2">
+            {/* <div className="radio-option-group flex flex-row justify-start items-center gap-2">
               <label htmlFor="comment">Comment</label>
               <input type="radio" name="option-group" id="comment" onChange={() => setMark('comment')} required={true}/>
             </div>
@@ -136,7 +135,7 @@ const CommentForm = forwardRef<HTMLDivElement, AppProps>((props, ref) => {
             <div className="radio-option-group flex flex-row justify-start items-center gap-2">
               <label htmlFor="other">Other</label>
               <input type="radio" name="option-group" id="other" onChange={() => setMark('other')} />
-            </div>
+            </div> */}
             <Button 
               label={buttonValue}
               onClick={() =>handleSubmitComment}

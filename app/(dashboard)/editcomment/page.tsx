@@ -9,7 +9,6 @@ const EditComment = () => {
   const userStore = useUserStore()
   const commentToEdit = userStore.commentToEdit
   const setCommentToEdit = userStore.setCommentToEdit
-  const mark = userStore.mark
   const topicId = userStore.topicId
   const commentId = userStore.commentId
 
@@ -20,7 +19,7 @@ const EditComment = () => {
   const handleSubmitEdit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-        await api.editComment(commentId!, commentToEdit!, mark!)
+        await api.editComment(commentId!, commentToEdit!, "comment")
         console.log("success")
         router.push(`/${topicId}/conversation/`)
     }catch (err) {
