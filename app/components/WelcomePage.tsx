@@ -110,6 +110,7 @@ const WelcomePage = () => {
             alt='book for inspiration'
             imgW={640}
             imgH={480}
+            isEven={false}
           />
           <Benefit 
             heading='Find your people and be inspired'
@@ -119,6 +120,7 @@ const WelcomePage = () => {
             alt='book for inspiration'
             imgW={640}
             imgH={480}
+            isEven={true}
           />
         </div>
       </section>
