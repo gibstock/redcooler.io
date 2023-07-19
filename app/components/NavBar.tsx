@@ -127,9 +127,9 @@ const NavBar = () => {
                   label='Sign Out'
                   onClick={handleSignOut}
                   fontColor='text-white'
-                  bgColor='bg-red-500'
-                  padding='px-4 py-1'
-                  hover='hover:bg-red-400'
+                  bgColor='bg-redcooler'
+                  padding='px-4 py-2'
+                  hover='hover:bg-redcoolerLite'
                 />
               </div>
             </div>
@@ -170,10 +170,10 @@ const NavBar = () => {
                   <Button 
                     label='Sign In'
                     onClick={handleLogin}
-                    fontColor='text-white'
-                    bgColor='bg-red-500'
-                    hover='hover:bg-red-400'
-                    padding=' px-4 py-1'
+                    fontColor='text-whiteish'
+                    bgColor='bg-redcooler'
+                    hover='hover:bg-redcoolerLite'
+                    padding=' px-4 py-2'
                   />
                 </div>
                 <div className={`dark-mode-icon ${dark? "text-white" : "text-black"} cursor-pointer`} onClick={toggleDarkMode}>

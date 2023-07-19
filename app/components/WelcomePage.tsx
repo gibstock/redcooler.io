@@ -50,25 +50,42 @@ const WelcomePage = () => {
 
   return (
     <main className='lg:p-5 p-0 w-full md:w-[80%] mx-0 md:mx-auto'>
-      <section className="welcome flex flex-col justify-center items-center mt-16">
-        <h1 className='text-3xl text-center md:text-5xl text-slate-800 dark:text-slate-200 font-bold mt-8 pb-8'>Welcome to <span className='text-red-500'>RedCooler.io</span></h1>
-        <p className='m-0 pb-8 text-center text-xl md:text-2xl text-slate-700 dark:text-slate-300'>A place to write, share, and collab</p>
+      <div className="big-hero-back -z-10 bg-gradient-to-br from-redcooler from-50% via-redcoolerLite via-30% to-white to-70% absolute left-0 top-0 w-full h-full"></div>
+      <section className="hero relative flex flex-row justify-center items-center gap-[8vw] h-screen">
+        <div className="hero-content flex flex-col justify-center items-center mt-16">
+          <h1 className='text-3xl text-center md:text-6xl text-slate-800 dark:text-slate-200 font-bold mt-8 pb-8'><span>Find</span> <span className='text-whiteish tracking-wide'>inspiration,</span> <span>get</span> <span className='text-whiteish tracking-wide'>feedback,</span> <span>store</span> your <span className='text-whiteish tracking-wide'>writing,</span> <span className='text-whiteish tracking-wide'>discuss.</span></h1>
+          <p className='m-0 pb-8 text-center text-xl md:text-3xl text-slate-700 dark:text-slate-300'>Join the growing collaborative community of contributors &mdash; artists, musicians, writers, producers &mdash; and create something beautiful</p>
+          <div className="buttons-group flex flex-row justify-center items-center gap-4">
+            <Button 
+              label='Join Us'
+              bgColor='bg-blackish'
+              fontColor='text-[#f2f2f2]'
+              padding='py-2 px-4'
+              hover='hover:bg-redcoolerLite'
+            />
+            <div className="social-proof">
+              <p>Motivation awaits </p>
+            </div>
+          </div>
+        </div>
+        <div className="hero-image relative lg:flex md:hidden flex-row justify-center items-center w-full hidden">
+          <Image 
+            src='/banner-placeholder.jpg'
+            width={640}
+            height={427}
+            alt='A pad of paper with a pen in the middle'
+            className='shadow-md'
+          />
+          <div className="image-gradient w-full h-full absolute left-0 top-0 bg-gradient-to-br from-redcooler/20 from-55% to-white/70"></div>
+        </div>
       </section>
-      <div className="hero-banner flex flex-row justify-center items-center w-full">
-        <Image 
-          src='/banner-placeholder.jpg'
-          width={640}
-          height={427}
-          alt='A pad of paper with a pen in the middle'
-        />
-      </div>
       <section className="latest-threads flex flex-col justify-center items-center mt-12">
         <h2 className=' text-3xl md:text-5xl text-slate-800 dark:text-slate-200 font-bold m-0 pb-8'>Latest Posts</h2>
         <p className='m-0 pb-8 text-xl md:text-2xl text-slate-700 dark:text-slate-300'>See what&apos;s going down</p>
         <div className="down-icon">
           <BsArrowDownCircleFill 
             size={35}
-            className='animate-bounce text-secondary rounded-full shadow-md shadow-slate-400'
+            className='animate-bounce text-redcooler rounded-full shadow-md shadow-slate-400'
           />
         </div>
         <ul className='flex flex-col gap-3 lg:w-3/4 w-full'>
@@ -99,12 +116,12 @@ const WelcomePage = () => {
         <Button 
           label={buttonValue}
           onClick={handleSignUpRoute}
-          bgColor='bg-blue-600'
+          bgColor='bg-redcooler'
           fontColor='text-white'
-          padding='py-2 px-3'
-          hover='hover:bg-blue-500'
+          padding='py-2 px-4'
+          hover='hover:bg-redcoolerLite'
           disabled={buttonValue === "..." ? true : false}
-          disabledConditions='disabled:bg-blue-200 disabled:cursor-not-allowed'
+          disabledConditions='disabled:cursor-not-allowed'
         />
       </section>
       <section className="guest-signin flex flex-col justify-center items-center mt-12">
@@ -112,12 +129,12 @@ const WelcomePage = () => {
         <Button 
           label={guestButtonValue}
           onClick={handleGuestSignIn}
-          bgColor='bg-blue-600'
+          bgColor='bg-redcooler'
           fontColor='text-white'
-          padding='py-2 px-3'
-          hover='hover:bg-blue-500'
+          padding='py-2 px-4'
+          hover='hover:bg-redcoolerLite'
           disabled={guestButtonValue === "Logging in..." ? true : false}
-          disabledConditions='disabled:bg-blue-200 disabled:cursor-not-allowed'
+          disabledConditions='disabled:cursor-not-allowed'
         />
       </section>
     </main>
