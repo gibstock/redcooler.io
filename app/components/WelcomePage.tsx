@@ -9,7 +9,11 @@ import LatestTopicCard from './LatestTopicCard';
 import Button from './Button'
 import LoadingComponent from './LoadingComponent';
 import {BsArrowDownCircleFill} from 'react-icons/bs'
+import { ImFileMusic} from 'react-icons/im'
+import {GiPapers, GiThreeFriends} from 'react-icons/gi'
 import { useUserStore } from '@/hooks/store'
+import Feature from './Feature';
+import Benefit from './Benefit';
 import api from '@/api/api'
 
 export async function getStaticProps() {
@@ -77,6 +81,45 @@ const WelcomePage = () => {
             className='shadow-md'
           />
           <div className="image-gradient w-full h-full absolute left-0 top-0 bg-gradient-to-br from-redcooler/20 from-55% to-white/70"></div>
+        </div>
+      </section>
+      <section className="features-benefits w-full mt-24">
+        <div className="feature-wrapper flex flex-col md:flex-row justify-center items-center gap-8 md:gap-4">
+          <Feature 
+            feature='Upload your beats'
+            Icon={ImFileMusic}
+            contentText='Content Text Content Text Content Text Content Text Content Text Content TextContent Text Content Text Content TextContent Text Content Text v.'
+          />
+          <Feature 
+            feature='Look for collaborators'
+            Icon={GiThreeFriends}
+            contentText='Content Text Content Text Content Text Content Text Content Text Content TextContent Text Content Text Content TextContent Text Content Text v.'
+          />
+          <Feature 
+            feature='Store your writing'
+            Icon={GiPapers}
+            contentText='Content TextContent Text Content Text Content Text Content Text Content Text Content TextContent Text Content Text Content TextContent Text Content Text v.'
+          />
+        </div>
+        <div className="benefits-wrapper relative mt-24 bg-gradient-to-tl from-redcooler from-50% via-redcoolerLite via-30% to-white to-70%">
+          <Benefit 
+            heading='Never miss a spontaneous moment of creation'
+            subheading='Subheading 1 here'
+            details='Not sure what will be here'
+            imgSrc='/book-transparent.png'
+            alt='book for inspiration'
+            imgW={640}
+            imgH={480}
+          />
+          <Benefit 
+            heading='Find your people and be inspired'
+            subheading='Subheading 2 here'
+            details='Not sure what will be here'
+            imgSrc='/inspired.jpg'
+            alt='book for inspiration'
+            imgW={640}
+            imgH={480}
+          />
         </div>
       </section>
       <section className="latest-threads flex flex-col justify-center items-center mt-12">
