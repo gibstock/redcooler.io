@@ -83,29 +83,29 @@ const WelcomePage = () => {
           <div className="image-gradient w-full h-full absolute left-0 top-0 bg-gradient-to-br from-redcooler/20 from-55% to-white/70"></div>
         </div>
       </section>
-      <section className="features-benefits w-full mt-24">
+      <section className="features-benefits w-full mt-24 lg:mt-[30vh]">
         <div className="feature-wrapper flex flex-col md:flex-row justify-center items-center gap-8 md:gap-4">
           <Feature 
             feature='Upload your beats'
             Icon={ImFileMusic}
-            contentText='Content Text Content Text Content Text Content Text Content Text Content TextContent Text Content Text Content TextContent Text Content Text v.'
+            contentText='Upload your own music and keep it private or share it by making it public. A great way to share your beats on demand.'
           />
           <Feature 
             feature='Look for collaborators'
             Icon={GiThreeFriends}
-            contentText='Content Text Content Text Content Text Content Text Content Text Content TextContent Text Content Text Content TextContent Text Content Text v.'
+            contentText='Tag your public posts as Looking For Writers or Looking For Beats to instantly invite collaboration. Invite members to your private threads for VIP collaboration.'
           />
           <Feature 
             feature='Store your writing'
             Icon={GiPapers}
-            contentText='Content TextContent Text Content Text Content Text Content Text Content Text Content TextContent Text Content Text Content TextContent Text Content Text v.'
+            contentText='Use this as a service for your personal writing. Keep your lyrics, poemes, short stories, creative writing etc... all in one easily accessible place.'
           />
         </div>
-        <div className="benefits-wrapper relative mt-24 bg-gradient-to-tl from-redcooler from-50% via-redcoolerLite via-30% to-white to-70%">
+        <div className="benefits-wrapper relative mt-24 lg:mt-[30vh] bg-gradient-to-tl from-redcooler from-50% via-redcoolerLite via-30% to-white to-70%">
           <Benefit 
             heading='Never miss a spontaneous moment of creation'
-            subheading='Subheading 1 here'
-            details='Not sure what will be here'
+            subheading='Killer lyric just popped into your head?'
+            details='Access all of your song ideas instantly and capture that creative stream of conciousness.'
             imgSrc='/book-transparent.png'
             alt='book for inspiration'
             imgW={640}
@@ -114,8 +114,8 @@ const WelcomePage = () => {
           />
           <Benefit 
             heading='Find your people and be inspired'
-            subheading='Subheading 2 here'
-            details='Not sure what will be here'
+            subheading='Are you a writer looking for producers? A beat maker looking for writers?'
+            details='There&apos;s always someone to collaborate with or give feedback on your current projects.'
             imgSrc='/inspired.jpg'
             alt='book for inspiration'
             imgW={640}
@@ -124,21 +124,21 @@ const WelcomePage = () => {
           />
         </div>
       </section>
-      <section className="latest-threads flex flex-col justify-center items-center mt-12">
+      <section className="latest-threads flex flex-col justify-center items-center mt-12 lg:mt-[30vh]">
         <h2 className=' text-3xl md:text-5xl text-slate-800 dark:text-slate-200 font-bold m-0 pb-8'>Latest Posts</h2>
         <p className='m-0 pb-8 text-xl md:text-2xl text-slate-700 dark:text-slate-300'>See what&apos;s going down</p>
-        <div className="down-icon">
+        {/* <div className="down-icon">
           <BsArrowDownCircleFill 
             size={35}
             className='animate-bounce text-redcooler rounded-full shadow-md shadow-slate-400'
           />
-        </div>
-        <ul className='flex flex-col gap-3 lg:w-3/4 w-full'>
+        </div> */}
+        <ul className='flex flex-col lg:flex-row lg:justify-between lg:items-center gap-3 lg:w-full w-full'>
           {isLoading? (
             <LoadingComponent />
           ):(latestPosts?.map((convo) => (
               <Link key={convo.$id} href={"/signin"} >
-                <div className='latest-topic-card'>
+                <div className='latest-topic-card lg:max-w-[25vw]'>
                   <LatestTopicCard 
                     $id={convo.$id}
                     subject={convo.subject}
@@ -156,7 +156,7 @@ const WelcomePage = () => {
             )))}
         </ul>
       </section>
-      <section className="onboarding flex flex-col justify-center items-center mt-12">
+      <section className="onboarding flex flex-col justify-center items-center mt-12 lg:mt-[30vh]">
         <h2 className='text-3xl text-center md:text-5xl text-slate-800 dark:text-slate-200 font-bold mb-7'>New to the Conversation?</h2>
         <Button 
           label={buttonValue}
@@ -169,7 +169,7 @@ const WelcomePage = () => {
           disabledConditions='disabled:cursor-not-allowed'
         />
       </section>
-      <section className="guest-signin flex flex-col justify-center items-center mt-12">
+      <section className="guest-signin flex flex-col justify-center items-center mt-12 lg:my-[30vh]">
         <h2 className='text-3xl text-center md:text-5xl text-slate-800 dark:text-slate-200 font-bold mb-7'>Want to sign in as a guest and have a look?</h2>
         <Button 
           label={guestButtonValue}

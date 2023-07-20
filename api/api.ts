@@ -146,7 +146,7 @@ let api = {
       [
         Query.equal("isPrivate", false),
         Query.orderDesc("created"),
-        Query.limit(5)
+        Query.limit(3)
       ]  
     );
     return topics;

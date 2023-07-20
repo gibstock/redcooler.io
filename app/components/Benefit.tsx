@@ -14,11 +14,11 @@ type AppProps = {
 
 const Benefit = ({heading, subheading, details, imgSrc, imgH, imgW, alt, isEven}: AppProps) => {
   return (
-    <div className={`benefit flex flex-col-reverse ${isEven ? 'md:flex-row-reverse' : 'md:flex-row'} justify-center items-center w-full`}>
+    <div className={`benefit flex flex-col-reverse md:gap-8 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} justify-center items-center w-full`}>
       <div className="content p-4">
         <div className="heading text-3xl font-bold">{heading}</div>
-        <div className="subheading text-xl">{subheading}</div>
-        <div className="details">{details}</div>
+        <div className="subheading text-xl mt-4 mb-2">{subheading}</div>
+        <div className="details mb-8">{details}</div>
       </div>
       <div className="image h-30vh">
         {imgH && imgW ? (

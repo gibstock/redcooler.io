@@ -11,7 +11,7 @@ const Footer = () => {
       </div>
       <div className="footer-content flex flex-row justify-center items-center gap-4 bg-transparent">
         <span className='text-slate-400'>Copyright &copy; 2023 </span>
-        <span className='font-bold text-red-700' data-test-id='company'>Redcooler.io</span>
+        <span className='font-bold text-redcooler' data-test-id='company'>Redcooler.io</span>
       </div>
     </footer>
   )
