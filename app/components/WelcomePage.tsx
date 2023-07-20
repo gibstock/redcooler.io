@@ -54,7 +54,7 @@ const WelcomePage = () => {
 
   return (
     <main className='lg:p-5 p-0 w-full md:w-[80%] mx-0 md:mx-auto'>
-      <div className="big-hero-back -z-10 bg-gradient-to-br from-redcooler from-50% via-redcoolerLite via-30% to-white to-70% absolute left-0 top-0 w-full h-full"></div>
+      <div className="big-hero-back -z-10 bg-gradient-to-br from-redcooler from-50% via-redcoolerLite via-30% dark:to-black to-white to-70% absolute left-0 top-0 w-full h-full"></div>
       <section className="hero relative flex flex-row justify-center items-center gap-[8vw] h-screen">
         <div className="hero-content flex flex-col justify-center items-center mt-16">
           <h1 className='text-3xl text-center md:text-6xl text-slate-800 dark:text-slate-200 font-bold mt-8 pb-8'><span>Find</span> <span className='text-whiteish tracking-wide'>inspiration,</span> <span>get</span> <span className='text-whiteish tracking-wide'>feedback,</span> <span>store</span> your <span className='text-whiteish tracking-wide'>writing,</span> <span className='text-whiteish tracking-wide'>discuss.</span></h1>
@@ -67,7 +67,7 @@ const WelcomePage = () => {
               padding='py-2 px-4'
               hover='hover:bg-redcoolerLite'
             />
-            <div className="social-proof">
+            <div className="social-proof dark:text-whiteish">
               <p>Motivation awaits </p>
             </div>
           </div>
@@ -101,7 +101,7 @@ const WelcomePage = () => {
             contentText='Use this as a service for your personal writing. Keep your lyrics, poemes, short stories, creative writing etc... all in one easily accessible place.'
           />
         </div>
-        <div className="benefits-wrapper relative mt-24 lg:mt-[30vh] bg-gradient-to-tl from-redcooler from-50% via-redcoolerLite via-30% to-white to-70%">
+        <div className="benefits-wrapper relative mt-24 lg:mt-[30vh] bg-gradient-to-tl from-redcooler from-50% via-redcoolerLite via-30% to-white dark:to-black to-70%">
           <Benefit 
             heading='Never miss a spontaneous moment of creation'
             subheading='Killer lyric just popped into your head?'
