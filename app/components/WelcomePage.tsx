@@ -28,7 +28,7 @@ export async function getStaticProps() {
 }
 
 const WelcomePage = () => {
-  const [buttonValue, setButtonValue] = useState("Join Now")
+  const [buttonValue, setButtonValue] = useState("Join Us")
   const [guestButtonValue, setGuestButtonValue] = useState('Guest Sign In')
   const userStore = useUserStore()
   const setUser = userStore.setUser;
@@ -61,11 +61,14 @@ const WelcomePage = () => {
           <p className='m-0 pb-8 text-center text-xl md:text-3xl text-slate-700 dark:text-slate-300'>Join the growing collaborative community of contributors &mdash; artists, musicians, writers, producers &mdash; and create something beautiful</p>
           <div className="buttons-group flex flex-row justify-center items-center gap-4">
             <Button 
-              label='Join Us'
+              label={buttonValue}
               bgColor='bg-blackish'
               fontColor='text-[#f2f2f2]'
               padding='py-2 px-4'
               hover='hover:bg-redcoolerLite'
+              onClick={handleSignUpRoute}
+              disabled={buttonValue === "..." ? true : false}
+              disabledConditions='disabled:cursor-not-allowed'
             />
             <div className="social-proof dark:text-whiteish">
               <p>Motivation awaits </p>
