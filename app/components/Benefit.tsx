@@ -20,7 +20,7 @@ const Benefit = ({heading, subheading, details, imgSrc, imgH, imgW, alt, isEven}
         <div className="subheading text-xl mt-4 mb-2">{subheading}</div>
         <div className="details mb-8">{details}</div>
       </div>
-      <div className="image h-30vh">
+      <div className="image h-30vh relative">
         {imgH && imgW ? (
           <Image 
             src={imgSrc}
@@ -36,6 +36,7 @@ const Benefit = ({heading, subheading, details, imgSrc, imgH, imgW, alt, isEven}
             objectFit='cover'
           />
         )}
+        {isEven && <div className="image-gradient hidden lg:flex w-full h-full absolute left-0 top-0 bg-gradient-to-br from-redcooler from-10% via-transparent to-white to-90%"></div>}
       </div>
     </div>
   )

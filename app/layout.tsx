@@ -8,7 +8,7 @@ import './globals.css'
 
 
 export const metadata = {
-  title: 'Redcooler.io',
+  title: 'Redcooler.io — Motivation awaits',
   description: 'Community Writing',
 }
 

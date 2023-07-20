@@ -61,7 +61,7 @@ const NavBar = () => {
 
   return (
     <nav className='relative z-50'>
-      <div className="sticky-wrapper flex flex-row min-h-[8vh] w-full justify-between items-center px-4 shadow shadow-slate-300 mb-4 fixed top-0 left-0 right-0 bg-white dark:bg-dark-black">
+      <div className="sticky-wrapper flex flex-row min-h-[8vh] w-full justify-between items-center px-4 shadow shadow-slate-300 dark:shadow-none mb-4 fixed top-0 left-0 right-0 bg-white dark:bg-dark-black">
         {user && (
           <>
             <div className={`profile-menu flex flex-col justify-evenly items-center absolute transition-all duration-500 top-0 -right-${menuPos} md:w-[40vw] w-[60vw] h-[100vh] bg-white dark:bg-dark-black z-50`} style={ menuPos === '[40vw]' ? {right: '-60vw'} : {right: '0'}}>
