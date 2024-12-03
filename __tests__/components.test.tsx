@@ -13,37 +13,35 @@ const defaultButtonProps = {
   outline: '',
   type: undefined,
   fullWidth: false,
-}
+};
 
-describe("footer component", () => {
-  test("renders Redcooler.io in footer", () => {
+describe('footer component', () => {
+  test('renders Redcooler.net in footer', () => {
     render(<Footer />);
 
-    const company = screen.getByText('Redcooler.io');
+    const company = screen.getByText('Redcooler.net');
 
     expect(company).toBeInTheDocument();
+  });
+});
 
-  })
-})
-
-describe("button component", () => {
-  it("renders a buton", () => {
+describe('button component', () => {
+  it('renders a buton', () => {
     render(<Button {...defaultButtonProps} />);
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
 
     expect(button).toBeInTheDocument();
-  })
+  });
 
-  it("calls the onClick function when the button is clicked", () => {
+  it('calls the onClick function when the button is clicked', () => {
     const handleClick = jest.fn();
     render(<Button onClick={handleClick} {...defaultButtonProps} />);
-    
-    const button = screen.getByRole("button");
+
+    const button = screen.getByRole('button');
 
     fireEvent.click(button);
 
     expect(handleClick).toHaveBeenCalledTimes(1);
-  })
-})
-
+  });
+});

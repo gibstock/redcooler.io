@@ -1,12 +1,12 @@
-# Redcooler.io
+# Redcooler.net
 
 <p align='center'>
   <img src='./public/rc-logo-black-bg.png' width='220' >
 </p>
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://redcooler.io)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://redcooler.net)
 
-Redcooler.io is a vibrant community built for artists, musicians, producers, and writers to collaborate, share projects, and inspire creativity. It provides a platform where users can engage in discussions, post projects, and collaborate on music and writing.
+Redcooler.net is a vibrant community built for artists, musicians, producers, and writers to collaborate, share projects, and inspire creativity. It provides a platform where users can engage in discussions, post projects, and collaborate on music and writing.
 
 ## Features
 
@@ -20,7 +20,7 @@ Redcooler.io is a vibrant community built for artists, musicians, producers, and
 
 ## Live
 
-Check out our live site [here](https://redcooler.io/) to get a feel for Redcooler.io's features and functionalities.
+Check out our live site [here](https://redcooler.net/) to get a feel for Redcooler.net's features and functionalities.
 
 ## Technologies Used
 
@@ -31,11 +31,11 @@ Check out our live site [here](https://redcooler.io/) to get a feel for Redcoole
 
 ## Deployment
 
-Redcooler.io is deployed to a VPS on DigitalOcean. We utilize PM2 to manage the server processes and NGINX as a reverse proxy.
+Redcooler.net is deployed to a VPS on DigitalOcean. We utilize PM2 to manage the server processes and NGINX as a reverse proxy.
 
 ## Roadmap
 
-We have exciting plans for the future of Redcooler.io. Some upcoming features include:
+We have exciting plans for the future of Redcooler.net. Some upcoming features include:
 
 - Real-time video streaming sessions for musical collaboration.
 - Enhanced privacy controls for more granular post visibility settings.
@@ -47,6 +47,6 @@ Stay tuned for more updates!
 
 ## Authors
 
-Redcooler.io is maintained by [Andre Gonzales](https://github.com/gibstock) and [Emilio Gonzales](https://github.com/EmilioG1). Reach out to us if you have any questions or feedback.
+Redcooler.net is maintained by [Andre Gonzales](https://github.com/gibstock) and [Emilio Gonzales](https://github.com/EmilioG1). Reach out to us if you have any questions or feedback.
 
 ---
